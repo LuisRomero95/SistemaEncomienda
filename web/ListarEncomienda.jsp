@@ -19,6 +19,7 @@ HttpSession sesion = request.getSession();
         <div class="container">
                 <h1>Lista de Encomiendas</h1>
                 <hr>
+                
                 <a class="btn btn-success btn-lg" href="SERVEncomienda?action=insert">Nuevo Registro</a>
                     <a class="btn btn-success btn-lg" href="SERVEncomienda?action=insert">Nuevo Registro</a>
                     <a class="btn btn-info btn-lg" href="SERVEncomienda?action=refresh">Actualizar Lista</a>                    
