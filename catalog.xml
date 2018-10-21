@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="https://vpic.nhtsa.dot.gov/api/vehicles/getallmakes?format=wsdl" uri="src/conf/xml-resources/web-service-references/getallmakes_format_wsdl/wsdl/vpic.nhtsa.dot.gov/api/vehicles/getallmakes.format_wsdl.xml"/>
+    <system systemId="https://vpic.nhtsa.dot.gov/api/vehicles/getallmakes?format=WSDL" uri="src/conf/xml-resources/web-service-references/getallmakes_format_WSDL_2/wsdl/vpic.nhtsa.dot.gov/api/vehicles/getallmakes.format_wsdl.xml"/>
+    <system systemId="https://vpic.nhtsa.dot.gov/api/vehicles/getallmakes?wsdl" uri="src/conf/xml-resources/web-service-references/getallmakes_1/wsdl/vpic.nhtsa.dot.gov/api/vehicles/getallmakes.wsdl.xml"/>
+    <system systemId="https://vpic.nhtsa.dot.gov/api/vehicles/getallmakes?format=json" uri="src/conf/xml-resources/web-service-references/getallmakes_format_json/wsdl/vpic.nhtsa.dot.gov/api/vehicles/getallmakes.format_json"/>
+    <system systemId="https://vpic.nhtsa.dot.gov/api/vehicles/getallmakes.WSDL" uri="src/conf/xml-resources/web-service-references/getallmakes/wsdl/vpic.nhtsa.dot.gov/api/error404.html.xml"/>
+    <system systemId="https://vpic.nhtsa.dot.gov/api/vehicles/getallmakes?WSDL" uri="src/conf/xml-resources/web-service-references/getallmakes/wsdl/vpic.nhtsa.dot.gov/api/vehicles/getallmakes.wsdl.xml"/>
+    <system systemId="https://www.libroazul.com/ws/wslibroazul.asmx?op=ObtenerModelosPorAnioMarca" uri="src/conf/xml-resources/web-service-references/wslibroazul/wsdl/www.libroazul.com/ws/wslibroazul.asmx.op_obtenermodelosporaniomarca"/>
+    <system systemId="https://www.fueleconomy.gov/ws/rest/vehicle/menu/year" uri="src/conf/xml-resources/web-service-references/year_1/wsdl/www.fueleconomy.gov/ws/rest/vehicle/menu/year.xml"/>
+    <system systemId="https://vpic.nhtsa.dot.gov/api/vehicles/getallmakes?format=XML" uri="src/conf/xml-resources/web-service-references/getallmakes_format_XML_1/wsdl/vpic.nhtsa.dot.gov/api/vehicles/getallmakes.format.xml"/>
+</catalog>
