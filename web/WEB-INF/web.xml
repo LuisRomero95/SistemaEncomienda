@@ -47,6 +47,10 @@
         <servlet-name>SERVEncomienda</servlet-name>
         <servlet-class>controlador.SERVEncomienda</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SERVUbicacion</servlet-name>
+        <servlet-class>controlador.SERVUbicacion</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SERVUsuario</servlet-name>
         <url-pattern>/SERVUsuario</url-pattern>
@@ -90,6 +94,10 @@
     <servlet-mapping>
         <servlet-name>SERVEncomienda</servlet-name>
         <url-pattern>/SERVEncomienda</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SERVUbicacion</servlet-name>
+        <url-pattern>/SERVUbicacion</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -123,7 +123,7 @@ public class SERVCliente extends HttpServlet {
                          try {
                              clientedao.insertar(cli);
                          } catch (Exception ex) {
-                             Logger.getLogger(SERVConductor.class.getName()).log(Level.SEVERE, null, ex);
+                             Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
                          }
                      }
                 } else {                    
@@ -131,12 +131,12 @@ public class SERVCliente extends HttpServlet {
                         cli.setId(Integer.parseInt(id));
                         clientedao.modificar(cli);
                     } catch (Exception ex) {
-                        Logger.getLogger(SERVConductor.class.getName()).log(Level.SEVERE, null, ex);                        
+                        Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);                        
                     }
                 }             
                    
         }catch (SQLException ex) {
-            Logger.getLogger(SERVConductor.class.getName()).log(Level.SEVERE, null, ex);             
+            Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);             
         }                             
         response.sendRedirect(request.getContextPath() + "/SERVCliente?action=refresh");        
         
