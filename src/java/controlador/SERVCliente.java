@@ -1,6 +1,7 @@
 
 package controlador;
 
+import com.google.gson.Gson;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,10 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.ClienteDAO;
 import java.io.PrintWriter;
+import static java.lang.System.out;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelado.Cliente;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class SERVCliente extends HttpServlet {
     
@@ -26,13 +33,38 @@ public class SERVCliente extends HttpServlet {
      public SERVCliente() {
     	clientedao = new ClienteDAO(){};
     }         
+     
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        response.setContentType("text/html;charset=UTF-8");
+
+    }     
                         
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            
+        processRequest(request, response);        
+                           PrintWriter out = response.getWriter();
             String forward = "";   
             String action = request.getParameter("action");
+            String estado;
+            String mensaje;
+            if(action.equalsIgnoreCase("buscar")){
+                try {                   
+                
+                    String find = request.getParameter("nombre");
+                    ArrayList<String> names = (ArrayList<String>) new ClienteDAO().ConsultarCliente(find);
+                    String json = new Gson().toJson(names);
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("utf8");
+                    response.getWriter().write(json);
+                    
+                    
+                } catch (Exception ex) {
+                    Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }           
             
             //ELIMINAR CLIENTE
             if (action.equalsIgnoreCase("delete")) {                 
@@ -42,7 +74,9 @@ public class SERVCliente extends HttpServlet {
                     forward = list_cliente;
                     request.setAttribute("cliente", clientedao.consultar());                      
                 } catch (Exception ex) {
-                }              
+                }             
+                          RequestDispatcher view = request.getRequestDispatcher(forward);
+            view.forward(request, response);
             }
             //EDITAR CLIENTE
             else if (action.equalsIgnoreCase("edit")) {
@@ -53,11 +87,15 @@ public class SERVCliente extends HttpServlet {
                     request.setAttribute("cliente", cliente);
                 } catch (Exception ex) {
                 }
+                          RequestDispatcher view = request.getRequestDispatcher(forward);
+            view.forward(request, response);
             }            
             //INSERTAR CLIENTE    
             else if(action.equalsIgnoreCase("insert")) {        
                     forward = insert;
             
+                              RequestDispatcher view = request.getRequestDispatcher(forward);
+            view.forward(request, response);
             }
             //LISTAR O ACTUALIZAR CLIENTE
             else if(action.equalsIgnoreCase("refresh")){
@@ -66,9 +104,10 @@ public class SERVCliente extends HttpServlet {
                     request.setAttribute("cliente", clientedao.consultar()); 
                 } catch (Exception e) {
                 }
-            }
-            RequestDispatcher view = request.getRequestDispatcher(forward);
+                          RequestDispatcher view = request.getRequestDispatcher(forward);
             view.forward(request, response);
+            }
+  
              
     }
     

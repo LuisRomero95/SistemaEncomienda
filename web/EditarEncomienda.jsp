@@ -18,11 +18,13 @@ HttpSession sesion = request.getSession();
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
-        <script src="js/jquery.numeric.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>        
         <script src="js/validarEditarEncomienda.js" type="text/javascript"></script>
+        <title>JSP Page</title>
     </head>
     <body>
         <div class="container">
@@ -126,13 +128,34 @@ HttpSession sesion = request.getSession();
                                 <input type="text" class="form-control" id="precio_id" name="txtPrecio" value="<c:out value="${encomienda.precio}" />"  >
                               
                             </div>
-                                                        
+                                                                                    
+                            <div class="form-group">
+                                <label for="des_id" class="control-label">DESCRIPCIÓN</label>
+                                <input type="text" class="form-control" id="des_id" name="txtDescripcion" value="<c:out value="${encomienda.descripcion}" />"  >
+                            </div> 
                             
                             <div class="form-group">
-                                <label for="des_id" class="control-label">Descripcion</label>
-                                <input type="text" class="form-control" id="des_id" name="txtDescripcion"  value="<c:out value="${encomienda.descripcion}" />"  >
-                            </div>                                                       
+                                <label for="from" class="control-label">FECHA DE ENVIO</label>
+                                <input type="text" class="form-control" id="from" name="txtFechaEnvio" value="<c:out value="${encomienda.fecha}" />"  >
+                            </div>        
+                                
+                            <div class="form-group">
+                                <label for="listarEncomienda" class="control-label">ESTADO</label>
+                                <br>
+                                <select name="txtTipo" id="listarEncomienda" class="form-control">
+                                    <option value="" selected="selected">Seleccione un estado...</option>
+                                    <c:forEach var="tipoencomienda" items="${tipoencomienda}" >
+                                        <option value="${tipoencomienda.id}">
+                                            ${tipoencomienda.nom}
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                            </div>
                             
+                            <div class="form-group">
+                                <label for="contenedor_estado_id" class="control-label">ESTADO SELECCIONADO</label>
+                                <input type="text"  class="form-control" name="txtContenedorEstado" id="contenedor_estado_id"  readonly="" value="<c:out value="${encomienda.tipo}" />"  >
+                            </div>                                   
                         </div>                       
                     </div>
                     

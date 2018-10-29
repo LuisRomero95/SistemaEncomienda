@@ -6,78 +6,79 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import modelado.TipoUsuario;
+import modelado.TipoEncomienda;
 
-public class TipoUsuarioDAO extends Conexion implements DAO{
-    
+
+public class TipoEncomiendaDAO extends Conexion implements DAO{
+
     @Override
-    public void insertar(Object obj) throws Exception{
-        TipoUsuario tu = (TipoUsuario) obj;
+    public void insertar(Object obj) throws Exception {
+        TipoEncomienda te = (TipoEncomienda) obj;
         PreparedStatement pst;
-        String sql="INSERT INTO tiposusuarios (nom) VALUES(?)";
+        String sql="INSERT INTO tiposencomiendas (nom) VALUES(?)";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
-            pst.setString(1, tu.getNom());
+            pst.setString(1, te.getNom());
             pst.executeUpdate();          
             
         } catch (SQLException e) {
         }
         finally{
             this.cerrar();
-        }   
+        }           
     }
 
     @Override
-    public void eliminar(Object obj) throws Exception{
-        TipoUsuario tu = (TipoUsuario) obj;
+    public void eliminar(Object obj) throws Exception {
+        TipoEncomienda te = (TipoEncomienda) obj;
         PreparedStatement pst;
-        String sql="UPDATE tiposusuarios set estado = 0 WHERE id = ?";
+        String sql="UPDATE tiposencomiendas set estado = 0 WHERE id = ?";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
-            pst.setInt(1, tu.getId());
+            pst.setInt(1, te.getId());
             pst.executeUpdate();            
                   
         } catch (SQLException e) {
         }
         finally{
             this.cerrar();
-        }
+        }     
     }
 
     @Override
-    public void modificar(Object obj) throws Exception{
-        TipoUsuario tp = (TipoUsuario) obj;
+    public void modificar(Object obj) throws Exception {
+        TipoEncomienda te = (TipoEncomienda) obj;
         PreparedStatement pst;
-        String sql="UPDATE tiposusuarios SET nom=? WHERE id=?";
+        String sql="UPDATE tiposencomiendas SET nom=? WHERE id=?";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
-            pst.setString(1, tp.getNom());
-            pst.setInt(2, tp.getId());
+            pst.setString(1, te.getNom());
+            pst.setInt(2, te.getId());
             pst.executeUpdate();            
                     
         } catch (SQLException e) {
         }
         finally{
             this.cerrar();
-        }
-    }            
+        }        
+    }
 
     @Override
-    public List consultar() throws Exception{
-        List<TipoUsuario> datos = new ArrayList<>();
+    public List consultar() throws Exception {
+        List<TipoEncomienda> datos = new ArrayList<>();
         PreparedStatement pst;
         ResultSet rs;
-        String sql = "SELECT * FROM tiposusuarios WHERE estado = 1";
+        String sql = "SELECT * FROM tiposencomiendas WHERE estado = 1";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
             
             rs = pst.executeQuery();
             while(rs.next()){
-                datos.add(new TipoUsuario(
+                datos.add(new TipoEncomienda(
                         rs.getInt("id"),
                         rs.getString("nom")
                     )
@@ -88,16 +89,15 @@ public class TipoUsuarioDAO extends Conexion implements DAO{
         finally{
             this.cerrar();
         }
-        return datos;
+        return datos;        
     }
-    
 
     @Override
-    public TipoUsuario BuscarPorId(int id) throws Exception{
-           TipoUsuario tu = new TipoUsuario();
+    public TipoEncomienda BuscarPorId(int id) throws Exception {
+           TipoEncomienda tu = new TipoEncomienda();
            PreparedStatement pst;
            ResultSet res;
-           String sql = "SELECT * FROM tiposusuarios WHERE id =?";
+           String sql = "SELECT * FROM tiposencomiendas WHERE id =?";
            try {
             this.conectar();
                pst = conexion.prepareStatement(sql);
@@ -112,14 +112,14 @@ public class TipoUsuarioDAO extends Conexion implements DAO{
             finally{
                 this.cerrar();
             }
-           return tu;
-    }    
+           return tu;        
+    }
 
     @Override
-    public boolean ConsultarNombre(String nom) throws SQLException{
+    public boolean ConsultarNombre(String nom) throws Exception {
         PreparedStatement pst;
         ResultSet res = null;
-        String sql = "SELECT * FROM tiposusuarios WHERE nom='"+nom+"'";
+        String sql = "SELECT * FROM tiposencomiendas WHERE nom='"+nom+"'";
 
         try {
             this.conectar();
@@ -127,7 +127,7 @@ public class TipoUsuarioDAO extends Conexion implements DAO{
             res = pst.executeQuery();
         } catch (Exception e) {
         }
-         return res.next();
-    }      
+         return res.next();        
+    }
     
 }

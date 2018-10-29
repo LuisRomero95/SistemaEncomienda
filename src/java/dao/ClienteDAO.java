@@ -167,6 +167,30 @@ public class ClienteDAO extends Conexion implements DAO{
         } catch (Exception e) {
         }
          return res.next();
-    }      
+    }
+    public  List<String> ConsultarCliente(String find){
+        List<String> cliente = new ArrayList<>();
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            String sql = "SELECT * FROM clientes WHERE nom LIKE '%"+find+"%' AND estado = 1";
+            this.conectar();
+            pst = conexion.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                cliente.add(  
+                        rs.getString("nom")                       
+                );                
+            }
+        } catch (Exception e) {
+        }
+        finally{
+            try {
+                this.cerrar();
+            } catch (Exception e) {
+            }
+        }        
+        return cliente;
+    }    
     
 }

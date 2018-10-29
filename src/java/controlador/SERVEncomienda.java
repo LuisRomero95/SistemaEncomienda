@@ -4,17 +4,15 @@ package controlador;
 import dao.ClienteDAO;
 import dao.EncomiendaDAO;
 import dao.PrecioDAO;
+import dao.TipoEncomiendaDAO;
 import dao.UsuarioDAO;
 import dao.VehiculoDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static javax.print.attribute.Size2DSyntax.MM;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -32,6 +30,7 @@ public class SERVEncomienda extends HttpServlet {
     private UsuarioDAO usuariodao;    
     private VehiculoDAO vehiculodao;
     private PrecioDAO preciodao;
+    private TipoEncomiendaDAO tipoencomiendadao;
     Encomienda enc = new Encomienda();
 
             
@@ -41,6 +40,7 @@ public class SERVEncomienda extends HttpServlet {
         usuariodao = new UsuarioDAO(){};
         vehiculodao = new VehiculoDAO(){};
         preciodao = new PrecioDAO(){};
+        tipoencomiendadao = new TipoEncomiendaDAO(){};
     }         
      
     @Override
@@ -68,11 +68,12 @@ public class SERVEncomienda extends HttpServlet {
                     request.setAttribute("encomienda", encomienda);
                     List cliente = clientedao.consultar();                
                     List usuario = usuariodao.consultar();
-                    List vehiculo = vehiculodao.consultar();              
+                    List vehiculo = vehiculodao.consultar();
+                    List  tipoencomienda = tipoencomiendadao.consultar(); 
                     request.setAttribute("cliente", cliente);
                     request.setAttribute("usuario", usuario);                    
                     request.setAttribute("vehiculo", vehiculo);                 
-                    
+                    request.setAttribute("tipoencomienda", tipoencomienda);
                 } catch (Exception ex) {
                 }
             }            
@@ -82,10 +83,12 @@ public class SERVEncomienda extends HttpServlet {
                 forward = insert;
                 List cliente = clientedao.consultar();                
                 List usuario = usuariodao.consultar();
-                List vehiculo = vehiculodao.consultar();             
+                List vehiculo = vehiculodao.consultar();
+                List  tipoencomienda = tipoencomiendadao.consultar();                
                 request.setAttribute("cliente", cliente);
                 request.setAttribute("usuario", usuario);                    
-                request.setAttribute("vehiculo", vehiculo);                    
+                request.setAttribute("vehiculo", vehiculo);       
+                request.setAttribute("tipoencomienda", tipoencomienda);  
             } catch (Exception ex) {
                 Logger.getLogger(SERVVehiculo.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -116,30 +119,37 @@ public class SERVEncomienda extends HttpServlet {
         String vehiculo = request.getParameter("txtVehiculo");
         String descripcion = request.getParameter("txtDescripcion");
         double resultado = Double.parseDouble(request.getParameter("txtPrecio"));
-                
-        String id =request.getParameter("txtId");                                                  
-
+        String strFecha = request.getParameter("txtFechaEnvio");
+        String tipo = request.getParameter("txtTipo");
+        String id =request.getParameter("txtId");
+       
         try {
-            Encomienda cli = new Encomienda();
-            cli.setEmisor(emisor);            
-            cli.setUsuario(usuario);      
-            cli.setReceptor(receptor);      
-            cli.setVehiculo(vehiculo);                 
-            cli.setDescripcion(descripcion);
-            cli.setPrecio(resultado);                                       
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date date = sdf1.parse(strFecha);
+            java.sql.Date sqlStartDate = new java.sql.Date(date.getTime()); 
+            
+            Encomienda encomienda = new Encomienda();
+            encomienda.setEmisor(emisor);            
+            encomienda.setUsuario(usuario);      
+            encomienda.setReceptor(receptor);      
+            encomienda.setVehiculo(vehiculo);                 
+            encomienda.setDescripcion(descripcion);
+            encomienda.setPrecio(resultado);
+            encomienda.setFecha(sqlStartDate);
+            encomienda.setTipo(tipo);
             
                 if (id == null || id.isEmpty()) {
 
                          try {
-                             encomiendadao.insertar(cli);
+                             encomiendadao.insertar(encomienda);
                          } catch (Exception ex) {
                              Logger.getLogger(SERVConductor.class.getName()).log(Level.SEVERE, null, ex);
                          }
 
                 } else {                    
                     try {
-                        cli.setId(Integer.parseInt(id));
-                        encomiendadao.modificar(cli);
+                        encomienda.setId(Integer.parseInt(id));
+                        encomiendadao.modificar(encomienda);
                     } catch (Exception ex) {
                         Logger.getLogger(SERVConductor.class.getName()).log(Level.SEVERE, null, ex);                        
                     }
@@ -156,9 +166,3 @@ public class SERVEncomienda extends HttpServlet {
     }// </editor-fold>
 
 }
-//   SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:ii:ss"); 
-//     try {                
-//         Date fechaConHora = (Date) sdf.parse(emisor);
-//     } catch (ParseException ex) {
-//         Logger.getLogger(SERVEncomienda.class.getName()).log(Level.SEVERE, null, ex);
-//     }

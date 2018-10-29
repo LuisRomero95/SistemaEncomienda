@@ -12,11 +12,13 @@ public class Encomienda {
     private String receptor; //Adcional
     private String descripcion; //adicional
     private double precio;
+    private Date fecha;
+    private String tipo;
 
     public Encomienda() {
     }
 
-    public Encomienda(int id, String emisor, String usuario, String vehiculo, String receptor, String descripcion, double precio) {
+    public Encomienda(int id, String emisor, String usuario, String vehiculo, String receptor, String descripcion, double precio, Date fecha, String tipo) {
         this.id = id;
         this.emisor = emisor;
         this.usuario = usuario;
@@ -24,8 +26,9 @@ public class Encomienda {
         this.receptor = receptor;
         this.descripcion = descripcion;
         this.precio = precio;
+        this.fecha = fecha;
+        this.tipo = tipo;
     } 
-    
     
     public int getId() {
         return id;
@@ -81,6 +84,22 @@ public class Encomienda {
 
     public void setPrecio(double precio) {
         this.precio = precio;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
 

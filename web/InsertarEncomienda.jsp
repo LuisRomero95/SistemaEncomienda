@@ -19,10 +19,11 @@ HttpSession sesion = request.getSession();
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
-        <script src="js/jquery.numeric.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>        
         <script src="js/validarEncomienda.js" type="text/javascript"></script>
     </head>
     <body>
@@ -43,7 +44,6 @@ HttpSession sesion = request.getSession();
                             
                             <div class="form-group">
                                 <label for="listarEmisor" class="control-label">EMISOR</label>
-                                <br>
                                 <select name="txtEmisor" id="listarEmisor" class="form-control">
                                     <option value="" selected>Seleccione un cliente...</option>
                                     <c:forEach var="cliente" items="${cliente}" >
@@ -60,7 +60,6 @@ HttpSession sesion = request.getSession();
                             
                             <div class="form-group">
                                 <label for="listarReceptor" class="control-label">RECEPTOR</label>
-                                <br>
                                 <select name="cli_id" id="listarReceptor" class="form-control">
                                     <option value="" selected>Seleccione un cliente...</option>
                                     <c:forEach var="cliente" items="${cliente}" >
@@ -76,7 +75,7 @@ HttpSession sesion = request.getSession();
                             </div>                            
                                         
                             <div class="form-group">
-                                <label for="listarUsuario" class="control-label">Usuario</label>
+                                <label for="listarUsuario" class="control-label">USUARIO</label>
                                 <br>
                                 <select name="txtUsuario" id="listarUsuario" class="form-control">
                                     <option value="" selected="selected">Seleccione un usuario...</option>
@@ -88,10 +87,6 @@ HttpSession sesion = request.getSession();
                                 </select>
                             </div>                              
                            
-                        </div>                        
-                                                
-                        <div class="col-md-6">
-                                                                    
                             <div class="form-group">
                                 <label for="listarVehiculo" class="control-label">VEHICULO</label>
                                 <br>
@@ -103,8 +98,12 @@ HttpSession sesion = request.getSession();
                                         </option>
                                     </c:forEach>
                                 </select>
-                            </div>  
-
+                            </div>
+                            
+                        </div>                        
+                                                
+                        <div class="col-md-6">
+                                                                     
                             <div class="form-group">
                                 <label for="precio_id" class="control-label radio-inline"><input type="radio" id="calcular_precio" name="txtCalcularPrecio" >Precio</label>                               
                                 <input type="text" class="form-control" id="precio_id" name="txtPrecio" >
@@ -112,9 +111,27 @@ HttpSession sesion = request.getSession();
                             </div>
                             
                             <div class="form-group">
-                                <label for="des_id" class="control-label">Descripcion</label>
+                                <label for="des_id" class="control-label">DESCRIPCIÓN</label>
                                 <input type="text" class="form-control" id="des_id" name="txtDescripcion" >
-                            </div>                                                       
+                            </div> 
+                            
+                            <div class="form-group">
+                                <label for="from" class="control-label">FECHA DE ENVIO</label>
+                                <input type="text" class="form-control" id="from" name="txtFechaEnvio" >                                           
+                            </div> 
+                                                       
+                            <div class="form-group">
+                                <label for="listarEncomienda" class="control-label">ESTADO</label>
+                                <br>
+                                <select name="txtTipo" id="listarEncomienda" class="form-control">
+                                    <option value="" selected="selected">Seleccione un estado...</option>
+                                    <c:forEach var="tipoencomienda" items="${tipoencomienda}" >
+                                        <option value="${tipoencomienda.id}">
+                                            ${tipoencomienda.nom}
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                            </div>                              
                             
                         </div>                       
                     </div>
