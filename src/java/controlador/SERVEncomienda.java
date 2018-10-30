@@ -30,7 +30,7 @@ public class SERVEncomienda extends HttpServlet {
     private UsuarioDAO usuariodao;    
     private VehiculoDAO vehiculodao;
     private PrecioDAO preciodao;
-    private TipoEncomiendaDAO tipoencomiendadao;
+    private TipoEncomiendaDAO tipoencomiendadao;    
     Encomienda enc = new Encomienda();
 
             
@@ -48,7 +48,7 @@ public class SERVEncomienda extends HttpServlet {
             throws ServletException, IOException {
           String forward = "";   
             String action = request.getParameter("action");
-            
+                
             //ELIMINAR CLIENTE
             if (action.equalsIgnoreCase("delete")) {                 
                 try {

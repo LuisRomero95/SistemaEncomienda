@@ -149,4 +149,32 @@ public class EncomiendaDAO extends Conexion implements DAO{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    
+    
+    public List<Encomienda> consultarVehiculoUso() throws Exception  {
+        List<Encomienda> datos = new ArrayList<>();
+        PreparedStatement pst;
+        ResultSet rs;
+        String sql = "select v.marca, count(v.marca) as cantidad from vehiculos v, encomiendas e WHERE v.id = e.id_veh AND MONTHNAME(e.fech_env)='November' AND v.estado =1 group by v.marca";
+        try {
+            this.conectar();
+            pst = conexion.prepareStatement(sql);
+            rs = pst.executeQuery();       
+            while(rs.next()){
+                datos.add(new Encomienda(
+                        rs.getString("v.marca"),
+                        rs.getInt("cantidad")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }    
+        
+    
 }

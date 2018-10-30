@@ -5,8 +5,13 @@ import dao.VehiculoDAO;
 import dao.ConductorDAO;
 import dao.AyudanteDAO;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,11 +22,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelado.Vehiculo;
 
+
 public class SERVVehiculo extends HttpServlet {
 
     private static String insert= "/InsertarVehiculo.jsp";
     private static String edit = "/EditarVehiculo.jsp";
     private static String list_vehiculo = "/ListarVehiculo.jsp";
+    private static String list_reporte = "/reportes3.jsp";
     private final VehiculoDAO vehiculodao;
     private final ConductorDAO conductordao;
     private final AyudanteDAO ayudantedao;
@@ -39,7 +46,7 @@ public class SERVVehiculo extends HttpServlet {
         
         String forward = "";   
         String action = request.getParameter("action");
-
+        
         //ELIMINAR VEHICULO
         if (action.equalsIgnoreCase("delete")) {
 

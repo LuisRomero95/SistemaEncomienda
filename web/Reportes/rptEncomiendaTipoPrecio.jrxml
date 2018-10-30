@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="27b2c04e-af3e-45d4-9f3b-978a7ba9d7d5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="401"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="año" class="java.lang.String">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT e.tipo, COUNT(e.tipo) AS cantidad, SUM(e.precio) AS total FROM encomiendas e WHERE YEAR(e.fech_env)=$P{año}
+AND e.estado =1
+GROUP BY e.tipo]]>
+	</queryString>
+	<field name="tipo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cantidad" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="145" splitType="Stretch">
+			<image>
+				<reportElement x="275" y="0" width="300" height="64" uuid="0e18227a-1cd5-48af-b5e9-df30d3703ced"/>
+				<imageExpression><![CDATA["leaf_banner_gray.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="0" y="13" width="275" height="67" uuid="0fc84d1b-b4ee-48e8-9582-0bfa9dec408a"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Reporte de Ganancias de Encomiendas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="118" y="80" width="157" height="22" uuid="4ae38880-ff74-4491-a75f-a9744cba3eb6"/>
+				<text><![CDATA[Segun el tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="118" y="102" width="157" height="22" uuid="22d99c4a-0377-4923-bdb8-cab8cb5734ac"/>
+				<text><![CDATA[del año]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="197" y="104" width="78" height="20" uuid="52ce6b76-ec8e-4aa9-8684-6e335d7e530d"/>
+				<textFieldExpression><![CDATA[$P{año}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="60" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="9859786d-0d27-4f4a-aa2a-0e8eca0974d7"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="19" width="277" height="15" uuid="1eb64ff3-ba8f-4511-ae87-52ab8723b4b7"/>
+				<text><![CDATA[tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="312" y="19" width="242" height="15" uuid="d7efc535-190f-4ce9-b268-acf85a15c20b"/>
+				<text><![CDATA[total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="118" y="19" width="100" height="20" uuid="bd39b421-9009-407c-ae53-e11e3bd47297"/>
+				<text><![CDATA[cantidad]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="42" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="033c14fa-d433-4881-9eef-cd61f5a89abb"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Detail" x="0" y="0" width="277" height="15" uuid="51be8e2a-ea9c-436a-9538-5416877fa96b"/>
+				<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="312" y="0" width="242" height="15" uuid="99e906ca-07db-46e1-8b8c-01ed088342a5"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="118" y="0" width="100" height="20" uuid="2d6d521d-3d67-4b44-a04a-e8d877acebe0"/>
+				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="467" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="f96bc20c-7cdf-47ee-9bf3-b3dca5b6f025"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<pieChart>
+				<chart>
+					<reportElement x="135" y="283" width="298" height="184" uuid="20fa198c-df65-43d9-b43b-4f1eb062db66"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{tipo}]]></keyExpression>
+					<valueExpression><![CDATA[$F{total}]]></valueExpression>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+			<staticText>
+				<reportElement x="135" y="263" width="298" height="20" uuid="421b1cea-0020-4526-88eb-8ef2f442b08b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Ganancia de Encomiendas del]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="385" y="67" width="65" height="14" uuid="a202377e-3732-43af-b526-4db62a9c9ca6"/>
+				<textFieldExpression><![CDATA[$P{año}]]></textFieldExpression>
+			</textField>
+			<pieChart>
+				<chart>
+					<reportElement x="135" y="81" width="298" height="166" uuid="1a98cbec-5a45-4949-bdd7-fcb8b3d64ebb"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{tipo}]]></keyExpression>
+					<valueExpression><![CDATA[$F{cantidad}]]></valueExpression>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+			<staticText>
+				<reportElement x="135" y="61" width="298" height="20" uuid="4b907b64-7cc6-44f0-ad39-564275973eb0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Cantidad de Tipo de Encomiendas del]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="368" y="269" width="65" height="14" uuid="4cd97f48-f642-4204-8729-264d72478757"/>
+				<textFieldExpression><![CDATA[$P{año}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="8d2c8e6e-0c49-44ad-a075-1ab222eb39f2"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="268706bf-d88c-49de-940d-75e513afe431"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="d239b8ed-4ce1-4834-a6c3-f413112d8637"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

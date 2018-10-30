@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="af9c2d20-bde8-4744-9c77-7c65532ab3c7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="year" class="java.lang.String">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<parameter name="mes" class="java.lang.String">
+		<defaultValueExpression><![CDATA[November]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT e.tipo, COUNT(e.tipo) AS cantidad, SUM(e.precio) AS total FROM encomiendas e WHERE YEAR(e.fech_env)=$P{año} AND MONTHNAME(e.fech_env) =$P{mes} AND e.estado =1 GROUP BY e.tipo ORDER BY MONTHNAME(e.fech_env)]]>
+	</queryString>
+	<field name="tipo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cantidad" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="179" splitType="Stretch">
+			<image>
+				<reportElement x="275" y="0" width="300" height="64" uuid="fc60fabc-5bfb-4775-aa43-fefc9c4562d7"/>
+				<imageExpression><![CDATA["leaf_banner_green.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="0" y="13" width="274" height="90" uuid="5730175a-b283-46eb-b57b-8a3645a85727"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Reporte de Ganancias de Encomiendas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="100" y="103" width="174" height="22" uuid="90fa4aa8-baaf-4ac7-bbdc-13af1a581988"/>
+				<text><![CDATA[Segun el tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="100" y="125" width="174" height="22" uuid="18e248b2-18b7-4ade-b01c-2a9495877bdb"/>
+				<text><![CDATA[del año]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="100" y="147" width="174" height="22" uuid="e2f87459-291c-424c-885c-2f93cdd617dd"/>
+				<text><![CDATA[del mes]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="174" y="127" width="100" height="20" uuid="e3683895-a2eb-40da-81a6-91b32db9b94c"/>
+				<textFieldExpression><![CDATA[$P{year}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="177" y="147" width="100" height="20" uuid="ab5eb844-0e5e-4229-b9a6-3d5a64c0dfb1"/>
+				<textFieldExpression><![CDATA[$P{mes}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="52" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="15abf937-d63f-4b0c-b354-b3026388da32"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="19" width="277" height="15" uuid="a2e3e8cb-e0ad-4571-b692-452b5d69ef43"/>
+				<text><![CDATA[tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="345" y="19" width="209" height="15" uuid="9e749694-955f-4563-990a-8be2c539a5d6"/>
+				<text><![CDATA[total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="161" y="19" width="100" height="20" uuid="aded417d-9999-419f-ae42-13e3e1ad4fcf"/>
+				<text><![CDATA[cantidad]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="33" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="c69d8d2e-559c-4567-92f7-ec8c9b2e4c1c"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Detail" x="0" y="0" width="277" height="15" uuid="4deaad9c-001c-47b3-aa7c-52d013389616"/>
+				<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="345" y="0" width="209" height="15" uuid="ed43515b-99b4-4ebe-b336-abfc4dffb854"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="161" y="0" width="100" height="20" uuid="fc992804-f5f1-4551-b8d2-30eaaeee78ad"/>
+				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="475" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="b413a150-cec7-476c-8e30-1ba4ec0027b6"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<pieChart>
+				<chart>
+					<reportElement x="100" y="274" width="351" height="177" uuid="6583208a-3213-406e-90fe-f2dd0de5bf52"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{tipo}]]></keyExpression>
+					<valueExpression><![CDATA[$F{total}]]></valueExpression>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+			<staticText>
+				<reportElement x="100" y="254" width="344" height="20" uuid="4ee4ead0-48d9-4140-b6d8-934d105bde1d"/>
+				<text><![CDATA[Ganancias de Tipos de  Encomiendas de                            de]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="304" y="254" width="53" height="20" uuid="51091a51-2e0e-4c27-8bd4-7dc87c3e18b3"/>
+				<textFieldExpression><![CDATA[$P{mes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="408" y="254" width="43" height="20" uuid="c396bb2b-8add-4e01-9dcc-5aeca53e3008"/>
+				<textFieldExpression><![CDATA[$P{year}]]></textFieldExpression>
+			</textField>
+			<pieChart>
+				<chart>
+					<reportElement x="100" y="57" width="351" height="177" uuid="a6b0b5ef-356a-4ad2-99a3-bc4bec83dfea"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{tipo}]]></keyExpression>
+					<valueExpression><![CDATA[$F{cantidad}]]></valueExpression>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+			<textField>
+				<reportElement x="304" y="37" width="53" height="20" uuid="7828ac9c-de5f-4a00-be37-a5de5316604b"/>
+				<textFieldExpression><![CDATA[$P{mes}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="100" y="37" width="344" height="20" uuid="4b108f97-0236-4903-a89c-634b79f5e019"/>
+				<text><![CDATA[Cantidad de Tipos de  Encomiendas de                            de]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="408" y="37" width="43" height="20" uuid="130c4890-66ab-4348-a37a-2c1e1188c665"/>
+				<textFieldExpression><![CDATA[$P{year}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="af5fa349-6d67-45f5-9f67-c4c51880c004"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="dfc5d6cd-b3a2-4e2c-adba-d701b4070594"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="4d3dff03-fa8c-4e66-a253-caff1610b488"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

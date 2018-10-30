@@ -44,7 +44,8 @@ HttpSession sesion = request.getSession();
               <li><a href="SERVEncomienda?action=refresh">Gestionar Encomienda</a></li>
               <li><a href="SERVPrecio?action=refresh">Gestionar Precio</a></li>
               <li><a href="Ubicacion.jsp">Gestionar Ubicación</a></li>                            
-              <li><a href="autocompletar.jsp">Autocompletar</a></li>          
+              <li><a href="reportes3.jsp">Reportes</a></li>    
+              <li><a href="reportePDF.jsp">ReportesPDF</a></li>          
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li><a href="#">Bienvenido : <%= sesion.getAttribute("nombre") %></a></li>

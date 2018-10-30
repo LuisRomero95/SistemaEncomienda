@@ -14,9 +14,16 @@ public class Encomienda {
     private double precio;
     private Date fecha;
     private String tipo;
+    private String marca;
+
+    public Encomienda(String marca, int cantidad) {
+        this.marca = marca;
+        this.cantidad = cantidad;
+    }
+    private int cantidad;
 
     public Encomienda() {
-    }
+    }      
 
     public Encomienda(int id, String emisor, String usuario, String vehiculo, String receptor, String descripcion, double precio, Date fecha, String tipo) {
         this.id = id;
@@ -100,6 +107,22 @@ public class Encomienda {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 
 

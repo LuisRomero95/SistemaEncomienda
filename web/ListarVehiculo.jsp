@@ -24,6 +24,7 @@ HttpSession sesion = request.getSession();
             <hr>            
                 <a class="btn btn-success btn-lg" href="SERVVehiculo?action=insert">Nuevo Registro</a>
                 <a class="btn btn-primary btn-lg" href="SERVVehiculo?action=refresh">Actualizar Lista</a>
+                <a class="btn btn-primary btn-lg" href="ListarReportesVehiculos.jsp">Reportes</a>
             <br>
             <br>
             <form method="POST">

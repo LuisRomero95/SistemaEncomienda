@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3b4fc1eb-b901-4f46-ac30-90a9d31dea72">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="mes" class="java.lang.String">
+		<defaultValueExpression><![CDATA[November]]></defaultValueExpression>
+	</parameter>
+	<parameter name="año" class="java.lang.String">
+		<defaultValueExpression><![CDATA[2018]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT v.marca, count(v.marca) AS cantidad ,MONTHNAME(e.fech_env) from vehiculos v, encomiendas e WHERE v.id = e.id_veh AND MONTHNAME(e.fech_env)=$P{mes} AND YEAR(e.fech_env)=$P{año}
+AND v.estado =1
+GROUP BY v.marca]]>
+	</queryString>
+	<field name="marca" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cantidad" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="MONTHNAME(e.fech_env)" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="149" splitType="Stretch">
+			<image>
+				<reportElement x="275" y="0" width="300" height="64" uuid="44b7d429-b574-4b77-911b-aaa9db46f583"/>
+				<imageExpression><![CDATA["leaf_banner_green.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="0" y="13" width="275" height="77" uuid="9247f68b-0788-42b6-a111-42b98010bf7b"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Reporte del Uso de Vehiculos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="70" y="127" width="191" height="22" uuid="af8fcd3f-2f53-4e70-ac22-ec7c7658bad9"/>
+				<text><![CDATA[del mes de ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="70" y="95" width="191" height="22" uuid="64d39195-65ef-4080-8384-9a4848519ff9"/>
+				<text><![CDATA[del año ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="166" y="132" width="95" height="17" uuid="0a5a1f03-b93d-41e1-bea4-5a85271488de"/>
+				<textFieldExpression><![CDATA[$P{mes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="102" width="97" height="15" uuid="39201a9a-c8b0-4e2a-a035-96cfbedbdb46"/>
+				<textFieldExpression><![CDATA[$P{año}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="66" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="21f88c5b-acf1-4d4a-98e2-873ea87f75db"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="19" width="277" height="15" uuid="6a30ce3f-3f4d-4de0-81ff-28d034fbddd9"/>
+				<text><![CDATA[marca]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="277" y="19" width="277" height="15" uuid="9e81f48e-e34e-4e8a-9479-58b74d80adb9"/>
+				<text><![CDATA[cantidad]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="50" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="940ee128-319c-4442-9226-66edb763a09a"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Detail" x="0" y="0" width="277" height="15" uuid="2e18baf0-811e-4432-9751-2393119e1793"/>
+				<textFieldExpression><![CDATA[$F{marca}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="277" y="0" width="277" height="15" uuid="2db387ac-f527-407c-accc-cd06b99a16da"/>
+				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="179" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="f278e395-c8a6-4772-803c-8c75c324c0ad"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<barChart>
+				<chart>
+					<reportElement x="30" y="4" width="483" height="164" uuid="323cc16c-f89e-42ff-8562-621ff9de42b3"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Vehiculos"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{marca}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{cantidad}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="83bfcbf4-58f6-483f-8baa-07a2eda4364c"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="49858ade-21a7-460e-8b0f-dae7e2d6a381"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="2a27eb4f-cecf-4a68-8709-5007a651afb3"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
