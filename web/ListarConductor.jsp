@@ -36,6 +36,7 @@ HttpSession sesion = request.getSession();
                             <th class="text-center">EMAIL</th>                    
                             <th class="text-center">TELÉFONO</th>
                             <th class="text-center">DIRECCIÓN</th>
+                            <th class="text-center">DISTRITO</th>
                             <th class="text-center">ID TIPO</th>
                             <th class="text-center">ACCIONES</th>
                         </tr>                       
@@ -67,6 +68,9 @@ HttpSession sesion = request.getSession();
                                 <td>
                                     <c:out value="${conductor.direc}"/>
                                 </td>
+                                <td>
+                                    <c:out value="${conductor.distr}"/>
+                                </td>                                
                                 <td>
                                     <c:out value="${conductor.tipo}"/>
                                 </td>

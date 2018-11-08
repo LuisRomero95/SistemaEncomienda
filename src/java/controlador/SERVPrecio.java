@@ -4,7 +4,6 @@ package controlador;
 import dao.ClienteDAO;
 import dao.PrecioDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;

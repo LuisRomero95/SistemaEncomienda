@@ -10,16 +10,17 @@ public class AyudanteDAO extends Conexion implements DAO{
     public void insertar(Object obj) throws Exception{
         Ayudante ayudante = (Ayudante) obj;
         PreparedStatement pst;
-        String sql="INSERT INTO ayudantes (dni, nom, ape, direc, tel, email) VALUES(?,?,?,?,?,?)";
+        String sql="INSERT INTO ayudantes (nom, ape, dni, email, tel, direc, distr) VALUES(?,?,?,?,?,?,?)";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
-            pst.setString(1, ayudante.getDni());            
-            pst.setString(2, ayudante.getNom());
-            pst.setString(3, ayudante.getApe());
-            pst.setString(4, ayudante.getDirec());            
+            pst.setString(1, ayudante.getNom());            
+            pst.setString(2, ayudante.getApe());
+            pst.setString(3, ayudante.getDni());
+            pst.setString(4, ayudante.getEmail());            
             pst.setString(5, ayudante.getTel());            
-            pst.setString(6, ayudante.getEmail());
+            pst.setString(6, ayudante.getDirec());
+            pst.setString(7, ayudante.getDistr());            
             pst.executeUpdate();           
             
         } catch (SQLException e) {
@@ -86,10 +87,11 @@ public class AyudanteDAO extends Conexion implements DAO{
                 if (res.next()) {
                     ayudante.setNom(res.getString("nom"));            
                     ayudante.setApe(res.getString("ape"));      
-                    ayudante.setDni(res.getString("dni"));                    
-                    ayudante.setDirec(res.getString("direc"));
-                    ayudante.setTel(res.getString("tel"));                    
-                    ayudante.setEmail(res.getString("email"));                   
+                    ayudante.setDni(res.getString("dni"));    
+                    ayudante.setEmail(res.getString("email"));
+                    ayudante.setTel(res.getString("tel"));    
+                    ayudante.setDirec(res.getString("direc"));                                                                           
+                    ayudante.setDistr(res.getString("distr"));                    
                     ayudante.setId(res.getInt("id"));
                 }                   
      
@@ -117,9 +119,11 @@ public class AyudanteDAO extends Conexion implements DAO{
                         rs.getString("nom"),
                         rs.getString("ape"),
                         rs.getString("dni"),
-                        rs.getString("direc"),
+                        rs.getString("email"),                        
                         rs.getString("tel"),
-                        rs.getString("email"))
+                        rs.getString("direc"),
+                        rs.getString("distr"))
+                        
                 );
             }
         } catch (SQLException e) {

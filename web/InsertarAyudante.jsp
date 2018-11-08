@@ -20,6 +20,9 @@ HttpSession sesion = request.getSession();
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <script src="js/validarAyudante.js" type="text/javascript"></script>
+        <script src="http://code.jquery.com/jquery-1.7.js" type="text/javascript"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
         <title>JSP Page</title>    
     </head>
     <body>       
@@ -52,16 +55,16 @@ HttpSession sesion = request.getSession();
                             <div id="ReportarDni" class="outputTextArea"></div>                             
                         </div>
                         
-                    </div>
-                    
-                    <div class="col-md-6">
-                        
                         <div class="form-group"> <!-- Email-->
                             <label for="email_id" class="control-label" >EMAIL</label>
                             <input type="text" class="form-control" id="email_id" name="txtEmail" style="text-transform:lowercase;" placeholder="larcroco@gmail.com">
                             <div id="ReportarEmail" class="outputTextArea"></div> 
-                        </div>
+                        </div>                        
                         
+                    </div>
+                    
+                    <div class="col-md-6">
+                                                
                         <div class="form-group"> <!-- Telefono Corporativo-->
                             <label for="tel_id" class="control-label">TELÉFONO CELULAR</label>
                             <input type="text" class="form-control" id="tel_id" name="txtTel" placeholder="3257618" >
@@ -69,7 +72,12 @@ HttpSession sesion = request.getSession();
                         
                         <div class="form-group"> <!-- Dirección-->
                             <label for="direc_id" class="control-label">DIRECCIÓN</label>
-                            <input type="text" class="form-control" id="direc_id" name="txtDirec" placeholder="Jr. Wacaypata 448, Urb. Tupác Amaru, San Luis, Lima, Perú">
+                            <input type="text" class="form-control" id="direc_id" name="txtDirec" placeholder="Jr. Wacaypata 448">
+                        </div>   
+                        
+                        <div class="form-group"> <!-- Distrito-->
+                            <label for="dist_id" class="control-label" >DISTRITO</label>
+                            <input type="text" class="form-control" id="dist_id" name="txtDistrito" style="text-transform:lowercase;" placeholder="san juan de miraflores">
                         </div>   
                         
                     </div>                  

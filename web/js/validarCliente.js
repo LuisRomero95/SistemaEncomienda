@@ -35,6 +35,55 @@ $(document).ready(function (){
              }
          }
     });        
+    
+    var availableTags = [
+        "ancón",
+        "ate",
+        "barranco",
+        "breña",
+        "carabayllo",
+        "chaclacayo",
+        "chorrillos",
+        "cieneguilla",
+        "comas",
+        "el agustino",
+        "huaycán",
+        "independencia",
+        "jesús maría",
+        "la molina",
+        "la victoria",
+        "lima",
+        "lince",
+        "los olivos",
+        "lurigancho",
+        "lurín",
+        "magdalena del mar",
+        "miraflores",
+        "pachacamac",
+        "pucusana",
+        "pueblo libre",
+        "puente piedra",
+        "punta hermosa",
+        "punta negra",
+        "rímac",
+        "san bartolo",
+        "san borja",
+        "san isidro",
+        "san juan de lurigancho",      
+        "san juan de miraflores",
+        "san luis",
+        "san martín de porres",
+        "san miguel",
+        "santa anita",      
+        "santa maría del mar",
+        "santa rosa",
+        "santiago de surco",
+        "surquillo",
+        "villa el salvador"   
+      ];
+    $( "#dist_id" ).autocomplete({
+      source: availableTags
+    });       
 
     //limpiar n
     $( "#tel_fij_id, #tel_cel_id, #ruc_dni_id" ).blur(function() {
@@ -152,7 +201,7 @@ $(document).ready(function (){
             alert('[ERROR] Ingrese un email con formato adecuado');
             return false;
         }
-        else if(!(email.length <=25) || /^\s+$/.test(email)){
+        else if(!(email.length <=50) || /^\s+$/.test(email)){
             alert('[ERROR] El email no puede exceder los 50 caracteres');
             return false;
         }

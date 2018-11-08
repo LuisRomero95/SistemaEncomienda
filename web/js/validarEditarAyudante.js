@@ -72,6 +72,55 @@ $(document).ready(function (){
             });
     });      
     
+    var availableTags = [
+        "ancón",
+        "ate",
+        "barranco",
+        "breña",
+        "carabayllo",
+        "chaclacayo",
+        "chorrillos",
+        "cieneguilla",
+        "comas",
+        "el agustino",
+        "huaycán",
+        "independencia",
+        "jesús maría",
+        "la molina",
+        "la victoria",
+        "lima",
+        "lince",
+        "los olivos",
+        "lurigancho",
+        "lurín",
+        "magdalena del mar",
+        "miraflores",
+        "pachacamac",
+        "pucusana",
+        "pueblo libre",
+        "puente piedra",
+        "punta hermosa",
+        "punta negra",
+        "rímac",
+        "san bartolo",
+        "san borja",
+        "san isidro",
+        "san juan de lurigancho",      
+        "san juan de miraflores",
+        "san luis",
+        "san martín de porres",
+        "san miguel",
+        "santa anita",      
+        "santa maría del mar",
+        "santa rosa",
+        "santiago de surco",
+        "surquillo",
+        "villa el salvador"   
+      ];
+    $( "#dist_id" ).autocomplete({
+      source: availableTags
+    });    
+    
     $('#editar').click(function (){                             
         var dni = $('#dni_id').val(); 
         var nombre = $('#nom_id').val(); 
@@ -79,6 +128,7 @@ $(document).ready(function (){
         var email = $('#email_id').val();           
         var celular = $('#tel_id').val();                  
         var direcion = $('#direc_id').val();
+        var distrito = $('#dist_id').val();
         var respuestaDni = $('#ReportarDni').text().trim();
         var respuestaEmail = $('#ReportarEmail').text().trim();        
         var contenedorDni = $('#contenedorDni').val();
@@ -130,14 +180,17 @@ $(document).ready(function (){
             return false;
         }      
         else if (direcion === null || direcion.length === 0 || /^\s+$/.test(direcion)) {
-            alert('[ERROR] El campo direccion no puede quedar vacío');
+            alert('[ERROR] La direccion no puede quedar vacío');
             return false;
         }  
         else if (!(direcion.length <=50)|| /^\s+$/.test(direcion) ) {
             alert('[ERROR] La dirección no puede tener más de 50 dígitos');
             return false;
         }                
-
+        else if (distrito === null || distrito.length === 0 || /^\s+$/.test(distrito)) {
+            alert('[ERROR] El distrito no puede quedar vacío');
+            return false;
+        }  
         return true;        
      });
 });

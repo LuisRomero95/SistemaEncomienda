@@ -125,6 +125,7 @@ public class SERVConductor extends HttpServlet {
         String email = request.getParameter("txtEmail");
         String tel = request.getParameter("txtTel");
         String direc = request.getParameter("txtDirec");
+        String distrito = request.getParameter("txtDistrito");
         String tipo = request.getParameter("txtTipo");        
         String id =request.getParameter("txtId");                                                           
                                     
@@ -135,7 +136,8 @@ public class SERVConductor extends HttpServlet {
         con.setLic(lic);        
         con.setEmail(email);     
         con.setTel(tel);        
-        con.setDirec(direc);                      
+        con.setDirec(direc);
+        con.setDistr(distrito);
         con.setTipo(tipo);  
 
         if (id == null || id.isEmpty()) {

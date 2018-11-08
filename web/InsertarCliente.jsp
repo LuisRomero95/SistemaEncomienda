@@ -20,6 +20,9 @@ HttpSession sesion = request.getSession();
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <script src="js/validarCliente.js" type="text/javascript"></script>
+        <script src="http://code.jquery.com/jquery-1.7.js" type="text/javascript"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />        
         <title>JSP Page</title>        
     </head>
     <body>       
@@ -55,14 +58,15 @@ HttpSession sesion = request.getSession();
                         <input type="text" class="form-control" id="email_id" name="txtEmail" placeholder="larcroco@gmail.com" >
                         <div id="ReportarEmail" class="outputTextArea"></div> 
                     </div>
-                </div>    
-                    
-                <div class="col-md-6">
                     
                     <div class="form-group"> <!-- Telefono Fijo-->
                         <label for="tel_fij_id" class="control-label">TELÉFONO FIJO</label>
                         <input type="text" class="form-control" id="tel_fij_id" name="txtTel_fij" placeholder="3257618" >
-                    </div>          
+                    </div>                       
+                    
+                </div>    
+                    
+                <div class="col-md-6">                          
                     
                     <div class="form-group"> <!-- Telefono Celular-->
                         <label for="tel_cel_id" class="control-label">TELÉFONO CELULAR</label>
@@ -71,8 +75,13 @@ HttpSession sesion = request.getSession();
                     
                     <div class="form-group"> <!-- Dirección-->
                         <label for="direc_id" class="control-label">DIRECCIÓN</label>
-                        <input type="text" class="form-control" id="direc_id" name="txtDirec" placeholder="Jr. Fin del Mundo 321, Urb. Bolognesi, San Feliz, Lima, Perú">
+                        <input type="text" class="form-control" id="direc_id" name="txtDirec" placeholder="jr fin del mundo 321">
                     </div> 
+                    
+                    <div class="form-group"> <!-- Distrito-->
+                        <label for="dist_id" class="control-label" >DISTRITO</label>
+                        <input type="text" class="form-control" id="dist_id" name="txtDistrito" style="text-transform:lowercase;" placeholder="san juan de miraflores">
+                    </div>                       
                 </div>              
 
                 <div class="col-md-12">

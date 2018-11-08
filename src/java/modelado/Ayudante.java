@@ -5,22 +5,25 @@ public class Ayudante {
     private String nom;
     private String ape;
     private String dni;
-    private String direc;
-    private String tel;
     private String email;
+    private String tel;    
+    private String direc;
+    private String distr;
 
     public Ayudante() {
     }
 
-    public Ayudante(int id, String nom, String ape, String dni, String direc, String tel, String email) {
+    public Ayudante(int id, String nom, String ape, String dni, String email, String tel, String direc, String distr) {
         this.id = id;
         this.nom = nom;
         this.ape = ape;
         this.dni = dni;
-        this.direc = direc;
-        this.tel = tel;
         this.email = email;
-    }      
+        this.tel = tel;
+        this.direc = direc;
+        this.distr = distr;
+    }
+   
 
     public int getId() {
         return id;
@@ -77,5 +80,15 @@ public class Ayudante {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getDistr() {
+        return distr;
+    }
+
+    public void setDistr(String distr) {
+        this.distr = distr;
+    }
+    
+    
     
 }

@@ -22,8 +22,10 @@ HttpSession sesion = request.getSession();
         <title>JSP Page</title>
 
   </head>
-    <body>         
-     <div id="mapa">
+    <body>
+    <a href="navbar.jsp">Volver</a></li>     
+    <br>
+    <div id="mapa">
         <h2>Aquí ira el mapa!</h2>
     </div>
     <div id="infor">

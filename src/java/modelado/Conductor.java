@@ -6,26 +6,29 @@ public class Conductor {
     private String ape;
     private String dni;
     private String lic;      
-    private String direc;
-    private String tel;
     private String email;
+    private String tel;    
+    private String direc;
+    private String distr;
     private String tipo;
+    
 
     public Conductor() {
     }
 
-    public Conductor(int id, String nom, String ape, String dni, String lic, String direc, String tel, String email, String tipo) {
+    public Conductor(int id, String nom, String ape, String dni, String lic, String email, String tel, String direc, String distr, String tipo) {
         this.id = id;
         this.nom = nom;
         this.ape = ape;
         this.dni = dni;
         this.lic = lic;
-        this.direc = direc;
-        this.tel = tel;
         this.email = email;
+        this.tel = tel;
+        this.direc = direc;
+        this.distr = distr;
         this.tipo = tipo;
     }
-
+    
     public int getId() {
         return id;
     }
@@ -97,5 +100,13 @@ public class Conductor {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+
+    public String getDistr() {
+        return distr;
+    }
+
+    public void setDistr(String distr) {
+        this.distr = distr;
+    }       
      
 }

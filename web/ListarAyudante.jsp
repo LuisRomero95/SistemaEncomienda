@@ -35,6 +35,7 @@ HttpSession sesion = request.getSession();
                             <th class="text-center">EMAIL</th>
                             <th class="text-center">TELÉFONO</th>
                             <th class="text-center">DIRECCIÓN</th>
+                            <th class="text-center">DISTRITO</th>
                             <th class="text-center">ACCIONES</th>
                         </tr>                        
                     </thead>
@@ -62,6 +63,9 @@ HttpSession sesion = request.getSession();
                                 <td>
                                         <c:out value="${ayudante.direc}"/>
                                 </td>                                                               
+                                <td>
+                                        <c:out value="${ayudante.distr}"/>
+                                </td>                                
                                 <td class="text-center">
                                     <a href="SERVAyudante?action=edit&id=<c:out value="${ayudante.id}"/>"   class="btn btn-warning btn-sm">Editar</a>   
                                     <a href="SERVAyudante?action=delete&id=<c:out value="${ayudante.id}"/>" onclick="return confirm('¿Está seguro que desea eliminar el registro?')"  class="btn btn-danger btn-sm">Eliminar</a>

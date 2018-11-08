@@ -76,7 +76,56 @@ $(document).ready(function (){
             $.post("SERVCliente", {eemail:$email}, function(data) {               
                     $("#ReportarEmail").html(data);
             });
-    });      
+    });   
+    
+    var availableTags = [
+        "ancón",
+        "ate",
+        "barranco",
+        "breña",
+        "carabayllo",
+        "chaclacayo",
+        "chorrillos",
+        "cieneguilla",
+        "comas",
+        "el agustino",
+        "huaycán",
+        "independencia",
+        "jesús maría",
+        "la molina",
+        "la victoria",
+        "lima",
+        "lince",
+        "los olivos",
+        "lurigancho",
+        "lurín",
+        "magdalena del mar",
+        "miraflores",
+        "pachacamac",
+        "pucusana",
+        "pueblo libre",
+        "puente piedra",
+        "punta hermosa",
+        "punta negra",
+        "rímac",
+        "san bartolo",
+        "san borja",
+        "san isidro",
+        "san juan de lurigancho",      
+        "san juan de miraflores",
+        "san luis",
+        "san martín de porres",
+        "san miguel",
+        "santa anita",      
+        "santa maría del mar",
+        "santa rosa",
+        "santiago de surco",
+        "surquillo",
+        "villa el salvador"   
+      ];
+    $( "#dist_id" ).autocomplete({
+      source: availableTags
+    });       
     
     $('#editar').click(function (){
         var opciones = document.getElementsByName("optradio"); 

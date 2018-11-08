@@ -14,7 +14,7 @@ public class ConductorDAO extends Conexion implements DAO{
     public void insertar(Object obj) throws Exception{
         Conductor c = (Conductor) obj;
         PreparedStatement pst;
-        String sql="INSERT INTO conductores ( nom, ape, dni, lic, direc, tel, email, id_tipo) VALUES(?,?,?,?,?,?,?,?)";
+        String sql="INSERT INTO conductores ( nom, ape, dni, lic, email, tel, direc, distr, id_tipo) VALUES(?,?,?,?,?,?,?,?,?)";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -22,10 +22,11 @@ public class ConductorDAO extends Conexion implements DAO{
             pst.setString(2, c.getApe());
             pst.setString(3, c.getDni());
             pst.setString(4, c.getLic());
-            pst.setString(5, c.getDirec());
+            pst.setString(5, c.getEmail());
             pst.setString(6, c.getTel());
-            pst.setString(7, c.getEmail());
-            pst.setString(8, c.getTipo());
+            pst.setString(7, c.getDirec());
+            pst.setString(8, c.getDistr());
+            pst.setString(9, c.getTipo());
             pst.executeUpdate();            
 
         } catch (SQLException e) {
@@ -57,7 +58,7 @@ public class ConductorDAO extends Conexion implements DAO{
     public void modificar(Object obj) throws Exception{
         Conductor c = (Conductor) obj;
         PreparedStatement pst;
-        String sql="UPDATE conductores SET nom=?, ape=?, dni=?, lic=?, direc=?, tel=?, email=?, id_tipo=? WHERE id=?";
+        String sql="UPDATE conductores SET nom=?, ape=?, dni=?, lic=?, email=?, tel=?, direc=?, distr=?, id_tipo=? WHERE id=?";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -65,11 +66,12 @@ public class ConductorDAO extends Conexion implements DAO{
             pst.setString(2, c.getApe());
             pst.setString(3, c.getDni());
             pst.setString(4, c.getLic());
-            pst.setString(5, c.getDirec());
+            pst.setString(5, c.getEmail());
             pst.setString(6, c.getTel());
-            pst.setString(7, c.getEmail());            
-            pst.setString(8, c.getTipo());            
-            pst.setInt(9, c.getId());
+            pst.setString(7, c.getDirec());
+            pst.setString(8, c.getDistr());
+            pst.setString(9, c.getTipo());            
+            pst.setInt(10, c.getId());
             pst.executeUpdate();      
             
         } catch (SQLException e) {
@@ -84,7 +86,7 @@ public class ConductorDAO extends Conexion implements DAO{
            Conductor c = new Conductor();
            PreparedStatement pst;
            ResultSet res;
-           String sql = "SELECT c.id, c.dni, c.lic, c.nom, c.ape, c.direc, c.tel, c.email, tc.nom FROM conductores c, tiposconductores tc WHERE c.id_tipo = tc.id AND c.id=? AND c.estado = 1";
+           String sql = "SELECT c.id, c.nom, c.ape, c.dni, c.lic, c.email, c.tel, c.direc, c.distr, tc.nom FROM conductores c, tiposconductores tc WHERE c.id_tipo = tc.id AND c.id=? AND c.estado = 1";
            try {
             this.conectar();
                pst = conexion.prepareStatement(sql);
@@ -95,9 +97,10 @@ public class ConductorDAO extends Conexion implements DAO{
                     c.setApe(res.getString("c.ape"));      
                     c.setDni(res.getString("c.dni"));
                     c.setLic(res.getString("c.lic"));                       
-                    c.setDirec(res.getString("c.direc"));
+                    c.setEmail(res.getString("c.email"));
                     c.setTel(res.getString("c.tel"));                    
-                    c.setEmail(res.getString("c.email"));                   
+                    c.setDirec(res.getString("c.direc"));
+                    c.setDistr(res.getString("c.distr"));
                     c.setTipo(res.getString("tc.nom"));
                     c.setId(res.getInt("c.id"));
                 }                   
@@ -115,7 +118,7 @@ public class ConductorDAO extends Conexion implements DAO{
         List<Conductor> datos = new ArrayList<>();
         PreparedStatement pst;
         ResultSet rs;
-        String sql = "SELECT c.id, c.dni, c.lic, c.nom, c.ape, c.direc, c.tel, c.email, tc.nom FROM conductores c, tiposconductores tc WHERE c.id_tipo = tc.id AND c.estado = 1";
+        String sql = "SELECT c.id, c.nom, c.ape, c.dni, c.lic, c.email, c.tel, c.direc, c.distr, tc.nom FROM conductores c, tiposconductores tc WHERE c.id_tipo = tc.id AND c.estado = 1";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -126,10 +129,11 @@ public class ConductorDAO extends Conexion implements DAO{
                         rs.getString("c.nom"),
                         rs.getString("c.ape"),
                         rs.getString("c.dni"),
-                        rs.getString("c.lic"),                        
-                        rs.getString("c.direc"),
-                        rs.getString("c.tel"),
+                        rs.getString("c.lic"),                                                                        
                         rs.getString("c.email"),
+                        rs.getString("c.tel"),
+                        rs.getString("c.direc"),
+                        rs.getString("c.distr"),
                         rs.getString("tc.nom"))
                 );
             }

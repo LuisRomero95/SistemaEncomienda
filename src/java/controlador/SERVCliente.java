@@ -144,6 +144,7 @@ public class SERVCliente extends HttpServlet {
         String fijo = request.getParameter("txtTel_fij");
         String celular = request.getParameter("txtTel_cel");
         String direccion = request.getParameter("txtDirec");
+        String distrito = request.getParameter("txtDistrito");
         String id =request.getParameter("txtId");
                                                       
         try {                              
@@ -154,6 +155,7 @@ public class SERVCliente extends HttpServlet {
             cli.setTel_fij(fijo);
             cli.setTel_cel(celular);
             cli.setDirec(direccion); 
+            cli.setDistr(distrito);
                 
                 if (id == null || id.isEmpty()) {
                      if(clientedao.ConsultarEmail(email) || clientedao.ConsultarRUCDNI(identificador)){    

@@ -1,5 +1,6 @@
 $(document).ready(function (){
-        
+    
+    $('#precio_id').numeric("."); 
     
     $('#listarEmisor').change(function (){
         var nivel = $('#listarEmisor option:selected').text().trim();
@@ -29,26 +30,7 @@ $(document).ready(function (){
     $('#calcular_precio').click(function (){
        window.open("SERVPrecio?action=insert", "InsertarPrecio", "width=400, height=200");
     });  
-       
-    $('#listarEncomienda').change(function (){
-        var nivel = $('#listarEncomienda option:selected').text().trim();
-        $('#contenedor_estado_id').val(nivel);
-    });     
-    
-    var dateToday = new Date();
-    var dates = $("#from").datepicker({
-        defaultDate: "+1w",
-        changeMonth: true,
-        dateFormat: 'yy-mm-dd',
-        numberOfMonths: 3,
-        minDate: dateToday,
-        onSelect: function(selectedDate) {
-            var option = this.id === "from" ? "minDate" : "maxDate",
-                instance = $(this).data("datepicker"),
-                date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
-            dates.not(this).datepicker("option", option, date);
-        }
-    });     
+         
     
     $('#editar').click(function (){      
           
@@ -57,8 +39,7 @@ $(document).ready(function (){
         var usuario = $('#listarUsuario').val();
         var vehiculo = $('#listarVehiculo').val();
         var precio = $('#precio_id').val();
-        var descipcion = $('#des_id').val();
-        var estado = $('#listarEncomienda').val();
+        var descipcion = $('#des_id').val();        
           
         if ( emisor === '' ){
           alert('[ERROR] Confirme el emisor');
@@ -84,10 +65,6 @@ $(document).ready(function (){
           alert('[ERROR] La descripción no puede quedar vacio');
           return false;
         }          
-        else if ( estado === '' ){
-            alert('[ERROR] Seleccione el estado');
-            return false;
-        }  
-        return true;
+          
      });
 });      

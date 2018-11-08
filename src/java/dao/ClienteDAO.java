@@ -13,7 +13,7 @@ public class ClienteDAO extends Conexion implements DAO{
     public void insertar(Object obj) throws Exception {
         Cliente c = (Cliente) obj;
         PreparedStatement pst = null;
-        String sql="INSERT INTO clientes (ruc_dni, nom, email, tel_fij, tel_cel, direc) VALUES(?,?,?,?,?,?)";
+        String sql="INSERT INTO clientes (ruc_dni, nom, email, tel_fij, tel_cel, direc, distr) VALUES(?,?,?,?,?,?,?)";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -23,6 +23,7 @@ public class ClienteDAO extends Conexion implements DAO{
             pst.setString(4, c.getTel_fij());
             pst.setString(5, c.getTel_cel());
             pst.setString(6, c.getDirec());
+            pst.setString(7, c.getDistr());
             pst.executeUpdate();            
                       
         } catch ( SQLException e) {           
@@ -56,7 +57,7 @@ public class ClienteDAO extends Conexion implements DAO{
     public void modificar(Object obj) throws Exception{
         Cliente c = (Cliente) obj;
         PreparedStatement pst;
-        String sql="UPDATE clientes SET ruc_dni=?, nom=?, email=?, tel_fij=?, tel_cel=?, direc=? WHERE id=?";
+        String sql="UPDATE clientes SET ruc_dni=?, nom=?, email=?, tel_fij=?, tel_cel=?, direc=?, distr=? WHERE id=?";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -66,7 +67,8 @@ public class ClienteDAO extends Conexion implements DAO{
             pst.setString(4, c.getTel_fij());
             pst.setString(5, c.getTel_cel());
             pst.setString(6, c.getDirec());
-            pst.setInt(7, c.getId());
+            pst.setString(7, c.getDistr());
+            pst.setInt(8, c.getId());
 
              pst.executeUpdate();            
                        
@@ -83,7 +85,7 @@ public class ClienteDAO extends Conexion implements DAO{
         List<Cliente> datos = new ArrayList<>();
         PreparedStatement pst;
         ResultSet rs;
-        String sql = "SELECT id, nom, ruc_dni, email, tel_fij, tel_cel, direc FROM clientes WHERE estado = 1";
+        String sql = "SELECT id, nom, ruc_dni, email, tel_fij, tel_cel, direc, distr FROM clientes WHERE estado = 1";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -96,7 +98,9 @@ public class ClienteDAO extends Conexion implements DAO{
                         rs.getString("email"),
                         rs.getString("tel_fij"),
                         rs.getString("tel_cel"),
-                        rs.getString("direc"))
+                        rs.getString("direc"),
+                        rs.getString("distr")
+                    )
                 );
             }
         } catch (SQLException e ) {            
@@ -125,6 +129,7 @@ public class ClienteDAO extends Conexion implements DAO{
                     c.setTel_fij(res.getString("tel_fij"));
                     c.setTel_cel(res.getString("tel_cel"));
                     c.setDirec(res.getString("direc"));
+                    c.setDistr(res.getString("distr"));
                     c.setId(res.getInt("id"));
                 }                   
      

@@ -95,22 +95,24 @@ public class SERVAyudante extends HttpServlet {
             out.flush();
             out.close();
         }           
-        
-        String dni = request.getParameter("txtDni");
+                
         String nombre = request.getParameter("txtNombre");
         String ape = request.getParameter("txtApe");
-        String direc = request.getParameter("txtDirec");
+        String dni = request.getParameter("txtDni");
+        String email = request.getParameter("txtEmail");        
         String tel = request.getParameter("txtTel");
-        String email = request.getParameter("txtEmail");
+        String direc = request.getParameter("txtDirec");
+        String distr = request.getParameter("txtDistrito");
         String id =request.getParameter("txtId");                                                                 
                             
-        Ayudante ayudante = new Ayudante();
-        ayudante.setDni(dni);
+        Ayudante ayudante = new Ayudante();        
         ayudante.setNom(nombre);
         ayudante.setApe(ape);
-        ayudante.setDirec(direc);             
+        ayudante.setDni(dni);
+        ayudante.setEmail(email);
         ayudante.setTel(tel);
-        ayudante.setEmail(email);   
+        ayudante.setDirec(direc);          
+        ayudante.setDistr(distr);
 
         if (id == null || id.isEmpty()) {
             try {

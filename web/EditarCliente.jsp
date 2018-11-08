@@ -23,6 +23,9 @@ HttpSession sesion = request.getSession();
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <script src="js/validarEditarCliente.js" type="text/javascript"></script>
+        <script src="http://code.jquery.com/jquery-1.7.js" type="text/javascript"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />        
         <title>JSP Page</title>
     </head>  
     <body>
@@ -83,7 +86,13 @@ HttpSession sesion = request.getSession();
                         <div class="form-group"> <!-- Dirección-->
                             <label for="direc_id" class="control-label">DIRECCIÓN</label>
                             <input type="text" class="form-control" id="direc_id" name="txtDirec"  value="<c:out value="${cliente.direc}" />" >
-                        </div>             
+                        </div>        
+
+                        <div class="form-group"> <!-- Distrito-->
+                            <label for="dist_id" class="control-label" >DISTRITO</label>
+                            <input type="text" class="form-control" id="dist_id" name="txtDistrito" style="text-transform:lowercase;" value="<c:out value="${cliente.distr}" />" >
+                        </div>                          
+                        
                     </div>                
 
                     <div class="col-md-12">
