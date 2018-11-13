@@ -51,6 +51,10 @@
         <servlet-name>SERVUbicacion</servlet-name>
         <servlet-class>controlador.SERVUbicacion</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SERVReporte</servlet-name>
+        <servlet-class>controlador.SERVReporte</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SERVUsuario</servlet-name>
         <url-pattern>/SERVUsuario</url-pattern>
@@ -98,6 +102,10 @@
     <servlet-mapping>
         <servlet-name>SERVUbicacion</servlet-name>
         <url-pattern>/SERVUbicacion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SERVReporte</servlet-name>
+        <url-pattern>/SERVReporte</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

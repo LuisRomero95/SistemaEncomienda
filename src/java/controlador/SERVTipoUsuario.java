@@ -95,33 +95,25 @@ public class SERVTipoUsuario extends HttpServlet {
         String nombre = request.getParameter("txtNombre");                                                            
         String id =request.getParameter("txtId");
 
-        try {                              
-                TipoUsuario u = new TipoUsuario();    
-                u.setNom(nombre);
-  
-                
-                if (id == null || id.isEmpty()) {
-                     if(tudao.ConsultarNombre(nombre)){    
+                          
+        TipoUsuario u = new TipoUsuario();    
+        u.setNom(nombre);
 
-                    }else {
-                         try {
-                             tudao.insertar(u);
-                         } catch (Exception ex) {
-                             Logger.getLogger(SERVTipoUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                         }
-                     }
-                } else {                    
-                    try {
-                        u.setId(Integer.parseInt(id));
-                        tudao.modificar(u);
-                    } catch (Exception ex) {
-                        Logger.getLogger(SERVTipoUsuario.class.getName()).log(Level.SEVERE, null, ex);                        
-                    }
-                }             
-                   
-        }catch (SQLException ex) {
-            Logger.getLogger(SERVTipoUsuario.class.getName()).log(Level.SEVERE, null, ex);             
-        }        
+
+        if (id == null || id.isEmpty()) {
+                 try {
+                     tudao.insertar(u);
+                 } catch (Exception ex) {
+                     Logger.getLogger(SERVTipoUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+        } else {                    
+            try {
+                u.setId(Integer.parseInt(id));
+                tudao.modificar(u);
+            } catch (Exception ex) {
+                Logger.getLogger(SERVTipoUsuario.class.getName()).log(Level.SEVERE, null, ex);                        
+            }
+        }                 
                 
         response.sendRedirect(request.getContextPath() + "/SERVTipoUsuario?action=refresh");           
     }

@@ -149,21 +149,24 @@ public class EncomiendaDAO extends Conexion implements DAO{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    
-    
-    public List<Encomienda> consultarVehiculoUso() throws Exception  {
+    public List<Encomienda> consultarEncomiendaPorMes() throws Exception  {
         List<Encomienda> datos = new ArrayList<>();
         PreparedStatement pst;
+        PreparedStatement pst1;
         ResultSet rs;
-        String sql = "select v.marca, count(v.marca) as cantidad from vehiculos v, encomiendas e WHERE v.id = e.id_veh AND MONTHNAME(e.fech_env)='November' AND v.estado =1 group by v.marca";
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT MONTHNAME(e.fech_env) AS mes, SUM(e.precio) AS total FROM encomiendas e WHERE YEAR(e.fech_env)='2018' GROUP BY MONTHNAME(e.fech_env) ORDER BY MONTH(e.fech_env)";
         try {
             this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
             pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
             rs = pst.executeQuery();       
             while(rs.next()){
                 datos.add(new Encomienda(
-                        rs.getString("v.marca"),
-                        rs.getInt("cantidad")
+                        rs.getString("mes"),
+                        rs.getDouble("total")
                     )                    
                 );
             }
@@ -174,7 +177,113 @@ public class EncomiendaDAO extends Conexion implements DAO{
             this.cerrar();
         }
         return datos;
-    }    
+    }        
+        
+    public List<Encomienda> consultarEncomiendaPorFecha() throws Exception  {
+        List<Encomienda> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT e.fech_env as mes, SUM(e.precio) AS total FROM encomiendas e WHERE YEAR(e.fech_env)='2018' AND e.estado =1 AND e.id_tipo='2' GROUP by mes";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();       
+            while(rs.next()){
+                datos.add(new Encomienda(
+                        rs.getString("mes"),
+                        rs.getDouble("total")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }       
+    
+    public List<Encomienda> consultarTipoEncomienda() throws Exception  {
+        List<Encomienda> datos = new ArrayList<>();
+        PreparedStatement pst;
+        ResultSet rs;
+        String sql = "SELECT e.tipo AS tipo, SUM(e.precio) AS total FROM encomiendas e WHERE YEAR(e.fech_env)='2018' AND e.estado =1 GROUP BY e.tipo";
+        try {
+            this.conectar();
+            pst = conexion.prepareStatement(sql);           
+            rs = pst.executeQuery();       
+            while(rs.next()){
+                datos.add(new Encomienda(
+                        rs.getString("tipo"),
+                        rs.getDouble("total")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }
+    
+    public List<Encomienda> consultarTipoEncomiendaPorMes() throws Exception  {
+        List<Encomienda> datos = new ArrayList<>();
+        PreparedStatement pst;
+        ResultSet rs;
+        String sql = "SELECT monthname(e.fech_env) as mes, e.tipo as tipo, sum(e.precio) as total FROM encomiendas e WHERE YEAR(e.fech_env)='2018'AND e.estado =1 AND e.tipo='paquete' GROUP BY mes";
+        try {
+            this.conectar();
+            pst = conexion.prepareStatement(sql);           
+            rs = pst.executeQuery();       
+            while(rs.next()){
+                datos.add(new Encomienda(
+                        rs.getString("tipo"),
+                        rs.getDouble("total")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }  
+    
+//Esto no deja funcionar los reportes de encomienda    
+//    public List<Encomienda> consultarVehiculoUso() throws Exception  {
+//        List<Encomienda> datos = new ArrayList<>();
+//        PreparedStatement pst;
+//        ResultSet rs;
+//        String sql = "select v.marca, count(v.marca) as cantidad from vehiculos v, encomiendas e WHERE v.id = e.id_veh AND MONTHNAME(e.fech_env)='November' AND v.estado =1 group by v.marca";
+//        try {
+//            this.conectar();
+//            pst = conexion.prepareStatement(sql);
+//            rs = pst.executeQuery();       
+//            while(rs.next()){
+//                datos.add(new Encomienda(
+//                        rs.getString("v.marca"),
+//                        rs.getInt("cantidad")
+//                    )                    
+//                );
+//            }
+//        } catch (SQLException e ) {
+//            throw e;
+//        }
+//        finally{
+//            this.cerrar();
+//        }
+//        return datos;
+//    }    
         
     
 }

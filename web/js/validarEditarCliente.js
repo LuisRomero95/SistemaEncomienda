@@ -59,7 +59,7 @@ $(document).ready(function (){
     });
 
 
-    $("#email_id").keyup(function() {
+    $("#email_id, #nom_id, #direc_id").keyup(function() {
        $(this).val($(this).val().toLowerCase());
     });
 

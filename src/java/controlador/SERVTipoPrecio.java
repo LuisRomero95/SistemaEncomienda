@@ -94,33 +94,27 @@ private static String insert= "/InsertarTipoPrecio.jsp";
         String nombre = request.getParameter("txtNombre");                                                            
         String id =request.getParameter("txtId");
 
-        try {                              
-                TipoPrecio u = new TipoPrecio();    
-                u.setNom(nombre);
-  
-                
-                if (id == null || id.isEmpty()) {
-                     if(tpdao.ConsultarNombre(nombre)){    
+                                
+        TipoPrecio u = new TipoPrecio();    
+        u.setNom(nombre);
 
-                    }else {
-                         try {
-                             tpdao.insertar(u);
-                         } catch (Exception ex) {
-                             Logger.getLogger(SERVTipoUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                         }
-                     }
-                } else {                    
-                    try {
-                        u.setId(Integer.parseInt(id));
-                        tpdao.modificar(u);
-                    } catch (Exception ex) {
-                        Logger.getLogger(SERVTipoUsuario.class.getName()).log(Level.SEVERE, null, ex);                        
-                    }
-                }             
-                   
-        }catch (SQLException ex) {
-            Logger.getLogger(SERVTipoUsuario.class.getName()).log(Level.SEVERE, null, ex);             
-        }        
+
+        if (id == null || id.isEmpty()) {
+
+                 try {
+                     tpdao.insertar(u);
+                 } catch (Exception ex) {
+                     Logger.getLogger(SERVTipoUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+
+        } else {                    
+            try {
+                u.setId(Integer.parseInt(id));
+                tpdao.modificar(u);
+            } catch (Exception ex) {
+                Logger.getLogger(SERVTipoUsuario.class.getName()).log(Level.SEVERE, null, ex);                        
+            }
+        }               
                 
         response.sendRedirect(request.getContextPath() + "/SERVTipoPrecio?action=refresh");           
         

@@ -3,7 +3,6 @@ package modelado;
 
 import java.sql.Date;
 
-
 public class Encomienda {
     private int id;
     private String emisor; //cliente
@@ -15,15 +14,22 @@ public class Encomienda {
     private Date fecha;
     private String tipo;
     private String marca;
-
-    public Encomienda(String marca, int cantidad) {
-        this.marca = marca;
-        this.cantidad = cantidad;
-    }
     private int cantidad;
-
+    private String mes;
+    private double total;
+    
     public Encomienda() {
-    }      
+    }         
+
+//    public Encomienda(String marca, int cantidad) {
+//        this.marca = marca;
+//        this.cantidad = cantidad;
+//    }    
+    
+    public Encomienda(String mes, double total) {
+        this.mes = mes;
+        this.total = total;
+    } 
 
     public Encomienda(int id, String emisor, String usuario, String vehiculo, String receptor, String descripcion, double precio, Date fecha, String tipo) {
         this.id = id;

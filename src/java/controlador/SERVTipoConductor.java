@@ -92,33 +92,27 @@ public class SERVTipoConductor extends HttpServlet {
         String nombre = request.getParameter("txtNombre");          
         String id =request.getParameter("txtId");
 
-        try {                              
-                TipoConductor tp = new TipoConductor();    
-                tp.setNom(nombre); 
-                
-                if (id == null || id.isEmpty()) {
-                     if(tpdao.ConsultarNombre(nombre)){    
+                            
+        TipoConductor tp = new TipoConductor();    
+        tp.setNom(nombre); 
 
-                    }else {
-                         try {
-                             tpdao.insertar(tp);
-                         } catch (Exception ex) {
-                             Logger.getLogger(SERVTipoConductor.class.getName()).log(Level.SEVERE, null, ex);
-                         }
-                     }
-                } else {                    
-                    try {
-                        tp.setId(Integer.parseInt(id));
-                        tpdao.modificar(tp);
-                    } catch (Exception ex) {
-                        Logger.getLogger(SERVTipoConductor.class.getName()).log(Level.SEVERE, null, ex);                        
-                    }
-                }             
-                   
-        }catch (SQLException ex) {
-            Logger.getLogger(SERVTipoConductor.class.getName()).log(Level.SEVERE, null, ex);             
+        if (id == null || id.isEmpty()) {
+
+        try {
+            tpdao.insertar(tp);
+        } catch (Exception ex) {
+            Logger.getLogger(SERVTipoConductor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        } else {                    
+            try {
+                tp.setId(Integer.parseInt(id));
+                tpdao.modificar(tp);
+            } catch (Exception ex) {
+                Logger.getLogger(SERVTipoConductor.class.getName()).log(Level.SEVERE, null, ex);                        
+            }
         }             
-                                   
+                
         response.sendRedirect(request.getContextPath() + "/SERVTipoConductor?action=refresh");          
     }
 

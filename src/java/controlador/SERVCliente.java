@@ -92,10 +92,10 @@ public class SERVCliente extends HttpServlet {
             }            
             //INSERTAR CLIENTE    
             else if(action.equalsIgnoreCase("insert")) {        
-                    forward = insert;
+                forward = insert;
             
-                              RequestDispatcher view = request.getRequestDispatcher(forward);
-            view.forward(request, response);
+                RequestDispatcher view = request.getRequestDispatcher(forward);
+                view.forward(request, response);
             }
             //LISTAR O ACTUALIZAR CLIENTE
             else if(action.equalsIgnoreCase("refresh")){
@@ -147,38 +147,31 @@ public class SERVCliente extends HttpServlet {
         String distrito = request.getParameter("txtDistrito");
         String id =request.getParameter("txtId");
                                                       
-        try {                              
-            Cliente cli = new Cliente();
-            cli.setNom(nombre);
-            cli.setRuc_dni(identificador);            
-            cli.setEmail(email);
-            cli.setTel_fij(fijo);
-            cli.setTel_cel(celular);
-            cli.setDirec(direccion); 
-            cli.setDistr(distrito);
+                          
+        Cliente cli = new Cliente();
+        cli.setNom(nombre);
+        cli.setRuc_dni(identificador);            
+        cli.setEmail(email);
+        cli.setTel_fij(fijo);
+        cli.setTel_cel(celular);
+        cli.setDirec(direccion); 
+        cli.setDistr(distrito);
                 
-                if (id == null || id.isEmpty()) {
-                     if(clientedao.ConsultarEmail(email) || clientedao.ConsultarRUCDNI(identificador)){    
-
-                    }else {
-                         try {
-                             clientedao.insertar(cli);
-                         } catch (Exception ex) {
-                             Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
-                         }
-                     }
-                } else {                    
-                    try {
-                        cli.setId(Integer.parseInt(id));
-                        clientedao.modificar(cli);
-                    } catch (Exception ex) {
-                        Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);                        
-                    }
-                }             
-                   
-        }catch (SQLException ex) {
-            Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);             
-        }                             
+        if (id == null || id.isEmpty()) {
+            try {
+                clientedao.insertar(cli);
+            } catch (Exception ex) {
+                Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {                    
+            try {
+                cli.setId(Integer.parseInt(id));
+                clientedao.modificar(cli);
+            } catch (Exception ex) {
+                Logger.getLogger(SERVCliente.class.getName()).log(Level.SEVERE, null, ex);                        
+            }
+        }             
+                                         
         response.sendRedirect(request.getContextPath() + "/SERVCliente?action=refresh");        
         
     }
