@@ -28,7 +28,13 @@ HttpSession sesion = request.getSession();
                        <h1>Ingresar Precio</h1>
                        <hr> 
                <form name="frmInsertarPrecio" method="POST" action="SERVPrecio" autocomplete="off" align="center">
-                                       
+                                      
+                   <div class="col-md-6 col-md-offset-3">
+                        <div class="form-group">
+                            <label for="enco_id" class="control-label">Encomienda</label>
+                            <input class="form-control" name="txtEncomienda" id="enco_id" placeholder="Ingrese el # de Encomienda" type="text">
+                        </div>                                                                  
+                   </div>
     
                    <div id="radios">
 

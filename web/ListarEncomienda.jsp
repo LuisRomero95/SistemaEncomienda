@@ -38,7 +38,6 @@ HttpSession sesion = request.getSession();
                             <th class="text-center">DESCRIPCION</th>
                             <th class="text-center">FECHA ENVIO</th>
                             <th class="text-center">ESTADO</th>
-                            <th class="text-center">PRECIO</th>
                             <th class="text-center">ACCIONES</th>
                         </tr>                        
                     </thead>
@@ -68,10 +67,7 @@ HttpSession sesion = request.getSession();
                                 </td>
                                 <td>
                                         <c:out value="${encomienda.tipo}"/>
-                                </td>                                 
-                                <td>
-                                        <c:out value="${encomienda.precio}"/>
-                                </td>                                      
+                                </td>                                                                     
                                                                     
                                 <td class="text-center">                                    
                                     <a href="SERVEncomienda?action=edit&id=<c:out value="${encomienda.id}"/>"  class="btn btn-warning btn-sm">Editar</a>   

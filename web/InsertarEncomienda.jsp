@@ -21,6 +21,7 @@ HttpSession sesion = request.getSession();
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
+        <!--DATAPICKER -->
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>        
@@ -103,13 +104,7 @@ HttpSession sesion = request.getSession();
                         </div>                        
                                                 
                         <div class="col-md-6">
-                                                                     
-                            <div class="form-group">
-                                <label for="precio_id" class="control-label radio-inline"><input type="radio" id="calcular_precio" name="txtCalcularPrecio" >Precio</label>                               
-                                <input type="text" class="form-control" id="precio_id" name="txtPrecio" >
-                              
-                            </div>
-                            
+                                                                                                 
                             <div class="form-group">
                                 <label for="des_id" class="control-label">DESCRIPCIÓN</label>
                                 <input type="text" class="form-control" id="des_id" name="txtDescripcion" >

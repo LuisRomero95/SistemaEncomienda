@@ -14,15 +14,16 @@ public class PrecioDAO extends Conexion implements DAO{
     public void insertar(Object obj) throws Exception {
         Precio u = (Precio) obj;
         PreparedStatement pst;
-        String sql="INSERT INTO precios (tipo, cant, peso, result) VALUES(?,?,?,?)";
+        String sql="INSERT INTO precios (id_enc, tipo, cant, peso, result) VALUES(?,?,?,?,?)";
         //conectarse a la bd
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
-            pst.setString(1, u.getTipo());
-            pst.setInt(2, u.getCantidad());
-            pst.setDouble(3, u.getPeso());
-            pst.setDouble(4, u.getResultado());
+            pst.setInt(1, u.getEncomienda());
+            pst.setString(2, u.getTipo());
+            pst.setInt(3, u.getCantidad());
+            pst.setDouble(4, u.getPeso());
+            pst.setDouble(5, u.getResultado());
             pst.executeUpdate();            
             
         }
@@ -57,15 +58,16 @@ public class PrecioDAO extends Conexion implements DAO{
     public void modificar(Object obj) throws Exception {
         Precio u = (Precio) obj;
         PreparedStatement pst;        
-        String sql = "UPDATE precios SET tipo=?, cant=?, peso=?, result=? WHERE id=? AND estado = 1";
+        String sql = "UPDATE precios SET id_enc=?, tipo=?, cant=?, peso=?, result=? WHERE id=? AND estado = 1";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
-            pst.setString(1, u.getTipo());
-            pst.setInt(2, u.getCantidad());
-            pst.setDouble(3, u.getPeso());
-            pst.setDouble(4, u.getResultado());         
-            pst.setInt(5, u.getId()); 
+            pst.setInt(1, u.getEncomienda());
+            pst.setString(2, u.getTipo());
+            pst.setInt(3, u.getCantidad());
+            pst.setDouble(4, u.getPeso());
+            pst.setDouble(5, u.getResultado());         
+            pst.setInt(6, u.getId()); 
             pst.executeUpdate();            
         } catch ( SQLException e) {                     
         }
@@ -79,7 +81,7 @@ public class PrecioDAO extends Conexion implements DAO{
         List<Precio> datos = new ArrayList<>();
         PreparedStatement pst;
         ResultSet rs;
-        String sql = "SELECT id, tipo, cant, peso, result FROM precios WHERE estado = 1";
+        String sql = "SELECT id, id_enc, tipo, cant, peso, result FROM precios WHERE estado = 1";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -88,6 +90,7 @@ public class PrecioDAO extends Conexion implements DAO{
             while(rs.next()){
                 datos.add(new Precio(
                         rs.getInt("id"),
+                        rs.getInt("id_enc"),
                         rs.getString("tipo"),
                         rs.getInt("cant"),
                         rs.getDouble("peso"),
@@ -108,7 +111,7 @@ public class PrecioDAO extends Conexion implements DAO{
         Precio usuario = new Precio();
         PreparedStatement pst;
         ResultSet res;
-        String sql = "SELECT id, tipo, cant, peso, result FROM precios WHERE estado = 1 AND id=?";
+        String sql = "SELECT id, id_enc, tipo, cant, peso, result FROM precios WHERE estado = 1 AND id=?";
         try {
            this.conectar();
            pst = conexion.prepareStatement(sql);
@@ -116,7 +119,8 @@ public class PrecioDAO extends Conexion implements DAO{
 
            res = pst.executeQuery();                                    
             if (res.next()) {
-                usuario.setTipo(res.getString("tipo"));
+                usuario.setEncomienda(res.getInt("id_enc"));
+                usuario.setTipo(res.getString("tipo"));               
                 usuario.setCantidad(res.getInt("cant"));
                 usuario.setPeso(res.getDouble("peso"));                
                 usuario.setResultado(res.getDouble("result"));

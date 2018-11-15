@@ -89,30 +89,19 @@ public class SERVPrecio extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         
+        int encomienda = Integer.parseInt(request.getParameter("txtEncomienda"));        
         String tipo = request.getParameter("txtContenedorEnvio");
         int cantidad = Integer.parseInt(request.getParameter("txtcantidadSobres"));
         double peso = Double.parseDouble(request.getParameter("txtPeso"));
         double resultado = Double.parseDouble(request.getParameter("txtResultado"));
         String id =request.getParameter("txtId");
         
-        try {
-        Precio precio = new Precio();            
+        Precio precio = new Precio();
+        precio.setEncomienda(encomienda);
         precio.setTipo(tipo);
         precio.setCantidad(cantidad);
         precio.setPeso(peso);
-        precio.setResultado(resultado);
-
-        
-//        RequestDispatcher rd = null;
-//        String monto;
-//        if(request.getParameter("btnInsertar")!=null){
-//
-//            monto = request.getParameter("txtResultado");
-//
-//            
-//            request.setAttribute("monto", monto);
-//            rd = request.getRequestDispatcher("InsertarEncomienda.jsp");
-//        }        
+        precio.setResultado(resultado);   
                 
         if(id == null || id.isEmpty() ){
             try {
@@ -129,17 +118,11 @@ public class SERVPrecio extends HttpServlet {
                 Logger.getLogger(SERVUsuario.class.getName()).log(Level.SEVERE, null, ex);
             }
         } 
-        } catch (Exception e) {
-        }
                          
         response.sendRedirect(request.getContextPath() + "/SERVPrecio?action=refresh");
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+
     @Override
     public String getServletInfo() {
         return "Short description";

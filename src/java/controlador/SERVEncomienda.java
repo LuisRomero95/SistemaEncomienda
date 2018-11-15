@@ -111,14 +111,12 @@ public class SERVEncomienda extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();
         
         String emisor = request.getParameter("txtEmisor");
         String usuario = request.getParameter("txtUsuario");
         String receptor = request.getParameter("txtReceptor");
         String vehiculo = request.getParameter("txtVehiculo");
         String descripcion = request.getParameter("txtDescripcion");
-        double resultado = Double.parseDouble(request.getParameter("txtPrecio"));
         String strFecha = request.getParameter("txtFechaEnvio");
         String tipo = request.getParameter("txtTipo");
         String id =request.getParameter("txtId");
@@ -134,7 +132,6 @@ public class SERVEncomienda extends HttpServlet {
             encomienda.setReceptor(receptor);      
             encomienda.setVehiculo(vehiculo);                 
             encomienda.setDescripcion(descripcion);
-            encomienda.setPrecio(resultado);
             encomienda.setFecha(sqlStartDate);
             encomienda.setTipo(tipo);
             

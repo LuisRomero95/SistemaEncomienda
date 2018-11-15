@@ -1,19 +1,20 @@
 
 package modelado;
 
-
 public class Precio {
     private int id;
+    private int encomienda;    
     private String tipo;
     private int cantidad;
     private double peso;    
     private double resultado;
-
+    
     public Precio() {
     }
 
-    public Precio(int id, String tipo, int cantidad, double peso, double resultado) {
+    public Precio(int id, int encomienda, String tipo, int cantidad, double peso, double resultado) {
         this.id = id;
+        this.encomienda = encomienda;
         this.tipo = tipo;
         this.cantidad = cantidad;
         this.peso = peso;
@@ -26,6 +27,14 @@ public class Precio {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getEncomienda() {
+        return encomienda;
+    }
+
+    public void setEncomienda(int encomienda) {
+        this.encomienda = encomienda;
     }
 
     public String getTipo() {
@@ -59,6 +68,7 @@ public class Precio {
     public void setResultado(double resultado) {
         this.resultado = resultado;
     }
- 
-    
+
+
+
 }

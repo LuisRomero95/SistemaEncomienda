@@ -10,13 +10,9 @@ public class UsuarioDAO extends Conexion implements DAO{
     
     @Override
     public void insertar(Object obj) throws Exception{
-        //Como obj trae datos no podemos colocar new, sino traducirlo a Cliente
-        //todo lo que contenga obj lo tendrá u
         Usuario u = (Usuario) obj;
         PreparedStatement pst;
-        //Consultar preparadas
         String sql="INSERT INTO usuarios (nom, pass, email, id_nivel) VALUES(?,?,?,?)";
-        //conectarse a la bd
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -24,11 +20,8 @@ public class UsuarioDAO extends Conexion implements DAO{
             pst.setString(2, u.getPassword());
             pst.setString(3, u.getEmail());
             pst.setString(4, u.getNivel());
-            //ejecutar la consulta sql antes definida
-            // asi la bd sabe la consulta que voy a ejecutar
             pst.executeUpdate();            
-            //cerrar conexion para no tener conexiones abiertas
-            
+           
         }
         catch ( SQLException e) {
             throw e;

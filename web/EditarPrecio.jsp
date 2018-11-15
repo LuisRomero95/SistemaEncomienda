@@ -30,13 +30,18 @@ HttpSession sesion = request.getSession();
                <hr>             
                
             <form name="frmEditarPrecio" method="POST" action="SERVPrecio" autocomplete="off" align="center">                
-    
+           
             <div class="col-md-6 col-md-offset-3 opciones">
                 
                 <div class="form-group"> <!-- Identificación-->
                         <label for="precio_id" class="control-label">ID PRECIO</label>
                         <input type="text" class="form-control" id="precio_id" readonly  name="txtId" value=<c:out value="${precio.id}" /> >
                 </div>
+
+                <div class="form-group">
+                    <label for="enco_id" class="control-label"># ENCOMIENDA</label>
+                    <input type="text" class="form-control" name="txtEncomienda" id="enco_id" placeholder="Ingrese el # de Encomienda" value=<c:out value="${precio.encomienda}" /> >
+                </div>                    
                   
             </div>
                 

@@ -1,7 +1,5 @@
 $(document).ready(function (){
-    
-    $('#precio_id').numeric("."); 
-    
+      
     $('#listarEmisor').change(function (){
         var nivel = $('#listarEmisor option:selected').text().trim();
         $('#contenedor_emisor_id').val(nivel);
@@ -27,10 +25,37 @@ $(document).ready(function (){
         $('#contenedor_vehiculo_id').val(nivel);
     });      
     
-    $('#calcular_precio').click(function (){
-       window.open("SERVPrecio?action=insert", "InsertarPrecio", "width=400, height=200");
-    });  
-         
+//    $('#calcular_precio').click(function (){
+//       window.open("SERVPrecio?action=insert", "InsertarPrecio", "width=400, height=200");
+//    });  
+//         
+
+    var dateToday = new Date(); 
+    $(function() {
+        $.datepicker.regional['es'] = {
+            closeText: 'Cerrar',
+            currentText: 'Hoy',
+            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+            'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+            'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié;', 'Juv', 'Vie', 'Sáb'],
+            dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+            weekHeader: 'Sm',
+            dateFormat: 'yy-mm-dd',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: ''
+            };
+        $.datepicker.setDefaults($.datepicker.regional["es"]);
+        $("#from").datepicker({ 
+            numberOfMonths: 3, 
+            showButtonPanel: true, 
+            minDate: dateToday 
+        }); 
+    }); 
     
     $('#editar').click(function (){      
           
@@ -38,7 +63,6 @@ $(document).ready(function (){
         var receptor = $('#listarReceptor').val();
         var usuario = $('#listarUsuario').val();
         var vehiculo = $('#listarVehiculo').val();
-        var precio = $('#precio_id').val();
         var descipcion = $('#des_id').val();        
           
         if ( emisor === '' ){
@@ -56,11 +80,7 @@ $(document).ready(function (){
         else if ( vehiculo === '' ){
           alert('[ERROR] Confirme el vehiculo');
           return false;
-        }     
-        else if ( precio === null || precio.length === 0 || /^\s+$/.test(descipcion)){
-          alert('[ERROR] El precio no puede quedar vacio');
-          return false;
-        }         
+        }       
         else if ( descipcion === null || descipcion.length === 0 || /^\s+$/.test(descipcion)){
           alert('[ERROR] La descripción no puede quedar vacio');
           return false;

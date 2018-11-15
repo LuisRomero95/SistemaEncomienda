@@ -29,7 +29,6 @@ public class ClienteDAO extends Conexion implements DAO{
         } catch ( SQLException e) {           
         }
         finally{
-                pst.close();
                 this.cerrar();
         }
     }

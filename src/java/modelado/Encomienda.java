@@ -10,39 +10,31 @@ public class Encomienda {
     private String vehiculo;    
     private String receptor; //Adcional
     private String descripcion; //adicional
-    private double precio;
     private Date fecha;
     private String tipo;
-    private String marca;
-    private int cantidad;
+    
     private String mes;
     private double total;
     
     public Encomienda() {
     }         
 
-//    public Encomienda(String marca, int cantidad) {
-//        this.marca = marca;
-//        this.cantidad = cantidad;
-//    }    
-    
-    public Encomienda(String mes, double total) {
-        this.mes = mes;
-        this.total = total;
-    } 
-
-    public Encomienda(int id, String emisor, String usuario, String vehiculo, String receptor, String descripcion, double precio, Date fecha, String tipo) {
+    public Encomienda(int id, String emisor, String usuario, String vehiculo, String receptor, String descripcion, Date fecha, String tipo) {
         this.id = id;
         this.emisor = emisor;
         this.usuario = usuario;
         this.vehiculo = vehiculo;
         this.receptor = receptor;
         this.descripcion = descripcion;
-        this.precio = precio;
         this.fecha = fecha;
         this.tipo = tipo;
-    } 
-    
+    }
+
+    public Encomienda(String mes, double total) {
+        this.mes = mes;
+        this.total = total;
+    }
+
     public int getId() {
         return id;
     }
@@ -91,14 +83,6 @@ public class Encomienda {
         this.descripcion = descripcion;
     }
 
-    public double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
-
     public Date getFecha() {
         return fecha;
     }
@@ -115,26 +99,22 @@ public class Encomienda {
         this.tipo = tipo;
     }
 
-    public String getMarca() {
-        return marca;
+    public String getMes() {
+        return mes;
     }
 
-    public void setMarca(String marca) {
-        this.marca = marca;
+    public void setMes(String mes) {
+        this.mes = mes;
     }
 
-    public int getCantidad() {
-        return cantidad;
+    public double getTotal() {
+        return total;
     }
 
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
+    public void setTotal(double total) {
+        this.total = total;
     }
-
-
-   
     
-  
 
-   
+  
 }
