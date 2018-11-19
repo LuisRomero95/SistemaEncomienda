@@ -20,19 +20,14 @@
         $.datepicker.setDefaults($.datepicker.regional["es"]);
         $("#from, #to").datepicker({ 
             numberOfMonths: 3, 
-            showButtonPanel: true
+            showButtonPanel: true, 
 
         }); 
     });
-    
-    
-    var reporte = $('#btnGraficoBarraGananciaEncomiendaPorMes').val();
-    
 
-    
 
 var index_ = function () {
-               
+         
     /*metodos, propiedades privadas*/
     var _private = {};
 
@@ -44,14 +39,14 @@ var index_ = function () {
             "theme": "light",
             "type": "serial",
             "titles": [{
-                    "text": "Ingresos de encomiendas según el mes",
+                    "text": "Cantidad de Uso De vehiculos por Marca",
                     "size": 16
                 }],            
             "startDuration": 2,
             "dataProvider": objeto,
             "valueAxes": [{
                     "position": "left",
-                    "title": "Ingresos en soles"
+                    "title": "Cantidad de Uso"
                 }],
             "graphs": [{
                     "balloonText": "[[category]]: <b>[[value]]</b>",
@@ -59,7 +54,7 @@ var index_ = function () {
                     "fillAlphas": 1,
                     "lineAlpha": 0.1,
                     "type": "column",
-                    "valueField": "total"
+                    "valueField": "cantidad"
                 }],
             "depth3D": 20,
             "angle": 30,
@@ -68,7 +63,7 @@ var index_ = function () {
                 "cursorAlpha": 0,
                 "zoomable": false
             },
-            "categoryField": "mes",
+            "categoryField": "marca",
             "categoryAxis": {
                 "gridPosition": "start",
                 "labelRotation": 90
@@ -88,12 +83,12 @@ var index_ = function () {
             "type": "pie",
             "theme": "light",
             "titles": [{
-                    "text": "Ingresos de encomiendas según el mes",
+                    "text": "Cantidad de Uso De vehiculos por Marca",
                     "size": 16
                 }],
             "dataProvider": objeto,
-            "valueField": "total",
-            "titleField": "mes",
+            "valueField": "cantidad",
+            "titleField": "marca",
             "startEffect": "elastic",
             "startDuration": 2,
             "labelRadius": 15,
@@ -107,14 +102,14 @@ var index_ = function () {
         });
     };
     
-    _private.setBarrasFecha = function (data) {
-        var objeto = JSON.parse(data.mensaje);  
-//        alert(objeto.length);
+    _private.setBarrasFechaV = function (data) {
+        var objeto = JSON.parse(data.mvehiculo);  
+        alert(objeto.length);
         
         var chart = AmCharts.makeChart("chartdiv2", {
         "type": "serial",
         "titles": [{
-                "text": "Ingresos de encomiendas según la fecha",
+                "text": "Uso de Vehiculos por Mes",
                 "size": 16
             }],           
         "theme": "light",
@@ -148,7 +143,7 @@ var index_ = function () {
             "lineThickness": 2,
             "title": "red line",
             "useLineColorForBulletBorder": true,
-            "valueField": "total",
+            "valueField": "cantidad",
             "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
         }],
         "chartScrollbar": {
@@ -181,7 +176,7 @@ var index_ = function () {
           "offset":50,
           "scrollbarHeight":10
         },
-        "categoryField": "mes",
+        "categoryField": "marca",
         "categoryAxis": {
             "parseDates": true,
             "dashLength": 1,
@@ -204,51 +199,50 @@ var index_ = function () {
     
     _private.setTipoBarras = function (data) {
         var objeto = JSON.parse(data.mensaje);  
-        alert(objeto.length);        
+//        alert(objeto.length);        
         var chart = AmCharts.makeChart("chartdiv3", {
-            "type": "serial",            
-            "theme": "light",          
-            "categoryField": "mes",
-            "rotate": true,
-            "startDuration": 1,
-            "categoryAxis": {
-                    "gridPosition": "start",
-                    "position": "left"
-            },
-            "trendLines": [],
-            "graphs": [
-                    {
-                        "balloonText": "sobre:[[value]]",
-                        "fillAlphas": 0.8,
-                        "id": "AmGraph-1",
-                        "lineAlpha": 0.2,
-                        "title": "Sobre",
-                        "type": "column",
-                        "valueField": "sobre"
-                    },
-                    {
-                        "balloonText": "paquete:[[value]]",
-                        "fillAlphas": 0.8,
-                        "id": "AmGraph-2",
-                        "lineAlpha": 0.2,
-                        "title": "Paquete",
-                        "type": "column",
-                        "valueField": "paquete"
-                    }
-            ],
-            "guides": [],
-            "valueAxes": [
-                    {
-                        "id": "ValueAxis-1",
-                        "position": "top",
-                        "axisAlpha": 0,
-                        "title": "Ingresos de tipos de encomienda según el mes"
-                    }
-            ],
-            "allLabels": [],
-            "balloon": {},
-            "titles": [],
-            "dataProvider": objeto,
+            "type": "serial",
+            "theme": "light",
+                "categoryField": "mes",
+                "rotate": true,
+                "startDuration": 1,
+                "categoryAxis": {
+                        "gridPosition": "start",
+                        "position": "left"
+                },
+                "trendLines": [],
+                "graphs": [
+                        {
+                            "balloonText": "sobre:[[value]]",
+                            "fillAlphas": 0.8,
+                            "id": "AmGraph-1",
+                            "lineAlpha": 0.2,
+                            "title": "Income",
+                            "type": "column",
+                            "valueField": "tipo:sobre"
+                        },
+                        {
+                            "balloonText": "paquete:[[value]]",
+                            "fillAlphas": 0.8,
+                            "id": "AmGraph-2",
+                            "lineAlpha": 0.2,
+                            "title": "Expenses",
+                            "type": "column",
+                            "valueField": "tipo:paquete"
+                        }
+                ],
+                "guides": [],
+                "valueAxes": [
+                        {
+                            "id": "ValueAxis-1",
+                            "position": "top",
+                            "axisAlpha": 0
+                        }
+                ],
+                "allLabels": [],
+                "balloon": {},
+                "titles": [],
+                "dataProvider": objeto,
             "export": {
                 "enabled": true
             }
@@ -289,14 +283,14 @@ var index_ = function () {
 
     _public.init = function () {
         
-        /*Encomienda*/
-        $('#btnGraficoBarraGananciaEncomiendaPorMes').click(function () {
+        /*Vehiculo*/
+        $('#btnGraficoBarraGananciaVehiculoPorMes').click(function () {
             index.getGraficoBarras();
         });
-        $('#btnGraficoPastelGananciaEncomiendaPorMes').click(function () {
+        $('#btnGraficoPastelGananciaVehiculoPorMes').click(function () {
             index.getGraficoPie();
         });
-        $('#btnGraficoPastelGananciaEncomiendaPorFecha').click(function () {
+        $('#btnGraficoPastelGananciaVehiculoPorFecha').click(function () {
             
             var from = $('#from').val();
             var to = $('#to').val();
@@ -309,19 +303,19 @@ var index_ = function () {
               alert('[ERROR] Ingrese fecha final');
               return false;              
             }
-            index.getGraficoBarrasFecha();
+            index.getGraficoBarrasFechaV();
         });
         
-        /*Tipo de Encomienda*/
-        $('#btnGraficoBarraGananciaTipoEncomiendaPorMes').click(function () {
-            index.getGraficoTipoBarras();
-        });
-        $('#btnGraficoPastelGananciaTipoEncomiendaPorMes').click(function () {
-            index.getGraficoTipoPie();
-        });
-        $('#btnGraficoPastelGananciaTipoEncomiendaPorIntervalo').click(function () {
-            index.getGraficoTipoBarrasIntervalo();
-        });        
+        /*Tipo de Vehiculo*/
+//        $('#btnGraficoBarraGananciaVehiculoPorMes').click(function () {
+//            index.getGraficoTipoBarras();
+//        });
+//        $('#btnGraficoPastelGananciaVehiculoPorFecha').click(function () {
+//            index.getGraficoTipoPie();
+//        });
+//        $('#btnGraficoPastelGananciaVehiculoPorMes').click(function () {
+//            index.getGraficoTipoBarrasIntervalo();
+//        });        
         
     };
     
@@ -332,7 +326,7 @@ console.log(myObj);
         $.ajax({
             type: "POST",            
             url: 'SERVReporte',
-            data: "&action=listarEncomiendaPorMes",
+            data: "&action=listarVehiculoPorMes",
             dataType: 'json',
             success: function (data) {
                 console.log(data.mensaje);
@@ -344,7 +338,7 @@ console.log(myObj);
         $.ajax({
             type: "POST",           
             url: 'SERVReporte',
-            data: "&action=listarEncomiendaPorMes",
+            data: "&action=listarVehiculoPorMes",
             dataType: 'json',
             success: function (data) {
                  console.log(data.mensaje);
@@ -353,61 +347,62 @@ console.log(myObj);
         });
     };
     
-    _public.getGraficoBarrasFecha = function () {
+    _public.getGraficoBarrasFechaV = function () {
         var fecha_inicio = $("#from").val();
         var fecha_final = $("#to").val();
         $.ajax({
             type: "POST",           
             url: 'SERVReporte',
-            data: "&action=listarEncomiendaPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
+            data: "&action=listarVehiculoPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
             dataType: 'json',
             success: function (data) {
-                 console.log(data.mensaje);
-                _private.setBarrasFecha(data);
+                 console.log(data.mvehiculo);
+                _private.setBarrasFechaV(data);
             }
         });        
         
     };    
     
-    _public.getGraficoTipoBarras = function () {
-        $.ajax({
-            type: "POST",           
-            url: 'SERVReporte',
-            data: "&action=listarTipoEncomiendaMes",
-            dataType: 'json',
-            success: function (data) {
-                 console.log(data.mensaje);
-                _private.setTipoBarras(data);
-            }
-        });
-
-    };
-    _public.getGraficoTipoPie = function () {
-        $.ajax({
-            type: "POST",           
-            url: 'SERVReporte',
-            data: "&action=listarTipoEncomienda",
-            dataType: 'json',
-            success: function (data) {
-                 console.log(data.mensaje);
-                _private.setTipoPie(data);
-            }
-        });
-    };
+//    _public.getGraficoTipoBarras = function () {
+//        $.ajax({
+//            type: "POST",           
+//            url: 'SERVReporte',
+//            data: "&action=listarTipoEncomienda",
+//            dataType: 'json',
+//            success: function (data) {
+//                 console.log(data.mensaje);
+//                _private.setTipoBarras(data);
+//            }
+//        });
+//
+//    };
+//    
+//    _public.getGraficoTipoPie = function () {
+//        $.ajax({
+//            type: "POST",           
+//            url: 'SERVReporte',
+//            data: "&action=listarTipoEncomienda",
+//            dataType: 'json',
+//            success: function (data) {
+//                 console.log(data.mensaje);
+//                _private.setTipoPie(data);
+//            }
+//        });
+//    };
     
-    _public.getGraficoTipoBarrasIntervalo = function () {
-        $.ajax({
-            type: "POST",           
-            url: 'SERVReporte',
-            data: "&action=listarEncomiendaPorFecha",
-            dataType: 'json',
-            success: function (data) {
-                 console.log(data.mensaje);
-                _private.setTipoBarrasIntervalo(data);
-            }
-        });        
-        
-    };      
+//    _public.getGraficoTipoBarrasIntervalo = function () {
+//        $.ajax({
+//            type: "POST",           
+//            url: 'SERVReporte',
+//            data: "&action=listarEncomiendaPorFecha",
+//            dataType: 'json',
+//            success: function (data) {
+//                 console.log(data.mensaje);
+//                _private.setTipoBarrasIntervalo(data);
+//            }
+//        });        
+//        
+//    };      
 
     return _public;          
 

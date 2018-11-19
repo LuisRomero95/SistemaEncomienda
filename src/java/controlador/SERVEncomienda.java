@@ -8,7 +8,6 @@ import dao.TipoEncomiendaDAO;
 import dao.UsuarioDAO;
 import dao.VehiculoDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
@@ -136,13 +135,11 @@ public class SERVEncomienda extends HttpServlet {
             encomienda.setTipo(tipo);
             
                 if (id == null || id.isEmpty()) {
-
-                         try {
-                             encomiendadao.insertar(encomienda);
-                         } catch (Exception ex) {
-                             Logger.getLogger(SERVConductor.class.getName()).log(Level.SEVERE, null, ex);
-                         }
-
+                    try {
+                        encomiendadao.insertar(encomienda);
+                    } catch (Exception ex) {
+                        Logger.getLogger(SERVConductor.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } else {                    
                     try {
                         encomienda.setId(Integer.parseInt(id));

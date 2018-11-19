@@ -28,7 +28,8 @@ HttpSession sesion = request.getSession();
                 <table class="table table-bordered" id="tableUser" class="display">
                     <thead>
                         <tr>
-                            <th class="text-center">ID</th>                
+                            <th class="text-center">ID</th> 
+                            <th class="text-center">ENCOMIENDA</th>
                             <th class="text-center">TIPO</th>
                             <th class="text-center">CANTIDAD</th>
                             <th class="text-center">PESO</th>
@@ -41,7 +42,10 @@ HttpSession sesion = request.getSession();
                             <tr>
                                 <td>
                                     <c:out value="${precio.id}"/>
-                                </td>                     
+                                </td>  
+                                <td>
+                                    <c:out value="${precio.encomienda}"/>
+                                </td>                                   
                                 <td>
                                     <c:out value="${precio.tipo}"/>
                                 </td>                                     

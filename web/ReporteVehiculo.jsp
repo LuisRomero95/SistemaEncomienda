@@ -32,20 +32,23 @@ HttpSession sesion = request.getSession();
         <!--DATAPICKER -->
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>        
+   
+        <script src="js/validarReporteVehiculo.js" type="text/javascript"></script>
         
-        <script src="js/validarReporteEncomienda.js" type="text/javascript"></script>
-        
+
         <title>Reporte</title>
     </head>
     <body>
         <div class="container">
             <form>
-                <h3>Ingresos de Encomiendas del 2018</h3>
-                <input type="button" id="btnGraficoBarraGananciaEncomiendaPorMes" class="btn btn-primary" value="Por Mes">            
-                <input type="button" id="btnGraficoPastelGananciaEncomiendaPorFecha" class="btn btn-success" value="Por Fecha" >
-                <input type="button" id="btnGraficoPastelGananciaEncomiendaPorMes" class="btn btn-primary" value="Por Mes (%)">
-                <a class="btn btn-warning" href="SERVEncomienda?action=refresh"> Salir</a>
+                <h3>Cantidad de Vehículos Usados del 2018</h3>
+                <input type="button" id="btnGraficoBarraGananciaVehiculoPorMes" class="btn btn-primary" value="Por Mes">            
+                <input type="button" id="btnGraficoPastelGananciaVehiculoPorFecha" class="btn btn-success" value="Por Fecha" >
+                <input type="button" id="btnGraficoPastelGananciaVehiculoPorMes" class="btn btn-primary" value="Por Mes (%)">
+                <a class="btn btn-warning" href="SERVVehiculo?action=refresh"> Salir</a>
+                <br><br>
+                <div id="chartdiv" style="width: 800px;height: 400px"></div>
                 <br>
                     <div class="form-group">
                         <label for="from" class="control-label">FECHA DE ENVIO</label>
@@ -55,13 +58,11 @@ HttpSession sesion = request.getSession();
                         <label for="to" class="control-label">FECHA DE FINAL</label>
                         <input type="text" class="form-control" id="to" name="txtFechaFinal">                                           
                     </div> 
-                <br><br>
-                <div id="chartdiv" style="width: 800px;height: 400px"></div>                
                 <div id="chartdiv2" style="width: 900px;height: 400px"></div>     
             </form>
-
+            <!--
             <form>
-                <h3>Ingresos  de Tipo de Encomiendas</h3>
+                <h3>Ingresos  de Encomiendas Según el Tipo en el 2018</h3>
                 <input type="button" id="btnGraficoBarraGananciaTipoEncomiendaPorMes" class="btn btn-primary" value="Por Mes">            
                 <input type="button" id="btnGraficoPastelGananciaTipoEncomiendaPorIntervalo" class="btn btn-success" value="Por Fecha" >
                 <input type="button" id="btnGraficoPastelGananciaTipoEncomiendaPorMes" class="btn btn-primary" value="Por Mes (%)">
@@ -69,7 +70,7 @@ HttpSession sesion = request.getSession();
                 <div id="chartdiv3" style="width: 800px;height: 400px"></div>
                 <div id="chartdiv4" style="width: 800px;height: 400px"></div>                  
             </form>
-
+            -->
         </div>
        
     </body>

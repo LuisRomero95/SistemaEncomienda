@@ -3,8 +3,10 @@ package controlador;
 
 import com.google.gson.Gson;
 import dao.EncomiendaDAO;
+import dao.VehiculoDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,11 +22,13 @@ import org.json.JSONObject;
 public class SERVReporte extends HttpServlet {
 
     private EncomiendaDAO encomiendadao;
+    private VehiculoDAO vehiculodao;
     Encomienda enco = new Encomienda();
 
             
      public SERVReporte() {
     	encomiendadao = new EncomiendaDAO(){};
+        vehiculodao = new VehiculoDAO(){};
     }         
      
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -48,6 +52,7 @@ public class SERVReporte extends HttpServlet {
         PrintWriter out = response.getWriter();
         String action = request.getParameter("action");                   
         String mensaje = "";
+        String mvehiculo = "";
 
         try {
 
@@ -55,14 +60,44 @@ public class SERVReporte extends HttpServlet {
                 List encomienda = encomiendadao.consultarEncomiendaPorMes();
                 mensaje = new Gson().toJson(encomienda); 
             }
-            else if (action.equalsIgnoreCase("listarEncomiendaPorFecha")) {                  
-                List encomienda = encomiendadao.consultarEncomiendaPorFecha();
+            else if (action.equalsIgnoreCase("listarEncomiendaPorFecha")) {
+                String fech_ini = request.getParameter("fechaI");
+                String fech_fin = request.getParameter("fechaF");
+                
+                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                java.util.Date inicio = sdf1.parse(fech_ini);
+                java.util.Date fin = sdf1.parse(fech_fin);
+                java.sql.Date sqlStartDateInicio = new java.sql.Date(inicio.getTime()); 
+                java.sql.Date sqlStartDateFinal = new java.sql.Date(fin.getTime()); 
+            
+                List encomienda = encomiendadao.consultarEncomiendaPorFecha(sqlStartDateInicio, sqlStartDateFinal);
                 mensaje = new Gson().toJson(encomienda); 
             }
             else if (action.equalsIgnoreCase("listarTipoEncomienda")) {                  
                 List encomienda = encomiendadao.consultarTipoEncomienda();
                 mensaje = new Gson().toJson(encomienda); 
             }
+            else if (action.equalsIgnoreCase("listarTipoEncomiendaMes")) {                  
+                List encomienda = encomiendadao.consultarTipoEncomiendaPorMes();
+                mensaje = new Gson().toJson(encomienda); 
+            }            
+            else if (action.equalsIgnoreCase("listarVehiculoPorMes")) {                  
+                List vehiculos = vehiculodao.consultarVehiculoPorMes();
+                mensaje = new Gson().toJson(vehiculos); 
+            }    
+            else if (action.equalsIgnoreCase("listarVehiculoPorFecha")) {
+                String fech_ini = request.getParameter("fechaI");
+                String fech_fin = request.getParameter("fechaF");
+                
+                SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+                java.util.Date inicio = sdf2.parse(fech_ini);
+                java.util.Date fin = sdf2.parse(fech_fin);
+                java.sql.Date sqlStartDateInicio = new java.sql.Date(inicio.getTime()); 
+                java.sql.Date sqlStartDateFinal = new java.sql.Date(fin.getTime()); 
+            
+                List vehiculo = vehiculodao.consultarVehiculoPorFecha(sqlStartDateInicio, sqlStartDateFinal);
+                mvehiculo = new Gson().toJson(vehiculo); 
+            }            
             
         } catch (Exception ex) {
             Logger.getLogger(SERVUbicacion.class.getName()).log(Level.SEVERE, null, ex);
@@ -71,6 +106,7 @@ public class SERVReporte extends HttpServlet {
             try {
                 JSONObject jsonObject=new  JSONObject();               
                 jsonObject.put("mensaje", mensaje);
+                jsonObject.put("mvehiculo", mvehiculo);
                 response.setCharacterEncoding("utf8");
                 response.setContentType("application/json");
                 out.print(jsonObject);

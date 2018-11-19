@@ -23,7 +23,6 @@ HttpSession sesion = request.getSession();
                 <a class="btn btn-success btn-lg" href="SERVEncomienda?action=insert">Nuevo Registro</a>
                     <a class="btn btn-success btn-lg" href="SERVEncomienda?action=insert">Nuevo Registro</a>
                     <a class="btn btn-info btn-lg" href="SERVEncomienda?action=refresh">Actualizar Lista</a>                    
-                    <a class="btn btn-primary btn-lg" href="ListarReportesEncomiendas.jsp">Reportes</a>
                 <br>
                 <br>                
             <form method="POST">

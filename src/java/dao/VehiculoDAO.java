@@ -1,6 +1,7 @@
 
 package dao;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -162,5 +163,66 @@ public class VehiculoDAO extends Conexion implements DAO{
         }
          return res.next();       
     }
+    
+    public List<Vehiculo> consultarVehiculoPorMes() throws Exception  {
+        List<Vehiculo> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "select v.marca as marca, COUNT(v.marca) as total from vehiculos v, encomiendas e WHERE v.id = e.id_veh AND e.estado =1 AND e.id_tipo='2' GROUP BY marca ORDER BY e.fech_env";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();  
+            rs = pst.executeQuery();       
+            while(rs.next()){
+                datos.add(new Vehiculo(
+                        rs.getString("marca"),
+                        rs.getInt("total")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }
+
+    public List<Vehiculo> consultarVehiculoPorFecha(Date inicio, Date fin) throws Exception  {
+        List<Vehiculo> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT monthname(e.fech_env) as mes, COUNT(v.marca) as total from vehiculos v, encomiendas e WHERE e.id_veh = v.id AND e.estado =1 AND e.id_tipo='2' AND e.fech_env BETWEEN '"+inicio+"' AND '"+fin+"' GROUP BY mes";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();      
+            while(rs.next()){
+                datos.add(new Vehiculo(
+                        rs.getString("mes"),
+                        rs.getInt("total")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }       
+            
     
 }

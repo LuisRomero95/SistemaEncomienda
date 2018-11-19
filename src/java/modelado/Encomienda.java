@@ -15,6 +15,8 @@ public class Encomienda {
     
     private String mes;
     private double total;
+    private double sobre;
+    private double paquete;
     
     public Encomienda() {
     }         
@@ -35,6 +37,12 @@ public class Encomienda {
         this.total = total;
     }
 
+    public Encomienda(String mes, double sobre, double paquete) {
+        this.mes = mes;
+        this.sobre = sobre;
+        this.paquete = paquete;
+    }
+      
     public int getId() {
         return id;
     }

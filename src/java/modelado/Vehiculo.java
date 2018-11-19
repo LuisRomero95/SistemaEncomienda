@@ -13,6 +13,8 @@ public class Vehiculo {
     private String serie;    
     private int capmax;
     private int pasmax;
+    
+    private int cantidad;
 
     public Vehiculo() {
     }
@@ -29,6 +31,14 @@ public class Vehiculo {
         this.capmax = capmax;
         this.pasmax = pasmax;
     }
+
+    public Vehiculo(String marca, int cantidad) {
+        this.marca = marca;
+        this.cantidad = cantidad;
+    }
+    
+    
+    
 
     public int getId() {
         return id;
