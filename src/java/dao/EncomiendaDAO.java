@@ -85,7 +85,7 @@ public class EncomiendaDAO extends Conexion implements DAO{
         List<Encomienda> datos = new ArrayList<>();
         PreparedStatement pst;
         ResultSet rs;
-        String sql = "SELECT e.id, c.nom, u.nom, v.placa, e.receptor, e.descrip, e.fech_env, te.nom FROM clientes c, usuarios u, vehiculos v, encomiendas e, tiposencomiendas te WHERE e.id_cli = c.id AND e.id_usu = u.id AND e.id_veh = v.id AND e.id_tipo = te.id AND e.estado = 1 ORDER BY e.id";
+        String sql = "SELECT e.id, c.nom, u.nom, v.placa, e.receptor, e.descrip, e.fech_env , te.nom FROM clientes c, usuarios u, vehiculos v, encomiendas e, tiposencomiendas te WHERE e.id_cli = c.id AND e.id_usu = u.id AND e.id_veh = v.id AND e.id_tipo = te.id AND e.estado = 1 ORDER BY e.id";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -146,14 +146,44 @@ public class EncomiendaDAO extends Conexion implements DAO{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public List<Encomienda> consultarEncomiendaPorMes() throws Exception  {
+    public List<Encomienda> consultarEncomiendaPorAño() throws Exception  {
         List<Encomienda> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
         ResultSet rs1;
         String sqlTrac = "SET lc_time_names = 'es_ES' ";
-        String sql = "SELECT MONTHNAME(e.fech_env) AS mes, SUM(p.result) AS total FROM encomiendas e, precios p WHERE e.id = p.id_enc AND YEAR(e.fech_env)='2018' and e.id_tipo='2' GROUP BY mes ORDER BY e.fech_env";
+        String sql = "SELECT year(e.fech_env) AS mes, SUM(p.result) AS total FROM encomiendas e, precios p WHERE e.id = p.id_enc AND e.id_tipo='2' GROUP BY mes ORDER BY e.fech_env";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();         
+            while(rs.next()){
+                datos.add(new Encomienda(
+                        rs.getString("mes"),
+                        rs.getDouble("total")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }     
+    
+    public List<Encomienda> consultarEncomiendaPorMes(String año) throws Exception  {
+        List<Encomienda> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT monthname(e.fech_env) AS mes, SUM(p.result) AS total FROM encomiendas e, precios p WHERE e.id = p.id_enc AND year(e.fech_env)='"+año+"' AND e.id_tipo='2' GROUP BY mes ORDER BY e.fech_env";
         try {
             this.conectar();
             pst1 = conexion.prepareStatement(sqlTrac);
@@ -206,14 +236,14 @@ public class EncomiendaDAO extends Conexion implements DAO{
         return datos;
     }       
     
-    public List<Encomienda> consultarTipoEncomienda() throws Exception  {
+    public List<Encomienda> consultarTipoEncomiendaPorAño() throws Exception  {
         List<Encomienda> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
         ResultSet rs1;
         String sqlTrac = "SET lc_time_names = 'es_ES' ";
-        String sql = "SELECT monthname(e.fech_env) AS mes, SUM(CASE WHEN p.tipo = 'sobre' THEN p.result ELSE 0 END) AS sobre, SUM(CASE WHEN p.tipo = 'paquete' THEN p.result ELSE 0 END) AS paquete FROM encomiendas e INNER JOIN precios p ON e.id = p.id_enc Group by mes";
+        String sql = "SELECT year(e.fech_env) AS mes, SUM(CASE WHEN p.tipo = 'sobre' THEN p.result ELSE 0 END) AS sobre, SUM(CASE WHEN p.tipo = 'paquete' THEN p.result ELSE 0 END) AS paquete FROM encomiendas e INNER JOIN precios p ON e.id = p.id_enc WHERE e.id_tipo='2' GROUP BY mes ORDER BY e.fech_env";
         try {
             this.conectar();
             pst1 = conexion.prepareStatement(sqlTrac);
@@ -237,14 +267,44 @@ public class EncomiendaDAO extends Conexion implements DAO{
         return datos;
     }
     
-    public List<Encomienda> consultarTipoEncomiendaPorMes() throws Exception  {
+    public List<Encomienda> consultarTipoEncomiendaPorAño(String tipo) throws Exception  {
         List<Encomienda> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
         ResultSet rs1;
         String sqlTrac = "SET lc_time_names = 'es_ES' ";
-        String sql = "SELECT monthname(e.fech_env) AS mes, SUM(CASE WHEN p.tipo = 'sobre' THEN p.result ELSE 0 END) AS sobre, SUM(CASE WHEN p.tipo = 'paquete' THEN p.result ELSE 0 END) AS paquete FROM encomiendas e INNER JOIN precios p ON e.id = p.id_enc GROUP BY mes ORDER BY e.fech_env";
+        String sql = "SELECT year(e.fech_env) AS mes, SUM(p.result) AS tipo FROM encomiendas e, precios p WHERE e.id = p.id_enc AND e.id_tipo='2' AND p.tipo='"+tipo+"' GROUP BY mes ORDER BY e.fech_env";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();      
+            while(rs.next()){
+                datos.add(new Encomienda(
+                        rs.getString("mes"),
+                        rs.getDouble("tipo")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }    
+    
+    public List<Encomienda> consultarTipoEncomiendaPorMes(String año) throws Exception  {
+        List<Encomienda> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT monthname(e.fech_env) AS mes, SUM(CASE WHEN p.tipo = 'sobre' THEN p.result ELSE 0 END) AS sobre, SUM(CASE WHEN p.tipo = 'paquete' THEN p.result ELSE 0 END) AS paquete FROM encomiendas e INNER JOIN precios p ON e.id = p.id_enc WHERE year(e.fech_env) ='"+año+"' GROUP BY mes  ORDER BY e.fech_env";
         try {
             this.conectar();
             pst1 = conexion.prepareStatement(sqlTrac);
@@ -268,4 +328,34 @@ public class EncomiendaDAO extends Conexion implements DAO{
         return datos;
     }  
         
+    public List<Encomienda> consultarTipoEncomiendaPorFecha(Date inicio, Date fin) throws Exception  {
+        List<Encomienda> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT monthname(e.fech_env) AS mes, SUM(CASE WHEN p.tipo = 'sobre' THEN p.result ELSE 0 END) AS sobre, SUM(CASE WHEN p.tipo = 'paquete' THEN p.result ELSE 0 END) AS paquete FROM encomiendas e INNER JOIN precios p ON e.id = p.id_enc WHERE e.fech_env BETWEEN '"+inicio+"' AND '"+fin+"' GROUP BY mes ORDER BY e.fech_env";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();       
+            while(rs.next()){
+                datos.add(new Encomienda(
+                        rs.getString("mes"),
+                        rs.getDouble("sobre"),
+                        rs.getDouble("paquete")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }    
 }

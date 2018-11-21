@@ -39,16 +39,24 @@ HttpSession sesion = request.getSession();
         <title>Reporte</title>
     </head>
     <body>
-        <div class="container">
-            <form>
-                <h3>Ingresos de Encomiendas</h3>                
+        <div class="container">            
+            <form>                
+                <h3>Ingresos de Tipos de Encomiendas</h3>                
                 <br>
-                <input type="button" id="btnGraficoBarraGananciaEncomiendaPorAño" class="btn btn-primary" value="Ver Según el Año">
-                <input type="button" id="btnGraficoPastelGananciaEncomiendaPorAño" class="btn btn-primary" value="Ver Según el Año (%)">
-                <a class="btn btn-info" href="ReporteTipoEncomienda.jsp"> Ver Tipos de Encomienda</a>
+                <input type="button" id="btnGraficoBarraGananciaTipoEncomiendaPorAño" class="btn btn-primary" value="Ver Según el Año">
+                <a class="btn btn-info" href="ReporteEncomienda.jsp"> Regresar </a>
                 <a class="btn btn-warning" href="SERVEncomienda?action=refresh"> Salir</a>
+                <br>
+                <div class="form-group">
+                    <label for="listarTipo" class="control-label">TIPO</label>
+                    <select name="txtTipo" id="listarTipo" class="form-control"> 
+                        <option value="sobre">sobre</option>
+                        <option value="paquete">paquete</option>
+                    </select>                                            
+                </div>                   
+                <input type="button" id="btnGraficoPastelGananciaTipoEncomiendaPorAño" class="btn btn-primary" value="Ver Por Año (%)">            
                 
-                <div id="chartdiv1" style="width: 900px;height: 400px"></div> 
+                <div id="chartdiv3" style="width: 900px;height: 400px"></div> 
                 <br>                
                 <div class="form-group">
                     <label for="listarAño" class="control-label">AÑO</label>
@@ -56,10 +64,10 @@ HttpSession sesion = request.getSession();
                         <option value="2017">2017</option>
                         <option value="2018">2018</option>
                     </select>                                            
-                </div>                        
-                <input type="button" id="btnGraficoBarraGananciaEncomiendaPorMes" class="btn btn-primary" value="Ver Por Mes">            
-                <input type="button" id="btnGraficoPastelGananciaEncomiendaPorMes" class="btn btn-primary" value="Ver Por Mes (%)">
-                <input type="button" id="btnGraficoPastelGananciaEncomiendaPorFecha" class="btn btn-success" value="Ver Por Fecha" >                                
+                </div>       
+                
+                <input type="button" id="btnGraficoBarraGananciaTipoEncomiendaPorMes" class="btn btn-primary" value="Ver Por Mes">            
+                <input type="button" id="btnGraficoPastelGananciaTipoEncomiendaPorIntervalo" class="btn btn-success" value="Ver Por Fecha" >                
                 <br>
                     <div class="form-group">
                         <label for="from" class="control-label">FECHA DE ENVIO</label>
@@ -68,11 +76,13 @@ HttpSession sesion = request.getSession();
                     <div class="form-group">
                         <label for="to" class="control-label">FECHA DE FINAL</label>
                         <input type="text" class="form-control" id="to" name="txtFechaFinal">                                           
-                    </div> 
-                <br>                
-                <div id="chartdiv2" style="width: 900px;height: 400px"></div>                          
-                
+                    </div>                
+                <br>
+                <div id="chartdiv4" style="width: 800px;height: 400px"></div>               
             </form>
+
+        </div>
+       
     </body>
     
     <script>

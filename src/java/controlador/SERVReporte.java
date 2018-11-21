@@ -55,9 +55,14 @@ public class SERVReporte extends HttpServlet {
         String mvehiculo = "";
 
         try {
-
-            if (action.equalsIgnoreCase("listarEncomiendaPorMes")) {                  
-                List encomienda = encomiendadao.consultarEncomiendaPorMes();
+            
+            if (action.equalsIgnoreCase("listarEncomiendaPorAño")) {                  
+                List encomienda = encomiendadao.consultarEncomiendaPorAño();
+                mensaje = new Gson().toJson(encomienda); 
+            }                        
+            else if (action.equalsIgnoreCase("listarEncomiendaPorMes")) {
+                String año = request.getParameter("año");
+                List encomienda = encomiendadao.consultarEncomiendaPorMes(año);
                 mensaje = new Gson().toJson(encomienda); 
             }
             else if (action.equalsIgnoreCase("listarEncomiendaPorFecha")) {
@@ -73,12 +78,36 @@ public class SERVReporte extends HttpServlet {
                 List encomienda = encomiendadao.consultarEncomiendaPorFecha(sqlStartDateInicio, sqlStartDateFinal);
                 mensaje = new Gson().toJson(encomienda); 
             }
-            else if (action.equalsIgnoreCase("listarTipoEncomienda")) {                  
-                List encomienda = encomiendadao.consultarTipoEncomienda();
+            else if (action.equalsIgnoreCase("listarTipoEncomiendaPorAño")) {   
+                
+                List encomienda;
+                 
+                if(request.getParameter("tipo") != null){
+                    String tipo = request.getParameter("tipo");
+                     encomienda = encomiendadao.consultarTipoEncomiendaPorAño(tipo);
+                }
+                else{
+                     encomienda = encomiendadao.consultarTipoEncomiendaPorAño();
+                }
+                
                 mensaje = new Gson().toJson(encomienda); 
             }
-            else if (action.equalsIgnoreCase("listarTipoEncomiendaMes")) {                  
-                List encomienda = encomiendadao.consultarTipoEncomiendaPorMes();
+            else if (action.equalsIgnoreCase("listarTipoEncomiendaMes")) {  
+                String año = request.getParameter("año");                
+                List encomienda = encomiendadao.consultarTipoEncomiendaPorMes(año);
+                mensaje = new Gson().toJson(encomienda); 
+            }            
+            else if (action.equalsIgnoreCase("listarTipoEncomiendaPorFecha")) {
+                String fech_ini = request.getParameter("fechaI");
+                String fech_fin = request.getParameter("fechaF");
+                
+                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                java.util.Date inicio = sdf1.parse(fech_ini);
+                java.util.Date fin = sdf1.parse(fech_fin);
+                java.sql.Date sqlStartDateInicio = new java.sql.Date(inicio.getTime()); 
+                java.sql.Date sqlStartDateFinal = new java.sql.Date(fin.getTime()); 
+            
+                List encomienda = encomiendadao.consultarTipoEncomiendaPorFecha(sqlStartDateInicio, sqlStartDateFinal);
                 mensaje = new Gson().toJson(encomienda); 
             }            
             else if (action.equalsIgnoreCase("listarVehiculoPorMes")) {                  
