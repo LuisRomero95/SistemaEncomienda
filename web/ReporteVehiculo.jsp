@@ -32,51 +32,92 @@ HttpSession sesion = request.getSession();
         <!--DATAPICKER -->
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>        
-   
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
+        
         <script src="js/validarReporteVehiculo.js" type="text/javascript"></script>
         
-
         <title>Reporte</title>
     </head>
     <body>
         <div class="container">
             <form>
-                <h3>Cantidad de Vehículos Usados del 2018</h3>
-                <input type="button" id="btnGraficoBarraGananciaVehiculoPorMes" class="btn btn-primary" value="Por Mes">            
-                <input type="button" id="btnGraficoPastelGananciaVehiculoPorFecha" class="btn btn-success" value="Por Fecha" >
-                <input type="button" id="btnGraficoPastelGananciaVehiculoPorMes" class="btn btn-primary" value="Por Mes (%)">
-                <a class="btn btn-warning" href="SERVVehiculo?action=refresh"> Salir</a>
-                <br><br>
-                <div id="chartdiv" style="width: 800px;height: 400px"></div>
+                <h3>Uso de Vehiculos</h3>                
                 <br>
-                    <div class="form-group">
-                        <label for="from" class="control-label">FECHA DE ENVIO</label>
-                        <input type="text" class="form-control" id="from" name="txtFechaEnvio" >                                           
-                    </div> 
-                    <div class="form-group">
-                        <label for="to" class="control-label">FECHA DE FINAL</label>
-                        <input type="text" class="form-control" id="to" name="txtFechaFinal">                                           
-                    </div> 
-                <div id="chartdiv2" style="width: 900px;height: 400px"></div>     
+                
+            <div class="row">
+                 <div class="col-md-12">
+                     <div class="row" style=" padding: 5px 5px 5px; background-color: #E5E7E9">
+                         <div class="col-md-2">
+                             <input type="button" id="btnGraficoBarraGananciaVehiculoPorAño" class="btn btn-primary" value="Ver Según el Año">
+                         </div>
+                         <div class="col-md-2">
+                             <input type="button" id="btnGraficoPastelGananciaVehiculoPorAño" class="btn btn-primary" value="Ver Según el Año (%)">
+                         </div>
+                         <div class="col-md-2">
+                             <a class="btn btn-info" href="ReporteTipoEncomienda.jsp"> Ver Tipos de Encomienda</a>
+                         </div>
+                         <div class="col-md-2">
+                             <a class="btn btn-warning" href="SERVEncomienda?action=refresh"> Salir</a> 
+                         </div>
+                     </div>
+                 </div>
+             </div>            
+                
+                <div id="chartdiv1" style="width: 900px;height: 400px"  ></div> 
+                
+    <div class="row">
+	<div class="col-md-12">
+            <div class="row" style=" padding: 5px 5px 5px; background-color: #E5E7E9">
+                <div class="col-md-1">
+                    <label class="control-label" for="listarAño">Año</label>
+                </div>
+                <div class="col-md-2">
+                        <select name="txtAño" id="listarAño" class="form-control"> 
+                            <option value="2017">2017</option>
+                            <option value="2018">2018</option>
+                        </select>     
+                </div>
+                <div class="col-md-2">
+                    <input type="button" id="btnGraficoBarraGananciaVehiculoPorMes" class="btn btn-primary" value="Ver Por Mes">            
+                </div>
+                <div class="col-md-2">
+                    <input type="button" id="btnGraficoPastelGananciaVehiculoPorMes" class="btn btn-primary" value="Ver Por Mes (%)">                        
+                </div>
+            </div>
+	</div>
+    </div>
+                <br>
+                
+    <div class="row">
+	<div class="col-md-12">
+            <div class="row" style=" padding: 5px 5px 5px; background-color: #E5E7E9">
+                <div class="col-md-1">
+                    <label class="control-label" for="from">Desde</label>
+                </div>
+                <div class="col-md-2">
+                    <input type="text" id="from" name="txtFechaEnvio" class="form-control mask_date" placeholder="dd/MM/yyyy" autocomplete="off" maxlength="10" />
+                </div>
+                <div class="col-md-1">
+                    <label class="control-label" for="to">Hasta</label>
+                </div>
+                <div class="col-md-2">
+                    <input type="text" id="to" name="txtFechaFinal" class="form-control mask_date" placeholder="dd/MM/yyyy" autocomplete="off" maxlength="10" />
+                </div>
+                <div class="col-md-1">
+                    <input type="button" id="btnGraficoPastelGananciaVehiculoPorFecha" class="btn btn-primary "  value="Ver Por Fecha">
+                </div>
+            </div>
+	</div>
+    </div>                               
+                <br>                
+                <div id="chartdiv2" style="width: 900px;height: 400px"></div>                          
+                
             </form>
-            <!--
-            <form>
-                <h3>Ingresos  de Encomiendas Según el Tipo en el 2018</h3>
-                <input type="button" id="btnGraficoBarraGananciaTipoEncomiendaPorMes" class="btn btn-primary" value="Por Mes">            
-                <input type="button" id="btnGraficoPastelGananciaTipoEncomiendaPorIntervalo" class="btn btn-success" value="Por Fecha" >
-                <input type="button" id="btnGraficoPastelGananciaTipoEncomiendaPorMes" class="btn btn-primary" value="Por Mes (%)">
-                <br><br>
-                <div id="chartdiv3" style="width: 800px;height: 400px"></div>
-                <div id="chartdiv4" style="width: 800px;height: 400px"></div>                  
-            </form>
-            -->
         </div>
-       
     </body>
     
     <script>
-        index.init();
+        index2.init();
     </script>
     
 </html>

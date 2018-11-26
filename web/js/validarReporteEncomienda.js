@@ -1,4 +1,7 @@
+    
+    var chart1, chart2;
     var dateToday = new Date(); 
+    
     $(function() {
         $.datepicker.regional['es'] = {
             closeText: 'Cerrar',
@@ -24,7 +27,25 @@
 
         }); 
     });      
-
+    
+    $(document).ready(function(){
+        
+         $('#btnGraficoBarraPastelGananciaEncomiendaPorAño').click(function () {
+            
+            index1.getGraficoBarras1();
+            index1.getGraficoPie1();
+        });                
+        $('#btnGraficoBarraPastelGananciaEncomiendaPorMes').click(function () {
+            
+            index1.getGraficoBarras2();
+            index1.getGraficoPie2();
+        });
+        
+        $('#btnExportChartsPDF').click(function (){                                     
+            fc_export_pdf(); 
+        });
+    });    
+      
 var index_ = function () {
     
     /*metodos, propiedades privadas*/
@@ -38,7 +59,7 @@ var index_ = function () {
             "theme": "light",
             "type": "serial",
             "titles": [{
-                    "text": "Ingresos de encomiendas según el año",
+                    "text": "Reporte de ingresos de encomiendas según el año",
                     "size": 16
                 }],            
             "startDuration": 2,
@@ -68,7 +89,8 @@ var index_ = function () {
                 "labelRotation": 90
             },
             "export": {
-                "enabled": true
+                "enabled": true,
+                "menu": []                
             }
 
         });
@@ -79,11 +101,11 @@ var index_ = function () {
 //        alert(objeto.length);
         var año = $("#listarAño").val();
         
-        var chart = AmCharts.makeChart("chartdiv2", {
+        var chart = AmCharts.makeChart("chartdiv1", {
             "theme": "light",
             "type": "serial",
             "titles": [{
-                    "text": "Ingresos de encomiendas del "+año +" según el mes",
+                    "text": "Reporte de ingresos de encomiendas del "+año +" según el mes",
                     "size": 16
                 }],            
             "startDuration": 2,
@@ -113,13 +135,13 @@ var index_ = function () {
                 "labelRotation": 90
             },
             "export": {
-                "enabled": true
+                "enabled": true,
+                "menu": []
             }
 
         });
     };
-    
-    
+        
     _private.setBarras3 = function (data) {
         var objeto = JSON.parse(data.mensaje);  
 //        alert(objeto.length);        
@@ -160,7 +182,7 @@ var index_ = function () {
                         "id": "ValueAxis-1",
                         "position": "top",
                         "axisAlpha": 0,
-                        "title": "Ingresos de tipos de encomienda según el mes"
+                        "title": "Reporte de ingresos de tipos de encomienda según el mes"
                     }
             ],
             "allLabels": [],
@@ -168,13 +190,13 @@ var index_ = function () {
             "titles": [],
             "dataProvider": objeto,
             "export": {
-                "enabled": true
+                "enabled": true,
+                "menu": []
             }
 
         });            
     };    
-    
-    
+        
     _private.setBarras4 = function (data) {
         var objeto = JSON.parse(data.mensaje);  
 //        alert(objeto.length);        
@@ -217,7 +239,7 @@ var index_ = function () {
                         "id": "ValueAxis-1",
                         "position": "top",
                         "axisAlpha": 0,
-                        "title": "Ingresos de tipos de encomienda del "+año+" según el mes"
+                        "title": "Reporte de ingresos de tipos de encomienda del "+año+" según el mes"
                     }
             ],
             "allLabels": [],
@@ -225,21 +247,70 @@ var index_ = function () {
             "titles": [],
             "dataProvider": objeto,
             "export": {
-                "enabled": true
+                "enabled": true,
+                "menu": []
             }
 
         });            
     };    
 
+    _private.setBarrasFecha1 = function (data) {
+        var objeto = JSON.parse(data.mensaje);  
+//        alert(objeto.length);
+        var from = $('#from').val();
+        var to = $('#to').val();
+        
+        var chart = AmCharts.makeChart("chartdiv1", {
+            "theme": "light",
+            "type": "serial",
+            "titles": [{
+                    "text": "Reporte de ingresos de encomiendas desde el "+from+" hasta el "+to,
+                    "size": 16
+                }],            
+            "startDuration": 2,
+            "dataProvider": objeto,
+            "valueAxes": [{
+                    "position": "left",
+                    "title": "Ingresos en soles"
+                }],
+            "graphs": [{
+                    "balloonText": "[[category]]: <b>[[value]]</b>",
+                    "fillColorsField": "color",
+                    "fillAlphas": 1,
+                    "lineAlpha": 0.1,
+                    "type": "column",
+                    "valueField": "total"
+                }],
+            "depth3D": 20,
+            "angle": 30,
+            "chartCursor": {
+                "categoryBalloonEnabled": false,
+                "cursorAlpha": 0,
+                "zoomable": false
+            },
+            "categoryField": "mes",
+            "categoryAxis": {
+                "gridPosition": "start",
+                "labelRotation": 90
+            },
+            "export": {
+                "enabled": true,
+                "menu": []
+            }
+
+        });
+    };
+
+
     _private.setPie1 = function (data) {
         var objeto = JSON.parse(data.mensaje);  
 //        alert(objeto.length);
         
-        var chart = AmCharts.makeChart("chartdiv1", {
+        var chart = AmCharts.makeChart("chartdiv2", {
             "type": "pie",
             "theme": "light",
             "titles": [{
-                    "text": "Ingresos de encomiendas según el año",
+                    "text": "Reporte de ingresos de encomiendas según el año",
                     "size": 16
                 }],
             "dataProvider": objeto,
@@ -253,7 +324,8 @@ var index_ = function () {
             "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
             "angle": 15,
             "export": {
-                "enabled": true
+                "enabled": true,
+                "menu": []
             }
         });
     };
@@ -267,7 +339,7 @@ var index_ = function () {
             "type": "pie",
             "theme": "light",
             "titles": [{
-                    "text": "Ingresos de encomiendas del "+año+" según el mes",
+                    "text": "Reporte ingresos de encomiendas del "+año+" según el mes",
                     "size": 16
                 }],
             "dataProvider": objeto,
@@ -281,12 +353,42 @@ var index_ = function () {
             "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
             "angle": 15,
             "export": {
-                "enabled": true
+                "enabled": true,
+                "menu": []
             }
         });
     };
     
-    _private.setBarrasFecha = function (data) {
+    _private.setPie3 = function (data) {
+        var objeto = JSON.parse(data.mensaje);  
+//        alert(objeto.length);
+        var tipo = $("#listarTipo").val();
+        
+        var chart = AmCharts.makeChart("chartdiv3", {
+            "type": "pie",
+            "theme": "light",
+            "titles": [{
+                    "text": "Reporte de ingresos de "+tipo+" según el año",
+                    "size": 16
+                }],
+            "dataProvider": objeto,
+            "valueField": "total",
+            "titleField": "mes",
+            "startEffect": "elastic",
+            "startDuration": 2,
+            "labelRadius": 15,
+            "innerRadius": "50%",
+            "depth3D": 10,
+            "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+            "angle": 15,
+            "export": {
+                "enabled": true,
+                "menu": []
+            }
+        });                
+    };        
+    
+    _private.setLineasFecha1 = function (data) {
         var objeto = JSON.parse(data.mensaje);  
 //        alert(objeto.length);       
 
@@ -296,7 +398,7 @@ var index_ = function () {
         var chart = AmCharts.makeChart("chartdiv2", {
         "type": "serial",
         "titles": [{
-                "text": "Ingresos de encomiendas desde el "+from+" hasta el "+to,
+                "text": "Reporte de ingresos de encomiendas desde el "+from+" hasta el "+to,
                 "size": 16
             }],           
         "theme": "light",
@@ -370,7 +472,8 @@ var index_ = function () {
             "minorGridEnabled": true
         },
         "export": {
-            "enabled": true
+            "enabled": true,
+                "menu": []
         },
         "dataProvider": objeto
     });
@@ -394,7 +497,7 @@ var index_ = function () {
         var chart = AmCharts.makeChart("chartdiv4", {
             "type": "serial",
             "titles": [{
-                "text": "Ingresos de tipos de encomiendas desde el "+from+" hasta el "+to,
+                "text": "Reporte de ingresos de tipos de encomiendas desde el "+from+" hasta el "+to,
                 "size": 16
             }],               
              "theme": "light",
@@ -469,87 +572,23 @@ var index_ = function () {
                  }]
              },
              "export": {
-                 "enabled": true
+                 "enabled": true,
+                "menu": []
               }
          });            
     };
     
-    _private.setPie3 = function (data) {
-        var objeto = JSON.parse(data.mensaje);  
-//        alert(objeto.length);
-        var tipo = $("#listarTipo").val();
-        
-        var chart = AmCharts.makeChart("chartdiv3", {
-            "type": "pie",
-            "theme": "light",
-            "titles": [{
-                    "text": "Ingresos de "+tipo+" según el año",
-                    "size": 16
-                }],
-            "dataProvider": objeto,
-            "valueField": "total",
-            "titleField": "mes",
-            "startEffect": "elastic",
-            "startDuration": 2,
-            "labelRadius": 15,
-            "innerRadius": "50%",
-            "depth3D": 10,
-            "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
-            "angle": 15,
-            "export": {
-                "enabled": true
-            }
-        });                
-    };    
-            
-    _private.setTipoPie = function (data) {
-        var objeto = JSON.parse(data.mensaje);  
-//        alert(objeto.length);
-        
-        var chart = AmCharts.makeChart("chartdiv3", {
-            "type": "pie",
-            "theme": "light",
-            "titles": [{
-                    "text": "Ingresos de Tipo de Encomiendas",
-                    "size": 16
-                }],
-            "dataProvider": objeto,
-            "valueField": "total",
-            "titleField": "mes",
-            "startEffect": "elastic",
-            "startDuration": 2,
-            "labelRadius": 15,
-            "innerRadius": "50%",
-            "depth3D": 10,
-            "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
-            "angle": 15,
-            "export": {
-                "enabled": true
-            }
-        });                
-    };
-
     /*metodos, propiedades publicas*/
     var _public = {};
 
     _public.init = function () {
         
         /*Encomienda Grafico de Barras*/
-        $('#btnGraficoBarraGananciaEncomiendaPorAño').click(function () {
-            index1.getGraficoBarras1();
-        });                
-        $('#btnGraficoBarraGananciaEncomiendaPorMes').click(function () {
-            index1.getGraficoBarras2();
-        });
+       
         
         /*Encomienda Grafico de Pastel*/
-        $('#btnGraficoPastelGananciaEncomiendaPorAño').click(function () {
-            index1.getGraficoPie1();
-        });        
-        $('#btnGraficoPastelGananciaEncomiendaPorMes').click(function () {
-            index1.getGraficoPie2();
-        });                       
-        $('#btnGraficoPastelGananciaEncomiendaPorFecha').click(function () {           
+                     
+        $('#btnGraficoBarraLineaGananciaEncomiendaPorFecha').click(function () {           
             var from = $('#from').val();
             var to = $('#to').val();
             
@@ -561,7 +600,8 @@ var index_ = function () {
               alert('[ERROR] Ingrese fecha final');
               return false;              
             }
-            index1.getGraficoBarrasFecha();
+            index1.getGraficoBarrasFecha1();
+            index1.getGraficoLineasFecha1();            
         });
         
         /*Tipo de Encomienda Grafico de Barras*/        
@@ -571,14 +611,12 @@ var index_ = function () {
         $('#btnGraficoBarraGananciaTipoEncomiendaPorMes').click(function () {
             index1.getGraficoBarras4();
         });
+        
         /*Tipo de Encomienda Grafico de Pastel*/    
         $('#btnGraficoPastelGananciaTipoEncomiendaPorAño').click(function () {
             index1.getGraficoPie3();
-        });          
-        $('#btnGraficoPastelGananciaTipoEncomiendaPorMes').click(function () {
-            index1.getGraficoPie4();
-        });        
-        $('#btnGraficoPastelGananciaTipoEncomiendaPorIntervalo').click(function () {
+        });                
+        $('#btnGraficoPastelGananciaTipoEncomiendaPorFecha').click(function () {
             var from = $('#from').val();
             var to = $('#to').val();
             
@@ -599,6 +637,7 @@ var myObj = { firstname : "John", lastname : "Doe" };
 console.log(myObj);
 
     _public.getGraficoBarras1 = function () {
+                
         $.ajax({
             type: "POST",            
             url: 'SERVReporte',
@@ -693,20 +732,7 @@ console.log(myObj);
         });
     };          
     
-    _public.getGraficoPie4 = function () {
-        $.ajax({
-            type: "POST",           
-            url: 'SERVReporte',
-            data: "&action=listarTipoEncomienda",
-            dataType: 'json',
-            success: function (data) {
-                 console.log(data.mensaje);
-                _private.setTipoPie(data);
-            }
-        });
-    };          
-    
-    _public.getGraficoBarrasFecha = function () {
+    _public.getGraficoBarrasFecha1 = function () {
         var fecha_inicio = $("#from").val();
         var fecha_final = $("#to").val();
         $.ajax({
@@ -716,11 +742,26 @@ console.log(myObj);
             dataType: 'json',
             success: function (data) {
                  console.log(data.mensaje);
-                _private.setBarrasFecha(data);
+                _private.setBarrasFecha1(data);
             }
-        });        
-        
+        });                
     };    
+    
+    _public.getGraficoLineasFecha1 = function () {
+        var fecha_inicio = $("#from").val();
+        var fecha_final = $("#to").val();
+        $.ajax({
+            type: "POST",           
+            url: 'SERVReporte',
+            data: "&action=listarEncomiendaPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
+            dataType: 'json',
+            success: function (data) {
+                 console.log(data.mensaje);
+                _private.setLineasFecha1(data);
+            }
+        });                
+    };        
+    
     _public.getGraficoBarrasFecha2 = function () {
         var fecha_inicio = $("#from").val();
         var fecha_final = $("#to").val();        
@@ -737,7 +778,60 @@ console.log(myObj);
     };   
     
     return _public;          
-
+    
 };
 
 var index1 = new index_();
+  
+var charts = {};
+    function fc_export_pdf()
+    {
+        try
+        {
+            var images = [];
+            var ids = ["chartdiv1", "chartdiv2"];
+            var charts_remaining = ids.length;
+            
+            var pending = AmCharts.charts.length;
+            
+            for (var i = 0; i < ids.length; i++) {
+                for (var x = 0; x < AmCharts.charts.length; x++) {
+                    if (AmCharts.charts[x].div.id === ids[i])
+                        charts[ids[i]] = AmCharts.charts[x];
+                }
+            }
+            
+            for (var x in charts) {
+                if (charts.hasOwnProperty(x)) {
+                    var chart = charts[x];
+                    chart.export.capture( {}, function() {
+                      this.toJPG( {
+                        multiplier: 2
+                      }, function( data ) {
+                        images.push( {
+                          "image": data,
+                          "fit": [ 523.28, 769.89 ]
+                        } );
+
+                        charts_remaining--;
+
+                        if ( charts_remaining === 0 ) {
+                          // all done - construct PDF
+                          chart.export.toPDF( {
+                            content: images
+                          }, function( data ) {
+                            this.download( data, "application/pdf", "ReporteEncomienda.pdf" );
+                          } );
+                        }
+                      } );
+        } );
+                }
+            }
+        }
+        catch(err)
+        {
+            alert('Ocurrió un error al exportar.\nConsulte con el administrador.');
+            console.log(err.message);
+        }
+    }
+

@@ -67,7 +67,7 @@ HttpSession sesion = request.getSession();
                 </div>       
                 
                 <input type="button" id="btnGraficoBarraGananciaTipoEncomiendaPorMes" class="btn btn-primary" value="Ver Por Mes">            
-                <input type="button" id="btnGraficoPastelGananciaTipoEncomiendaPorIntervalo" class="btn btn-success" value="Ver Por Fecha" >                
+                <input type="button" id="btnGraficoPastelGananciaTipoEncomiendaPorFecha" class="btn btn-success" value="Ver Por Fecha" >                
                 <br>
                     <div class="form-group">
                         <label for="from" class="control-label">FECHA DE ENVIO</label>

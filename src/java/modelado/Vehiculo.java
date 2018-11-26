@@ -14,7 +14,7 @@ public class Vehiculo {
     private int capmax;
     private int pasmax;
     
-    private int cantidad;
+    private int total;
 
     public Vehiculo() {
     }
@@ -31,15 +31,12 @@ public class Vehiculo {
         this.capmax = capmax;
         this.pasmax = pasmax;
     }
-
-    public Vehiculo(String marca, int cantidad) {
+    
+    public Vehiculo(String marca, int total) {
         this.marca = marca;
-        this.cantidad = cantidad;
-    }
+        this.total = total;
+    }       
     
-    
-    
-
     public int getId() {
         return id;
     }

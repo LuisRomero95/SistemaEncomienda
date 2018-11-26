@@ -109,10 +109,15 @@ public class SERVReporte extends HttpServlet {
             
                 List encomienda = encomiendadao.consultarTipoEncomiendaPorFecha(sqlStartDateInicio, sqlStartDateFinal);
                 mensaje = new Gson().toJson(encomienda); 
-            }            
-            else if (action.equalsIgnoreCase("listarVehiculoPorMes")) {                  
-                List vehiculos = vehiculodao.consultarVehiculoPorMes();
-                mensaje = new Gson().toJson(vehiculos); 
+            }     
+            else if (action.equalsIgnoreCase("listarVehiculoPorAño")) {                  
+                List vehiculos = vehiculodao.consultarVehiculoPorAño();
+                mvehiculo = new Gson().toJson(vehiculos); 
+            }                
+            else if (action.equalsIgnoreCase("listarVehiculoPorMes")) {
+                String año = request.getParameter("año");          
+                List vehiculos = vehiculodao.consultarVehiculoPorMes(año);
+                mvehiculo = new Gson().toJson(vehiculos); 
             }    
             else if (action.equalsIgnoreCase("listarVehiculoPorFecha")) {
                 String fech_ini = request.getParameter("fechaI");
