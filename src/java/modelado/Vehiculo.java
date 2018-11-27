@@ -14,8 +14,14 @@ public class Vehiculo {
     private int capmax;
     private int pasmax;
     
-    private int total;
-
+    private double total;
+    
+    private double acura;  
+    private double audi;
+    private double honda;
+    private double cadillac;
+    private double ford;
+    
     public Vehiculo() {
     }
 
@@ -32,10 +38,21 @@ public class Vehiculo {
         this.pasmax = pasmax;
     }
     
-    public Vehiculo(String marca, int total) {
+    public Vehiculo(String marca, double total) {
         this.marca = marca;
         this.total = total;
     }       
+
+    public Vehiculo(String marca, double acura, double audi, double honda, double cadillac, double ford) {
+        this.marca = marca;
+        this.acura = acura;
+        this.audi = audi;
+        this.honda = honda;
+        this.cadillac = cadillac;
+        this.ford = ford;
+    }
+    
+    
     
     public int getId() {
         return id;
@@ -101,9 +118,6 @@ public class Vehiculo {
         this.serie = serie;
     }
 
-
-    
-    
 
     public int getPasmax() {
         return pasmax;

@@ -55,6 +55,10 @@
               alert('[ERROR] Ingrese fecha final');
               return false;              
             }
+            else if( from > to ) {
+              alert('[ERROR] '+from+' no puede ser mayor a '+to);
+              return false;              
+            }            
             getGraficoBarrasFecha1();
                      
         });

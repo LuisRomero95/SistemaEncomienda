@@ -19,13 +19,13 @@
             isRTL: false,
             showMonthAfterYear: false,
             yearSuffix: ''
-            };
+            };            
         $.datepicker.setDefaults($.datepicker.regional["es"]);
         $("#from, #to").datepicker({ 
             numberOfMonths: 3, 
             showButtonPanel: true
+        });   
 
-        }); 
     });      
     
     $(document).ready(function(){
@@ -53,6 +53,10 @@
             }
             else if( to === null || to.length === 0 || /^\s+$/.test(to) ) {
               alert('[ERROR] Ingrese fecha final');
+              return false;              
+            }
+            else if( from > to ) {
+              alert('[ERROR] '+from+' no puede ser mayor a '+to);
               return false;              
             }
             getGraficoBarrasFecha1();

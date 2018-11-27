@@ -30,19 +30,19 @@
     
     $(document).ready(function(){
                        
-        /*Encomienda Grafico de Barras*/  
-        $('#btnGraficoBarraGananciaVehiculoPorAño').click(function () {
+        /*Ingreso Grafico de Barras*/  
+        $('#btnGraficoBarraPastelGananciaVehiculoPorAño').click(function () {
             
             getGraficoBarras1();
             //Luego ejecuta --> getGraficoPie1();
             
         });                
-        $('#btnGraficoBarraGananciaVehiculoPorMes').click(function () {
+        $('#btnGraficoBarraPastelGananciaVehiculoPorMes').click(function () {
             
             getGraficoBarras2();
         });
         
-        $('#btnGraficoPastelGananciaVehiculoPorFecha').click(function () {     
+        $('#btnGraficoBarraLineaGananciaVehiculoPorFecha').click(function () {     
             
             var from = $('#from').val();
             var to = $('#to').val();
@@ -55,41 +55,20 @@
               alert('[ERROR] Ingrese fecha final');
               return false;              
             }
+            else if( from > to ) {
+              alert('[ERROR] '+from+' no puede ser mayor a '+to);
+              return false;              
+            }            
             getGraficoBarrasFecha1();
                      
-        });
-        
-        /*Tipo de Encomienda Grafico de Barras*/        
-        $('#btnGraficoBarraGananciaTipoEncomiendaPorAño').click(function () {
-            getGraficoBarras3();
-        });                           
-        $('#btnGraficoBarraGananciaTipoEncomiendaPorMes').click(function () {
-            getGraficoBarras4();
-        });
-        
-        /*Tipo de Encomienda Grafico de Pastel*/    
-        $('#btnGraficoPastelGananciaTipoEncomiendaPorAño').click(function () {
-            getGraficoPie3();
-        });                
-        $('#btnGraficoPastelGananciaTipoEncomiendaPorFecha').click(function () {
-            
-            var from = $('#from').val();
-            var to = $('#to').val();
-            
-            if( from === null || from.length === 0 || /^\s+$/.test(from) ) {
-              alert('[ERROR] Ingrese fecha de inicio');
-              return false;              
-            }
-            else if( to === null || to.length === 0 || /^\s+$/.test(to) ) {
-              alert('[ERROR] Ingrese fecha final');
-              return false;              
-            }                                    
-            getGraficoBarrasFecha2();
-        });                
+        });                    
         
         $('#btnExportChartsPDF').click(function (){                                     
             fc_export_pdf(); 
         });
+//        $('#btnExportChartsExcel').click(function (){                                     
+//            fc_export_excel(); 
+//        });        
     });    
     
     
@@ -116,7 +95,7 @@
         $.ajax({
             type: "POST",            
             url: 'SERVReporte',
-            data: "&action=listarEncomiendaPorMes&año="+año,
+            data: "&action=listarVehiculoPorMes&año="+año,
             dataType: 'json',
             success: function (data) {
                 console.log(data.mvehiculo);
@@ -132,7 +111,7 @@
         $.ajax({
             type: "POST",
             url: 'SERVReporte',
-            data: "&action=listarTipoEncomiendaPorAño",
+            data: "&action=listarTipoVehiculoPorAño",
             dataType: 'json',
             success: function (data) {
                 console.log(data.mvehiculo);
@@ -146,7 +125,7 @@
         $.ajax({
             type: "POST",           
             url: 'SERVReporte',
-            data: "&action=listarTipoEncomiendaMes&año="+año,
+            data: "&action=listarTipoVehiculoMes&año="+año,
             dataType: 'json',
             success: function (data) {
                  console.log(data.mvehiculo);
@@ -164,10 +143,10 @@
             success: function (data) {
                  console.log(data.mvehiculo);
                 _private.setPie1(data);
+            },
+            complete:function(){
+                getGraficoBarras3();
             }
-//            complete:function(){
-//                getGraficoBarras3();
-//            }
         });
     };
     
@@ -178,7 +157,7 @@
         $.ajax({
             type: "POST",           
             url: 'SERVReporte',
-            data: "&action=listarEncomiendaPorMes&año="+año,
+            data: "&action=listarVehiculoPorMes&año="+año,
             dataType: 'json',
             success: function (data) {
                  console.log(data.mvehiculo);
@@ -195,7 +174,7 @@
         $.ajax({
             type: "POST",           
             url: 'SERVReporte',
-            data: "&action=listarTipoEncomiendaPorAño&tipo="+tipo,
+            data: "&action=listarTipoIngresoPorAño&tipo="+tipo,
             dataType: 'json',
             success: function (data) {
                  console.log(data.mvehiculo);
@@ -210,7 +189,7 @@
         $.ajax({
             type: "POST",           
             url: 'SERVReporte',
-            data: "&action=listarEncomiendaPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
+            data: "&action=listarTipoIngresoPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
             dataType: 'json',
             success: function (data) {
                  console.log(data.mvehiculo);
@@ -228,7 +207,7 @@
         $.ajax({
             type: "POST",           
             url: 'SERVReporte',
-            data: "&action=listarEncomiendaPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
+            data: "&action=listarIngresoPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
             dataType: 'json',
             success: function (data) {
                  console.log(data.mvehiculo);
@@ -246,7 +225,7 @@
         $.ajax({
             type: "POST",           
             url: 'SERVReporte',
-            data: "&action=listarTipoEncomiendaPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
+            data: "&action=listarTipoIngresoPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
             dataType: 'json',
             success: function (data) {
                  console.log(data.mvehiculo);
@@ -254,9 +233,6 @@
             }
         });                
     };   
-    
-      
-//var index_ = function () {
     
     /*metodos, propiedades privadas*/
     var _private = {};
@@ -269,14 +245,14 @@
             "theme": "light",
             "type": "serial",
             "titles": [{
-                    "text": "Reporte de vehiculos usados según el año",
+                    "text": "Reporte de cantidad de vehiculos usados según el año",
                     "size": 16
                 }],            
             "startDuration": 2,
             "dataProvider": objeto,
             "valueAxes": [{
                     "position": "left",
-                    "title": "Uso"
+                    "title": "Ingresos (S/.)"
                 }],
             "graphs": [{
                     "balloonText": "[[category]]: <b>[[value]]</b>",
@@ -297,8 +273,17 @@
             "categoryField": "marca",
             "categoryAxis": {
                 "gridPosition": "start",
-                "labelRotation": 90
+                "labelRotation": 90,
+                "title": "Años" 
+//                "listeners": [{
+//                  "event": "clickGraphItem",
+//                  "method": exportXLSX
+//                }]
             },
+//            "listeners": [{
+//              "event": "clickGraphItem",
+//              "method": exportXLSX
+//            }],
             "export": {
                 "enabled": true,
                 "menu": []                
@@ -316,14 +301,14 @@
             "theme": "light",
             "type": "serial",
             "titles": [{
-                    "text": "Reporte de ingresos de encomiendas del "+año +" según el mes",
+                    "text": "Reporte de ingresos del "+año +" según el mes",
                     "size": 16
                 }],            
             "startDuration": 2,
             "dataProvider": objeto,
             "valueAxes": [{
                     "position": "left",
-                    "title": "Ingresos en soles"
+                    "title": "Ingresos (S/.)"
                 }],
             "graphs": [{
                     "balloonText": "[[category]]: <b>[[value]]</b>",
@@ -340,10 +325,11 @@
                 "cursorAlpha": 0,
                 "zoomable": false
             },
-            "categoryField": "mes",
+            "categoryField": "marca",
             "categoryAxis": {
                 "gridPosition": "start",
-                "labelRotation": 90
+                "labelRotation": 90,
+                "title": "Meses"
             },
             "export": {
                 "enabled": true,
@@ -359,35 +345,66 @@
         var chart = AmCharts.makeChart("chartdiv3", {
             "type": "serial",            
             "theme": "light",          
-            "categoryField": "mes",
+            "categoryField": "marca",
             "rotate": true,
             "startDuration": 1,
             "categoryAxis": {
                     "gridPosition": "start",
-                    "position": "left"
+                    "position": "left",
+                    "title": "Años"
             },
             "trendLines": [],
             "graphs": [
                     {
-                        "balloonText": "sobre:[[value]]",
+                        "balloonText": "acura:[[value]]",
                         "fillAlphas": 0.8,
                         "id": "AmGraph-1",
                         "lineAlpha": 0.2,
-                        "title": "Sobre",
+                        "title": "Acura",
                         "type": "column",
-                        "valueField": "sobre",
-                        labelText: "sobre:[[value]]"
+                        "valueField": "acura",
+                        labelText: "acura:[[value]]"
                     },
                     {
-                        "balloonText": "paquete:[[value]]",
+                        "balloonText": "audi:[[value]]",
                         "fillAlphas": 0.8,
                         "id": "AmGraph-2",
                         "lineAlpha": 0.2,
-                        "title": "Paquete",
+                        "title": "Audi",
                         "type": "column",
-                        "valueField": "paquete",
-                        labelText: "paquete:[[value]]"
-                    }
+                        "valueField": "audi",
+                        labelText: "audi:[[value]]"
+                    },
+                    {
+                        "balloonText": "honda:[[value]]",
+                        "fillAlphas": 0.8,
+                        "id": "AmGraph-3",
+                        "lineAlpha": 0.2,
+                        "title": "Honda",
+                        "type": "column",
+                        "valueField": "honda",
+                        labelText: "honda:[[value]]"
+                    },
+                    {
+                        "balloonText": "cadillac:[[value]]",
+                        "fillAlphas": 0.8,
+                        "id": "AmGraph-4",
+                        "lineAlpha": 0.2,
+                        "title": "Cadillac",
+                        "type": "column",
+                        "valueField": "cadillac",
+                        labelText: "cadillac:[[value]]"
+                    },
+                    {
+                        "balloonText": "ford:[[value]]",
+                        "fillAlphas": 0.8,
+                        "id": "AmGraph-5",
+                        "lineAlpha": 0.2,
+                        "title": "Ford",
+                        "type": "column",
+                        "valueField": "ford",
+                        labelText: "ford:[[value]]"
+                    }                    
             ],
             "guides": [],
             "valueAxes": [
@@ -395,7 +412,7 @@
                         "id": "ValueAxis-1",
                         "position": "left",
                         "axisAlpha": 0,
-                        "title": "ingresos (S/.)"
+                        "title": "Ingresos (S/.)"
                     }
             ],
             "allLabels": [],
@@ -422,46 +439,83 @@
         var chart = AmCharts.makeChart("chartdiv3", {
             "type": "serial",            
             "theme": "light",          
-            "categoryField": "mes",
+            "categoryField": "marca",
             "rotate": true,
             "startDuration": 1,
             "categoryAxis": {
                     "gridPosition": "start",
-                    "position": "left"
+                    "position": "left",
+                    "title": "Meses"
             },
             "trendLines": [],
             "graphs": [
                     {
-                        "balloonText": "sobre:[[value]]",
+                        "balloonText": "acura:[[value]]",
                         "fillAlphas": 0.8,
                         "id": "AmGraph-1",
                         "lineAlpha": 0.2,
-                        "title": "Sobre",
+                        "title": "Acura",
                         "type": "column",
-                        "valueField": "sobre"
+                        "valueField": "acura",
+                        labelText: "acura:[[value]]"
                     },
                     {
-                        "balloonText": "paquete:[[value]]",
+                        "balloonText": "audi:[[value]]",
                         "fillAlphas": 0.8,
                         "id": "AmGraph-2",
                         "lineAlpha": 0.2,
-                        "title": "Paquete",
+                        "title": "Audi",
                         "type": "column",
-                        "valueField": "paquete"
-                    }
+                        "valueField": "audi",
+                        labelText: "audi:[[value]]"
+                    },
+                    {
+                        "balloonText": "honda:[[value]]",
+                        "fillAlphas": 0.8,
+                        "id": "AmGraph-3",
+                        "lineAlpha": 0.2,
+                        "title": "Honda",
+                        "type": "column",
+                        "valueField": "honda",
+                        labelText: "honda:[[value]]"
+                    },
+                    {
+                        "balloonText": "cadillac:[[value]]",
+                        "fillAlphas": 0.8,
+                        "id": "AmGraph-4",
+                        "lineAlpha": 0.2,
+                        "title": "Cadillac",
+                        "type": "column",
+                        "valueField": "cadillac",
+                        labelText: "cadillac:[[value]]"
+                    },
+                    {
+                        "balloonText": "ford:[[value]]",
+                        "fillAlphas": 0.8,
+                        "id": "AmGraph-5",
+                        "lineAlpha": 0.2,
+                        "title": "Ford",
+                        "type": "column",
+                        "valueField": "ford",
+                        labelText: "ford:[[value]]"
+                    }  
             ],
             "guides": [],
             "valueAxes": [
                     {
                         "id": "ValueAxis-1",
-                        "position": "top",
+                        "position": "left",
                         "axisAlpha": 0,
-                        "title": "Reporte de ingresos de sobres vs paquetes del "+año+" según el mes"
+                        "title": "Ingresos (S/.)"
                     }
             ],
             "allLabels": [],
             "balloon": {},
-            "titles": [],
+            "titles": [
+                 {
+                    "text": "Reporte de ingresos de sobres vs paquetes del "+año+" según el mes"
+                }
+            ],
             "dataProvider": objeto,
             "export": {
                 "enabled": true,
@@ -475,48 +529,64 @@
         var objeto = JSON.parse(data.mvehiculo);  
 //        alert(objeto.length);
         var from = $('#from').val();
-        var to = $('#to').val();
+        var to = $('#to').val();                                
         
         var chart = AmCharts.makeChart("chartdiv1", {
-            "theme": "light",
+            
             "type": "serial",
+            "theme": "none",
             "titles": [{
-                    "text": "Reporte de ingresos de encomiendas desde el "+from+" hasta el "+to,
+                    "text": "Reporte de ingresos desde el "+from+" hasta el "+to,
                     "size": 16
-                }],            
-            "startDuration": 2,
-            "dataProvider": objeto,
-            "valueAxes": [{
-                    "position": "left",
-                    "title": "Ingresos en soles"
-                }],
-            "graphs": [{
-                    "balloonText": "[[category]]: <b>[[value]]</b>",
-                    "fillColorsField": "color",
-                    "fillAlphas": 1,
-                    "lineAlpha": 0.1,
-                    "type": "column",
-                    "valueField": "total",
-                        labelText: "[[value]]"
-                }],
-            "depth3D": 20,
-            "angle": 30,
-            "chartCursor": {
-                "categoryBalloonEnabled": false,
-                "cursorAlpha": 0,
-                "zoomable": false
+                }],              
+            "legend": {
+                "horizontalGap": 10,
+                "maxColumns": 1,
+                "position": "right",
+                "useGraphSettings": true,
+                "markerSize": 10
             },
+            "dataProvider": objeto,
+            "graphs": [{
+                "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+                "fillAlphas": 0.8,
+                "labelText": "[[value]]",
+                "lineAlpha": 0.3,
+                "title": "Sobres",
+                "type": "column",
+                "color": "#000000",
+                "valueField": "sobre"
+            }, {
+                "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+                "fillAlphas": 0.8,
+                "labelText": "[[value]]",
+                "lineAlpha": 0.3,
+                "title": "Paquetes",
+                "type": "column",
+                "color": "#000000",
+                "valueField": "paquete"
+            }],
             "categoryField": "mes",
             "categoryAxis": {
                 "gridPosition": "start",
-                "labelRotation": 90
+                "axisAlpha": 0,
+                "gridAlpha": 0,
+                "position": "left",
+                "title": "Fecha"
             },
+            "valueAxes": [
+                    {
+                        "id": "ValueAxis-1",
+                        "position": "left",
+                        "axisAlpha": 0,
+                        "title": " Ingresos (S/.)"
+                    }                
+            ],
             "export": {
                 "enabled": true,
                 "menu": []
-            }
-
-        });
+             }
+        });   
     };
 
 
@@ -528,7 +598,7 @@
             "type": "pie",
             "theme": "light",
             "titles": [{
-                    "text": "Reporte de ingresos de encomiendas según el año",
+                    "text": "Reporte % de cantidad de vehiculos usados según el año",
                     "size": 16
                 }],
             "dataProvider": objeto,
@@ -557,12 +627,12 @@
             "type": "pie",
             "theme": "light",
             "titles": [{
-                    "text": "Reporte ingresos de encomiendas del "+año+" según el mes",
+                    "text": "Reporte % ingresos del "+año+" según el mes",
                     "size": 16
                 }],
             "dataProvider": objeto,
             "valueField": "total",
-            "titleField": "mes",
+            "titleField": "marca",
             "startEffect": "elastic",
             "startDuration": 2,
             "labelRadius": 15,
@@ -586,7 +656,7 @@
             "type": "pie",
             "theme": "light",
             "titles": [{
-                    "text": "Reporte de ingresos de "+tipo+" según el año",
+                    "text": "Reporte % de ingresos de "+tipo+" según el año",
                     "size": 16
                 }],
             "dataProvider": objeto,
@@ -616,7 +686,7 @@
         var chart = AmCharts.makeChart("chartdiv2", {
         "type": "serial",
         "titles": [{
-                "text": "Reporte de ingresos de encomiendas desde el "+from+" hasta el "+to,
+                "text": "Reporte de ingresos desde el "+from+" hasta el "+to,
                 "size": 16
             }],           
         "theme": "light",
@@ -629,7 +699,8 @@
             "id": "v1",
             "axisAlpha": 0,
             "position": "left",
-            "ignoreAxisWidth":true
+            "ignoreAxisWidth":true,
+            "title": "Ingresos (S/.)"
         }],
         "balloon": {
             "borderThickness": 1,
@@ -687,7 +758,8 @@
         "categoryAxis": {
             "parseDates": true,
             "dashLength": 1,
-            "minorGridEnabled": true
+            "minorGridEnabled": true,
+            "title": "Fechas"
         },
         "export": {
             "enabled": true,
@@ -715,7 +787,7 @@
         var chart = AmCharts.makeChart("chartdiv3", {
             "type": "serial",
             "titles": [{
-                "text": "Reporte de ingresos de tipos de encomiendas desde el "+from+" hasta el "+to,
+                "text": "Reporte de tipos de ingresos desde el "+from+" hasta el "+to,
                 "size": 16
             }],               
              "theme": "light",
@@ -732,7 +804,7 @@
                  "stackType": "regular",
                  "gridAlpha": 0.07,
                  "position": "left",
-                 "title": "Ingresos"
+                 "title": "Ingresos (S/.)"
              }],
              "graphs": [{
                  "balloonText": "<img src='https://www.amcharts.com/lib/3/images/car.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>[[value]]</b></span>",
@@ -767,7 +839,7 @@
                  "startOnAxis": true,
                  "axisColor": "#DADADA",
                  "gridAlpha": 0.07,
-                 "title": "Meses",
+                 "title": "Fecha",
                  "guides": [{
                      category: "2001",
                      toCategory: "2003",
@@ -799,7 +871,8 @@
 var myObj = { firstname : "John", lastname : "Doe" };
 console.log(myObj);
 
-var charts = {};
+    var charts = {};
+    
     function fc_export_pdf()
     {
         try
@@ -831,16 +904,16 @@ var charts = {};
 
                         charts_remaining--;
 
-                        if ( charts_remaining === 0 ) {
-                          // all done - construct PDF
-                          chart.export.toPDF( {
-                            content: images
-                          }, function( data ) {
-                            this.download( data, "application/pdf", "ReporteEncomienda.pdf" );
-                          } );
-                        }
-                      } );
-        } );
+                            if ( charts_remaining === 0 ) {
+                                // all done - construct PDF
+                                chart.export.toPDF( {
+                                  content: images
+                                }, function( data ) {
+                                  this.download( data, "application/pdf", "ReporteVehiculo.pdf" );
+                                } );
+                            }
+                        } );
+                    } );
                 }
             }
         }
@@ -851,3 +924,54 @@ var charts = {};
         }
     }
 
+//    function fc_export_excel()
+//    {
+//        try
+//        {
+//            
+//            var ids = ["chartdiv1", "chartdiv2", "chartdiv3"];
+//            var charts_remaining = ids.length;
+//            
+//            var pending = AmCharts.charts.length;
+//            
+//            for (var i = 0; i < ids.length; i++) {
+//                for (var x = 0; x < AmCharts.charts.length; x++) {
+//                    if (AmCharts.charts[x].div.id === ids[i])
+//                        charts[ids[i]] = AmCharts.charts[x];
+//                }
+//            }
+//            
+//            for (var x in charts) {
+//                if (charts.hasOwnProperty(x)) {
+//                    var chart = charts[x];
+//                    
+//                        charts_remaining--;
+//
+//                        if ( charts_remaining === 0 ) {
+//                          // all done - construct PDF
+//                          chart["export"].toXLSX( {
+//                            data: chart.dataProvider
+//                          }, function( data ) {
+//                             this.download(data, this.defaults.formats.XLSX.mimeType, "amCharts.xlsx");
+//                          } );
+//                        }
+//                    
+//   
+//                }
+//            }
+//        }
+//        catch(err)
+//        {
+//            alert('Ocurrió un error al exportar.\nConsulte con el administrador.');
+//            console.log(err.message);
+//        }
+//    }
+//    
+//    function exportXLSX() {
+//    var chart = {};
+//    chart["export"].toXLSX({
+//      data: chart.dataProvider
+//    }, function(data) {
+//      this.download(data, this.defaults.formats.XLSX.mimeType, "amCharts.xlsx");
+//    });
+//}

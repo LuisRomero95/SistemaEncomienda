@@ -15,7 +15,7 @@ public class VehiculoDAO extends Conexion implements DAO{
     public void insertar(Object obj) throws Exception{
         Vehiculo veh = (Vehiculo) obj;
         PreparedStatement pst;
-        String sql="INSERT INTO vehiculos (placa, id_con, id_ayu, año, marca, modelo, serie, cap_max, pas_max) VALUES(?,?,?,?,?,?,?,?,?)";
+        String sql="INSERT INTO vehiculos (placa, id_con, id_ayu, año, marca, modelo, serie, cap_max, pas_max, fech_ing) VALUES(?,?,?,?,?,?,?,?,?,CURDATE())";
         try {
             this.conectar();           
             pst = conexion.prepareStatement(sql);
@@ -171,7 +171,7 @@ public class VehiculoDAO extends Conexion implements DAO{
         ResultSet rs;
         ResultSet rs1;
         String sqlTrac = "SET lc_time_names = 'es_ES' ";
-        String sql = "SELECT year(e.fech_env) AS marca, count(v.marca) AS total FROM encomiendas e, vehiculos v WHERE e.id_veh = v.id GROUP BY marca ORDER BY e.fech_env";
+        String sql = "SELECT year(v.fech_ing) AS marca, count(v.id) AS total FROM vehiculos v GROUP BY year(v.fech_ing) ORDER BY v.fech_ing";
         try {
             this.conectar();
             pst1 = conexion.prepareStatement(sqlTrac);
@@ -181,7 +181,7 @@ public class VehiculoDAO extends Conexion implements DAO{
             while(rs.next()){
                 datos.add(new Vehiculo(
                         rs.getString("marca"),
-                        rs.getInt("total")
+                        rs.getDouble("total")
                     )                    
                 );
             }
@@ -201,7 +201,7 @@ public class VehiculoDAO extends Conexion implements DAO{
         ResultSet rs;
         ResultSet rs1;
         String sqlTrac = "SET lc_time_names = 'es_ES' ";
-        String sql = "select v.marca as marca, COUNT(v.marca) as total from vehiculos v, encomiendas e WHERE v.id = e.id_veh AND e.estado =1 AND e.id_tipo='2' GROUP BY marca ORDER BY e.fech_env";
+        String sql = "select v.marca as marca, COUNT(v.marca) as total from vehiculos v WHERE year(v.fech_ing)='"+año+"' AND v.estado =1 GROUP BY marca ORDER BY v.fech_ing";
         try {
             this.conectar();
             pst1 = conexion.prepareStatement(sqlTrac);
@@ -223,6 +223,40 @@ public class VehiculoDAO extends Conexion implements DAO{
         }
         return datos;
     }
+    
+    public List<Vehiculo> consultarTipoVehiculoPorAño() throws Exception  {
+        List<Vehiculo> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT year(v.fech_ing) AS mes, SUM(CASE WHEN v.marca = 'acura' THEN v.estado ELSE 0 END) AS acura, SUM(CASE WHEN v.marca = 'audi' THEN v.estado ELSE 0 END) AS audi, SUM(CASE WHEN v.marca = 'honda' THEN v.estado ELSE 0 END) AS honda, SUM(CASE WHEN v.marca = 'cadillac' THEN v.estado ELSE 0 END) AS cadillac, SUM(CASE WHEN v.marca = 'ford' THEN v.estado ELSE 0 END) AS ford FROM vehiculos v GROUP BY mes ORDER BY v.fech_ing";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();      
+            while(rs.next()){
+                datos.add(new Vehiculo(
+                        rs.getString("mes"),
+                        rs.getDouble("acura"),
+                        rs.getDouble("audi"),
+                        rs.getDouble("honda"),
+                        rs.getDouble("cadillac"),
+                        rs.getDouble("ford")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }    
 
     public List<Vehiculo> consultarVehiculoPorFecha(Date inicio, Date fin) throws Exception  {
         List<Vehiculo> datos = new ArrayList<>();
@@ -253,6 +287,39 @@ public class VehiculoDAO extends Conexion implements DAO{
         }
         return datos;
     }       
-            
     
+    public List<Vehiculo> consultarTipoVehiculoPorMes(String año) throws Exception  {
+        List<Vehiculo> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT year(v.fech_ing) AS mes, SUM(CASE WHEN v.marca = 'acura' THEN v.estado ELSE 0 END) AS acura, SUM(CASE WHEN v.marca = 'audi' THEN v.estado ELSE 0 END) AS audi, SUM(CASE WHEN v.marca = 'honda' THEN v.estado ELSE 0 END) AS honda, SUM(CASE WHEN v.marca = 'cadillac' THEN v.estado ELSE 0 END) AS cadillac, SUM(CASE WHEN v.marca = 'ford' THEN v.estado ELSE 0 END) AS ford FROM vehiculos v WHERE year(v.fech_ing) ='"+año+"' GROUP BY mes ORDER BY v.fech_ing";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();         
+            while(rs.next()){
+                datos.add(new Vehiculo(
+                        rs.getString("mes"),
+                        rs.getDouble("acura"),
+                        rs.getDouble("audi"),
+                        rs.getDouble("honda"),
+                        rs.getDouble("cadillac"),
+                        rs.getDouble("ford")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }      
+                
 }

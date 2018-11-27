@@ -16,7 +16,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modelado.Encomienda;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -119,27 +118,45 @@ public class SERVReporte extends HttpServlet {
                 mensaje = new Gson().toJson(precio); 
             }     
             else if (action.equalsIgnoreCase("listarVehiculoPorAño")) {                  
-                List vehiculos = vehiculodao.consultarVehiculoPorAño();
-                mvehiculo = new Gson().toJson(vehiculos); 
+                vehiculo = vehiculodao.consultarVehiculoPorAño();
+                mvehiculo = new Gson().toJson(vehiculo); 
             }                
+            else if (action.equalsIgnoreCase("listarTipoVehiculoPorAño")) {   
+                                 
+                if(request.getParameter("tipo") != null){
+                    String tipo = request.getParameter("tipo");
+                    vehiculo = preciodao.consultarTipoIngresoPorAño(tipo);
+                }
+                else{
+                    vehiculo = vehiculodao.consultarTipoVehiculoPorAño();
+                }
+                
+                mvehiculo = new Gson().toJson(vehiculo); 
+            }            
             else if (action.equalsIgnoreCase("listarVehiculoPorMes")) {
                 String año = request.getParameter("año");          
-                List vehiculos = vehiculodao.consultarVehiculoPorMes(año);
-                mvehiculo = new Gson().toJson(vehiculos); 
-            }    
-            else if (action.equalsIgnoreCase("listarVehiculoPorFecha")) {
-                String fech_ini = request.getParameter("fechaI");
-                String fech_fin = request.getParameter("fechaF");
-                
-                SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
-                java.util.Date inicio = sdf2.parse(fech_ini);
-                java.util.Date fin = sdf2.parse(fech_fin);
-                java.sql.Date sqlStartDateInicio = new java.sql.Date(inicio.getTime()); 
-                java.sql.Date sqlStartDateFinal = new java.sql.Date(fin.getTime()); 
-            
-                vehiculo = vehiculodao.consultarVehiculoPorFecha(sqlStartDateInicio, sqlStartDateFinal);
+                vehiculo = vehiculodao.consultarVehiculoPorMes(año);
                 mvehiculo = new Gson().toJson(vehiculo); 
-            }
+            }    
+            else if (action.equalsIgnoreCase("listarTipoVehiculoMes")) {  
+                String año = request.getParameter("año");                
+                vehiculo = vehiculodao.consultarTipoVehiculoPorMes(año);
+                mvehiculo = new Gson().toJson(vehiculo); 
+            }                   
+            
+//            else if (action.equalsIgnoreCase("listarVehiculoPorFecha")) {
+//                String fech_ini = request.getParameter("fechaI");
+//                String fech_fin = request.getParameter("fechaF");
+//                
+//                SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+//                java.util.Date inicio = sdf2.parse(fech_ini);
+//                java.util.Date fin = sdf2.parse(fech_fin);
+//                java.sql.Date sqlStartDateInicio = new java.sql.Date(inicio.getTime()); 
+//                java.sql.Date sqlStartDateFinal = new java.sql.Date(fin.getTime()); 
+//            
+//                vehiculo = vehiculodao.consultarVehiculoPorFecha(sqlStartDateInicio, sqlStartDateFinal);
+//                mvehiculo = new Gson().toJson(vehiculo); 
+//            }
             if (action.equalsIgnoreCase("listarClientePorAño")) {
                 cliente = clientedao.consultarClientePorAño();
                 mcliente = new Gson().toJson(cliente);
