@@ -15,7 +15,9 @@ HttpSession sesion = request.getSession();
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
         <link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>        
-        <script src="js/dataTable.js" type="text/javascript"></script>        
+        <script src="js/dataTable.js" type="text/javascript"></script>    
+        
+        <title>navbar</title>
     </head>
     <body>
         <nav class="navbar navbar-default" role="navigation">
