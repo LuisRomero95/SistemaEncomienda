@@ -171,7 +171,7 @@ public class VehiculoDAO extends Conexion implements DAO{
         ResultSet rs;
         ResultSet rs1;
         String sqlTrac = "SET lc_time_names = 'es_ES' ";
-        String sql = "SELECT year(e.fech_env) AS mes, count(v.marca) AS total FROM encomiendas e, vehiculos v WHERE e.id_veh = v.id GROUP BY mes ORDER BY e.fech_env";
+        String sql = "SELECT year(e.fech_env) AS marca, count(v.marca) AS total FROM encomiendas e, vehiculos v WHERE e.id_veh = v.id GROUP BY marca ORDER BY e.fech_env";
         try {
             this.conectar();
             pst1 = conexion.prepareStatement(sqlTrac);
@@ -180,7 +180,7 @@ public class VehiculoDAO extends Conexion implements DAO{
             rs = pst.executeQuery();      
             while(rs.next()){
                 datos.add(new Vehiculo(
-                        rs.getString("mes"),
+                        rs.getString("marca"),
                         rs.getInt("total")
                     )                    
                 );

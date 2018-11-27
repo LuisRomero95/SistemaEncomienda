@@ -52,7 +52,7 @@ HttpSession sesion = request.getSession();
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
         
-        <script src="js/validarReporteEncomienda.js" type="text/javascript"></script>
+        <script src="js/validarReporteIngreso.js" type="text/javascript"></script>
         
         <title>Reporte</title>
     </head>

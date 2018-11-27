@@ -2,7 +2,9 @@
 package controlador;
 
 import com.google.gson.Gson;
+import dao.ClienteDAO;
 import dao.EncomiendaDAO;
+import dao.PrecioDAO;
 import dao.VehiculoDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,12 +25,14 @@ public class SERVReporte extends HttpServlet {
 
     private EncomiendaDAO encomiendadao;
     private VehiculoDAO vehiculodao;
-    Encomienda enco = new Encomienda();
-
+    private ClienteDAO clientedao;
+    private PrecioDAO preciodao;
             
      public SERVReporte() {
     	encomiendadao = new EncomiendaDAO(){};
         vehiculodao = new VehiculoDAO(){};
+        clientedao = new ClienteDAO(){};
+        preciodao = new PrecioDAO(){};
     }         
      
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -52,20 +56,26 @@ public class SERVReporte extends HttpServlet {
         PrintWriter out = response.getWriter();
         String action = request.getParameter("action");                   
         String mensaje = "";
-        String mvehiculo = "";
-
+        String mvehiculo = ""; 
+        String mcliente = "";
+        
+        List cliente;        
+        List encomienda;
+        List precio;
+        List vehiculo;
+        
         try {
             
-            if (action.equalsIgnoreCase("listarEncomiendaPorAño")) {                  
-                List encomienda = encomiendadao.consultarEncomiendaPorAño();
-                mensaje = new Gson().toJson(encomienda); 
+            if (action.equalsIgnoreCase("listarIngresoPorAño")) {                  
+                precio = preciodao.consultarIngresoPorAño();
+                mensaje = new Gson().toJson(precio); 
             }                        
-            else if (action.equalsIgnoreCase("listarEncomiendaPorMes")) {
+            else if (action.equalsIgnoreCase("listarIngresoPorMes")) {
                 String año = request.getParameter("año");
-                List encomienda = encomiendadao.consultarEncomiendaPorMes(año);
-                mensaje = new Gson().toJson(encomienda); 
+                precio = preciodao.consultarIngresoPorMes(año);
+                mensaje = new Gson().toJson(precio); 
             }
-            else if (action.equalsIgnoreCase("listarEncomiendaPorFecha")) {
+            else if (action.equalsIgnoreCase("listarIngresoPorFecha")) {
                 String fech_ini = request.getParameter("fechaI");
                 String fech_fin = request.getParameter("fechaF");
                 
@@ -75,29 +85,27 @@ public class SERVReporte extends HttpServlet {
                 java.sql.Date sqlStartDateInicio = new java.sql.Date(inicio.getTime()); 
                 java.sql.Date sqlStartDateFinal = new java.sql.Date(fin.getTime()); 
             
-                List encomienda = encomiendadao.consultarEncomiendaPorFecha(sqlStartDateInicio, sqlStartDateFinal);
-                mensaje = new Gson().toJson(encomienda); 
+                precio = preciodao.consultarIngresoPorFecha(sqlStartDateInicio, sqlStartDateFinal);
+                mensaje = new Gson().toJson(precio); 
             }
-            else if (action.equalsIgnoreCase("listarTipoEncomiendaPorAño")) {   
-                
-                List encomienda;
-                 
+            else if (action.equalsIgnoreCase("listarTipoIngresoPorAño")) {   
+                                 
                 if(request.getParameter("tipo") != null){
                     String tipo = request.getParameter("tipo");
-                     encomienda = encomiendadao.consultarTipoEncomiendaPorAño(tipo);
+                    precio = preciodao.consultarTipoIngresoPorAño(tipo);
                 }
                 else{
-                     encomienda = encomiendadao.consultarTipoEncomiendaPorAño();
+                    precio = preciodao.consultarTipoIngresoPorAño();
                 }
                 
-                mensaje = new Gson().toJson(encomienda); 
+                mensaje = new Gson().toJson(precio); 
             }
-            else if (action.equalsIgnoreCase("listarTipoEncomiendaMes")) {  
+            else if (action.equalsIgnoreCase("listarTipoIngresoMes")) {  
                 String año = request.getParameter("año");                
-                List encomienda = encomiendadao.consultarTipoEncomiendaPorMes(año);
-                mensaje = new Gson().toJson(encomienda); 
+                precio = preciodao.consultarTipoIngresoPorMes(año);
+                mensaje = new Gson().toJson(precio); 
             }            
-            else if (action.equalsIgnoreCase("listarTipoEncomiendaPorFecha")) {
+            else if (action.equalsIgnoreCase("listarTipoIngresoPorFecha")) {
                 String fech_ini = request.getParameter("fechaI");
                 String fech_fin = request.getParameter("fechaF");
                 
@@ -107,8 +115,8 @@ public class SERVReporte extends HttpServlet {
                 java.sql.Date sqlStartDateInicio = new java.sql.Date(inicio.getTime()); 
                 java.sql.Date sqlStartDateFinal = new java.sql.Date(fin.getTime()); 
             
-                List encomienda = encomiendadao.consultarTipoEncomiendaPorFecha(sqlStartDateInicio, sqlStartDateFinal);
-                mensaje = new Gson().toJson(encomienda); 
+                precio = preciodao.consultarTipoIngresoPorFecha(sqlStartDateInicio, sqlStartDateFinal);
+                mensaje = new Gson().toJson(precio); 
             }     
             else if (action.equalsIgnoreCase("listarVehiculoPorAño")) {                  
                 List vehiculos = vehiculodao.consultarVehiculoPorAño();
@@ -129,9 +137,62 @@ public class SERVReporte extends HttpServlet {
                 java.sql.Date sqlStartDateInicio = new java.sql.Date(inicio.getTime()); 
                 java.sql.Date sqlStartDateFinal = new java.sql.Date(fin.getTime()); 
             
-                List vehiculo = vehiculodao.consultarVehiculoPorFecha(sqlStartDateInicio, sqlStartDateFinal);
+                vehiculo = vehiculodao.consultarVehiculoPorFecha(sqlStartDateInicio, sqlStartDateFinal);
                 mvehiculo = new Gson().toJson(vehiculo); 
+            }
+            if (action.equalsIgnoreCase("listarClientePorAño")) {
+                cliente = clientedao.consultarClientePorAño();
+                mcliente = new Gson().toJson(cliente);
+            }
+            else if (action.equalsIgnoreCase("listarClientePorMes")) {
+                String año = request.getParameter("año");
+                cliente = clientedao.consultarClientePorMes(año);
+                mcliente = new Gson().toJson(cliente); 
+            }
+            else if (action.equalsIgnoreCase("listarClientePorFecha")) {
+                String fech_ini = request.getParameter("fechaI");
+                String fech_fin = request.getParameter("fechaF");
+                
+                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                java.util.Date inicio = sdf1.parse(fech_ini);
+                java.util.Date fin = sdf1.parse(fech_fin);
+                java.sql.Date sqlStartDateInicio = new java.sql.Date(inicio.getTime()); 
+                java.sql.Date sqlStartDateFinal = new java.sql.Date(fin.getTime()); 
+            
+                cliente = clientedao.consultarClientePorFecha(sqlStartDateInicio, sqlStartDateFinal);
+                mcliente = new Gson().toJson(cliente); 
             }            
+            else if (action.equalsIgnoreCase("listarTipoClientePorAño")) {   
+                                
+                if(request.getParameter("tipo") != null){
+                    String tipo = request.getParameter("tipo");
+                    cliente = clientedao.consultarTipoClientePorAño(tipo);
+                }
+                else{
+                    cliente = clientedao.consultarTipoClientePorAño();
+                }
+                
+                mcliente = new Gson().toJson(cliente); 
+            }
+            else if (action.equalsIgnoreCase("listarTipoClienteMes")) {  
+                String año = request.getParameter("año");                
+                cliente = clientedao.consultarTipoClientePorMes(año);
+                mcliente = new Gson().toJson(cliente); 
+            }
+            else if (action.equalsIgnoreCase("listarTipoClientePorFecha")) {
+                String fech_ini = request.getParameter("fechaI");
+                String fech_fin = request.getParameter("fechaF");
+                
+                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                java.util.Date inicio = sdf1.parse(fech_ini);
+                java.util.Date fin = sdf1.parse(fech_fin);
+                java.sql.Date sqlStartDateInicio = new java.sql.Date(inicio.getTime()); 
+                java.sql.Date sqlStartDateFinal = new java.sql.Date(fin.getTime()); 
+            
+                cliente = clientedao.consultarTipoClientePorFecha(sqlStartDateInicio, sqlStartDateFinal);
+                mcliente = new Gson().toJson(cliente); 
+            }             
+            
             
         } catch (Exception ex) {
             Logger.getLogger(SERVUbicacion.class.getName()).log(Level.SEVERE, null, ex);
@@ -141,6 +202,7 @@ public class SERVReporte extends HttpServlet {
                 JSONObject jsonObject=new  JSONObject();               
                 jsonObject.put("mensaje", mensaje);
                 jsonObject.put("mvehiculo", mvehiculo);
+                jsonObject.put("mcliente", mcliente);
                 response.setCharacterEncoding("utf8");
                 response.setContentType("application/json");
                 out.print(jsonObject);

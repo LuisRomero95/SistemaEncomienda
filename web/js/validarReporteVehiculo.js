@@ -1,4 +1,7 @@
+    
+    var chart1, chart2;
     var dateToday = new Date(); 
+    
     $(function() {
         $.datepicker.regional['es'] = {
             closeText: 'Cerrar',
@@ -24,43 +27,283 @@
 
         }); 
     });      
+    
+    $(document).ready(function(){
+                       
+        /*Encomienda Grafico de Barras*/  
+        $('#btnGraficoBarraGananciaVehiculoPorAño').click(function () {
+            
+            getGraficoBarras1();
+            //Luego ejecuta --> getGraficoPie1();
+            
+        });                
+        $('#btnGraficoBarraGananciaVehiculoPorMes').click(function () {
+            
+            getGraficoBarras2();
+        });
+        
+        $('#btnGraficoPastelGananciaVehiculoPorFecha').click(function () {     
+            
+            var from = $('#from').val();
+            var to = $('#to').val();
+            
+            if( from === null || from.length === 0 || /^\s+$/.test(from) ) {
+              alert('[ERROR] Ingrese fecha de inicio');
+              return false;              
+            }
+            else if( to === null || to.length === 0 || /^\s+$/.test(to) ) {
+              alert('[ERROR] Ingrese fecha final');
+              return false;              
+            }
+            getGraficoBarrasFecha1();
+                     
+        });
+        
+        /*Tipo de Encomienda Grafico de Barras*/        
+        $('#btnGraficoBarraGananciaTipoEncomiendaPorAño').click(function () {
+            getGraficoBarras3();
+        });                           
+        $('#btnGraficoBarraGananciaTipoEncomiendaPorMes').click(function () {
+            getGraficoBarras4();
+        });
+        
+        /*Tipo de Encomienda Grafico de Pastel*/    
+        $('#btnGraficoPastelGananciaTipoEncomiendaPorAño').click(function () {
+            getGraficoPie3();
+        });                
+        $('#btnGraficoPastelGananciaTipoEncomiendaPorFecha').click(function () {
+            
+            var from = $('#from').val();
+            var to = $('#to').val();
+            
+            if( from === null || from.length === 0 || /^\s+$/.test(from) ) {
+              alert('[ERROR] Ingrese fecha de inicio');
+              return false;              
+            }
+            else if( to === null || to.length === 0 || /^\s+$/.test(to) ) {
+              alert('[ERROR] Ingrese fecha final');
+              return false;              
+            }                                    
+            getGraficoBarrasFecha2();
+        });                
+        
+        $('#btnExportChartsPDF').click(function (){                                     
+            fc_export_pdf(); 
+        });
+    });    
+    
+    
+      getGraficoBarras1 = function () {
+                
+        $.ajax({
+            type: "POST",            
+            url: 'SERVReporte',
+            data: "&action=listarVehiculoPorAño",
+            dataType: 'json',
+            success: function (data) {
+                console.log(data.mvehiculo);
+               _private.setBarras1(data);
+            },
+            complete:function(){
+                getGraficoPie1();
+            }
+        });
+    };
 
-var index_ = function () {
+
+    getGraficoBarras2 = function () {
+        var año = $("#listarAño").val();
+        $.ajax({
+            type: "POST",            
+            url: 'SERVReporte',
+            data: "&action=listarEncomiendaPorMes&año="+año,
+            dataType: 'json',
+            success: function (data) {
+                console.log(data.mvehiculo);
+               _private.setBarras2(data);
+            },
+            complete:function(){
+                getGraficoPie2();
+            }
+        });
+    };
+    
+    getGraficoBarras3 = function () {
+        $.ajax({
+            type: "POST",
+            url: 'SERVReporte',
+            data: "&action=listarTipoEncomiendaPorAño",
+            dataType: 'json',
+            success: function (data) {
+                console.log(data.mvehiculo);
+               _private.setBarras3(data);
+            }
+        });
+    };  
+    
+    getGraficoBarras4 = function () {
+        var año = $("#listarAño").val();
+        $.ajax({
+            type: "POST",           
+            url: 'SERVReporte',
+            data: "&action=listarTipoEncomiendaMes&año="+año,
+            dataType: 'json',
+            success: function (data) {
+                 console.log(data.mvehiculo);
+                _private.setBarras4(data);
+            }
+        });
+    };    
+            
+    getGraficoPie1 = function () {
+        $.ajax({
+            type: "POST",           
+            url: 'SERVReporte',
+            data: "&action=listarVehiculoPorAño",
+            dataType: 'json',
+            success: function (data) {
+                 console.log(data.mvehiculo);
+                _private.setPie1(data);
+            }
+//            complete:function(){
+//                getGraficoBarras3();
+//            }
+        });
+    };
+    
+    
+        
+    getGraficoPie2 = function () {
+        var año = $("#listarAño").val();
+        $.ajax({
+            type: "POST",           
+            url: 'SERVReporte',
+            data: "&action=listarEncomiendaPorMes&año="+año,
+            dataType: 'json',
+            success: function (data) {
+                 console.log(data.mvehiculo);
+                _private.setPie2(data);
+            },
+            complete:function(){
+                getGraficoBarras4();
+            }
+        });
+    };
+    
+    getGraficoPie3 = function () {
+        var tipo = $("#listarTipo").val();
+        $.ajax({
+            type: "POST",           
+            url: 'SERVReporte',
+            data: "&action=listarTipoEncomiendaPorAño&tipo="+tipo,
+            dataType: 'json',
+            success: function (data) {
+                 console.log(data.mvehiculo);
+                _private.setPie3(data);
+            }
+        });
+    };          
+     
+    getGraficoBarrasFecha1 = function () {
+        var fecha_inicio = $("#from").val();
+        var fecha_final = $("#to").val();
+        $.ajax({
+            type: "POST",           
+            url: 'SERVReporte',
+            data: "&action=listarEncomiendaPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
+            dataType: 'json',
+            success: function (data) {
+                 console.log(data.mvehiculo);
+                _private.setBarrasFecha1(data);
+            },
+            complete:function(){
+                getGraficoLineasFecha1();
+            }
+        });                
+    };    
+    
+    getGraficoLineasFecha1 = function () {
+        var fecha_inicio = $("#from").val();
+        var fecha_final = $("#to").val();
+        $.ajax({
+            type: "POST",           
+            url: 'SERVReporte',
+            data: "&action=listarEncomiendaPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
+            dataType: 'json',
+            success: function (data) {
+                 console.log(data.mvehiculo);
+                _private.setLineasFecha1(data);
+            },
+            complete:function(){
+                getGraficoBarrasFecha2();
+            }
+        });                
+    };        
+    
+    getGraficoBarrasFecha2 = function () {
+        var fecha_inicio = $("#from").val();
+        var fecha_final = $("#to").val();        
+        $.ajax({
+            type: "POST",           
+            url: 'SERVReporte',
+            data: "&action=listarTipoEncomiendaPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
+            dataType: 'json',
+            success: function (data) {
+                 console.log(data.mvehiculo);
+                _private.setBarrasFecha2(data);
+            }
+        });                
+    };   
+    
+      
+//var index_ = function () {
     
     /*metodos, propiedades privadas*/
     var _private = {};
 
-    _private.setBarras1V = function (data) {
+    _private.setBarras1 = function (data) {
         var objeto = JSON.parse(data.mvehiculo);  
-        alert(objeto.length);
+//        alert(objeto.length);
 
         var chart = AmCharts.makeChart("chartdiv1", {
             "theme": "light",
             "type": "serial",
+            "titles": [{
+                    "text": "Reporte de vehiculos usados según el año",
+                    "size": 16
+                }],            
+            "startDuration": 2,
             "dataProvider": objeto,
             "valueAxes": [{
-                "title": "Income in millions, USD"
-            }],
+                    "position": "left",
+                    "title": "Uso"
+                }],
             "graphs": [{
-                "balloonText": "Income in [[category]]:[[value]]",
-                "fillAlphas": 1,
-                "lineAlpha": 0.2,
-                "title": "Income",
-                "type": "column",
-                "valueField": "total"
-            }],
+                    "balloonText": "[[category]]: <b>[[value]]</b>",
+                    "fillColorsField": "color",
+                    "fillAlphas": 1,
+                    "lineAlpha": 0.1,
+                    "type": "column",
+                    "valueField": "total",
+                    labelText: "[[value]]"
+                }],
             "depth3D": 20,
             "angle": 30,
-            "rotate": true,
+            "chartCursor": {
+                "categoryBalloonEnabled": false,
+                "cursorAlpha": 0,
+                "zoomable": false
+            },
             "categoryField": "marca",
             "categoryAxis": {
                 "gridPosition": "start",
-                "fillAlpha": 0.05,
-                "position": "left"
+                "labelRotation": 90
             },
             "export": {
-                "enabled": true
-             }
+                "enabled": true,
+                "menu": []                
+            }
+
         });
     };
 
@@ -69,11 +312,11 @@ var index_ = function () {
 //        alert(objeto.length);
         var año = $("#listarAño").val();
         
-        var chart = AmCharts.makeChart("chartdiv2", {
+        var chart = AmCharts.makeChart("chartdiv1", {
             "theme": "light",
             "type": "serial",
             "titles": [{
-                    "text": "Ingresos de encomiendas del "+año +" según el mes",
+                    "text": "Reporte de ingresos de encomiendas del "+año +" según el mes",
                     "size": 16
                 }],            
             "startDuration": 2,
@@ -103,7 +346,8 @@ var index_ = function () {
                 "labelRotation": 90
             },
             "export": {
-                "enabled": true
+                "enabled": true,
+                "menu": []
             }
 
         });
@@ -131,7 +375,8 @@ var index_ = function () {
                         "lineAlpha": 0.2,
                         "title": "Sobre",
                         "type": "column",
-                        "valueField": "sobre"
+                        "valueField": "sobre",
+                        labelText: "sobre:[[value]]"
                     },
                     {
                         "balloonText": "paquete:[[value]]",
@@ -140,24 +385,30 @@ var index_ = function () {
                         "lineAlpha": 0.2,
                         "title": "Paquete",
                         "type": "column",
-                        "valueField": "paquete"
+                        "valueField": "paquete",
+                        labelText: "paquete:[[value]]"
                     }
             ],
             "guides": [],
             "valueAxes": [
                     {
                         "id": "ValueAxis-1",
-                        "position": "top",
+                        "position": "left",
                         "axisAlpha": 0,
-                        "title": "Ingresos de tipos de encomienda según el mes"
+                        "title": "ingresos (S/.)"
                     }
             ],
             "allLabels": [],
             "balloon": {},
-            "titles": [],
+            "titles": [
+                {
+                    "text": "Reporte de ingresos de sobres vs ingresos de paquetes según el año"
+                }
+            ],
             "dataProvider": objeto,
             "export": {
-                "enabled": true
+                "enabled": true,
+                "menu": []
             }
 
         });            
@@ -168,7 +419,7 @@ var index_ = function () {
 //        alert(objeto.length);        
         var año = $("#listarAño").val();        
         
-        var chart = AmCharts.makeChart("chartdiv4", {
+        var chart = AmCharts.makeChart("chartdiv3", {
             "type": "serial",            
             "theme": "light",          
             "categoryField": "mes",
@@ -205,7 +456,7 @@ var index_ = function () {
                         "id": "ValueAxis-1",
                         "position": "top",
                         "axisAlpha": 0,
-                        "title": "Ingresos de tipos de encomienda del "+año+" según el mes"
+                        "title": "Reporte de ingresos de sobres vs paquetes del "+año+" según el mes"
                     }
             ],
             "allLabels": [],
@@ -213,21 +464,71 @@ var index_ = function () {
             "titles": [],
             "dataProvider": objeto,
             "export": {
-                "enabled": true
+                "enabled": true,
+                "menu": []
             }
 
         });            
     };    
 
+    _private.setBarrasFecha1 = function (data) {
+        var objeto = JSON.parse(data.mvehiculo);  
+//        alert(objeto.length);
+        var from = $('#from').val();
+        var to = $('#to').val();
+        
+        var chart = AmCharts.makeChart("chartdiv1", {
+            "theme": "light",
+            "type": "serial",
+            "titles": [{
+                    "text": "Reporte de ingresos de encomiendas desde el "+from+" hasta el "+to,
+                    "size": 16
+                }],            
+            "startDuration": 2,
+            "dataProvider": objeto,
+            "valueAxes": [{
+                    "position": "left",
+                    "title": "Ingresos en soles"
+                }],
+            "graphs": [{
+                    "balloonText": "[[category]]: <b>[[value]]</b>",
+                    "fillColorsField": "color",
+                    "fillAlphas": 1,
+                    "lineAlpha": 0.1,
+                    "type": "column",
+                    "valueField": "total",
+                        labelText: "[[value]]"
+                }],
+            "depth3D": 20,
+            "angle": 30,
+            "chartCursor": {
+                "categoryBalloonEnabled": false,
+                "cursorAlpha": 0,
+                "zoomable": false
+            },
+            "categoryField": "mes",
+            "categoryAxis": {
+                "gridPosition": "start",
+                "labelRotation": 90
+            },
+            "export": {
+                "enabled": true,
+                "menu": []
+            }
+
+        });
+    };
+
+
     _private.setPie1 = function (data) {
         var objeto = JSON.parse(data.mvehiculo);  
 //        alert(objeto.length);
         
-        var chart = AmCharts.makeChart("chartdiv1", {
+        var chart = AmCharts.makeChart("chartdiv2", {
             "type": "pie",
             "theme": "light",
             "titles": [{
-                    "text": "Ingresos de encomiendas según el año",
+                    "text": "Reporte de ingresos de encomiendas según el año",
                     "size": 16
                 }],
             "dataProvider": objeto,
@@ -241,7 +542,8 @@ var index_ = function () {
             "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
             "angle": 15,
             "export": {
-                "enabled": true
+                "enabled": true,
+                "menu": []
             }
         });
     };
@@ -255,7 +557,7 @@ var index_ = function () {
             "type": "pie",
             "theme": "light",
             "titles": [{
-                    "text": "Ingresos de encomiendas del "+año+" según el mes",
+                    "text": "Reporte ingresos de encomiendas del "+año+" según el mes",
                     "size": 16
                 }],
             "dataProvider": objeto,
@@ -269,7 +571,8 @@ var index_ = function () {
             "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
             "angle": 15,
             "export": {
-                "enabled": true
+                "enabled": true,
+                "menu": []
             }
         });
     };
@@ -283,7 +586,7 @@ var index_ = function () {
             "type": "pie",
             "theme": "light",
             "titles": [{
-                    "text": "Ingresos de "+tipo+" según el año",
+                    "text": "Reporte de ingresos de "+tipo+" según el año",
                     "size": 16
                 }],
             "dataProvider": objeto,
@@ -297,12 +600,13 @@ var index_ = function () {
             "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
             "angle": 15,
             "export": {
-                "enabled": true
+                "enabled": true,
+                "menu": []
             }
         });                
     };        
     
-    _private.setBarrasFecha = function (data) {
+    _private.setLineasFecha1 = function (data) {
         var objeto = JSON.parse(data.mvehiculo);  
 //        alert(objeto.length);       
 
@@ -312,7 +616,7 @@ var index_ = function () {
         var chart = AmCharts.makeChart("chartdiv2", {
         "type": "serial",
         "titles": [{
-                "text": "Ingresos de encomiendas desde el "+from+" hasta el "+to,
+                "text": "Reporte de ingresos de encomiendas desde el "+from+" hasta el "+to,
                 "size": 16
             }],           
         "theme": "light",
@@ -386,7 +690,8 @@ var index_ = function () {
             "minorGridEnabled": true
         },
         "export": {
-            "enabled": true
+            "enabled": true,
+                "menu": []
         },
         "dataProvider": objeto
     });
@@ -407,10 +712,10 @@ var index_ = function () {
         var from = $('#from').val();
         var to = $('#to').val();        
         
-        var chart = AmCharts.makeChart("chartdiv4", {
+        var chart = AmCharts.makeChart("chartdiv3", {
             "type": "serial",
             "titles": [{
-                "text": "Ingresos de tipos de encomiendas desde el "+from+" hasta el "+to,
+                "text": "Reporte de ingresos de tipos de encomiendas desde el "+from+" hasta el "+to,
                 "size": 16
             }],               
              "theme": "light",
@@ -485,205 +790,64 @@ var index_ = function () {
                  }]
              },
              "export": {
-                 "enabled": true
+                 "enabled": true,
+                "menu": []
               }
          });            
-    };
-    
-    /*metodos, propiedades publicas*/
-    var _public = {};
-
-    _public.init = function () {
-        
-        /*Encomienda Grafico de Barras*/
-        $('#btnGraficoBarraGananciaVehiculoPorAño').click(function () {
-            index2.getGraficoBarrasVehiculo1();
-        });                
-        $('#btnGraficoBarraGananciaVehiculoPorMes').click(function () {
-            index2.getGraficoBarrassVehiculo2();
-        });
-        
-        /*Encomienda Grafico de Pastel*/
-        $('#btnGraficoPastelGananciaVehiculoPorAño').click(function () {
-            index2.getGraficoPieVehiculo1();
-        });        
-        $('#btnGraficoPastelGananciaVehiculoPorMes').click(function () {
-            index2.getGraficoPie2();
-        });                       
-        $('#btnGraficoPastelGananciaVehiculoPorFecha').click(function () {           
-            var from = $('#from').val();
-            var to = $('#to').val();
-            
-            if( from === null || from.length === 0 || /^\s+$/.test(from) ) {
-              alert('[ERROR] Ingrese fecha de inicio');
-              return false;              
-            }
-            else if( to === null || to.length === 0 || /^\s+$/.test(to) ) {
-              alert('[ERROR] Ingrese fecha final');
-              return false;              
-            }
-            index2.getGraficoBarrasFecha();
-        });
-        
-        /*Tipo de Encomienda Grafico de Barras*/        
-        $('#btnGraficoBarraGananciaTipoEncomiendaPorAño').click(function () {
-            index2.getGraficoBarras3();
-        });                           
-        $('#btnGraficoBarraGananciaTipoEncomiendaPorMes').click(function () {
-            index2.getGraficoBarras4();
-        });
-        
-        /*Tipo de Encomienda Grafico de Pastel*/    
-        $('#btnGraficoPastelGananciaTipoEncomiendaPorAño').click(function () {
-            index2.getGraficoPie3();
-        });                
-        $('#btnGraficoPastelGananciaTipoEncomiendaPorFecha').click(function () {
-            var from = $('#from').val();
-            var to = $('#to').val();
-            
-            if( from === null || from.length === 0 || /^\s+$/.test(from) ) {
-              alert('[ERROR] Ingrese fecha de inicio');
-              return false;              
-            }
-            else if( to === null || to.length === 0 || /^\s+$/.test(to) ) {
-              alert('[ERROR] Ingrese fecha final');
-              return false;              
-            }                                    
-            index2.getGraficoBarrasFecha2();
-        });        
-        
     };
     
 var myObj = { firstname : "John", lastname : "Doe" };
 console.log(myObj);
 
-    _public.getGraficoBarrasVehiculo1 = function () {
-        $.ajax({
-            type: "POST",            
-            url: 'SERVReporte',
-            data: "&action=listarVehiculoPorAño",
-            dataType: 'json',
-            success: function (data) {
-                console.log(data.mvehiculo);
-               _private.setBarras1V(data);
+var charts = {};
+    function fc_export_pdf()
+    {
+        try
+        {
+            var images = [];
+            var ids = ["chartdiv1", "chartdiv2", "chartdiv3"];
+            var charts_remaining = ids.length;
+            
+            var pending = AmCharts.charts.length;
+            
+            for (var i = 0; i < ids.length; i++) {
+                for (var x = 0; x < AmCharts.charts.length; x++) {
+                    if (AmCharts.charts[x].div.id === ids[i])
+                        charts[ids[i]] = AmCharts.charts[x];
+                }
             }
-        });
-    };
+            
+            for (var x in charts) {
+                if (charts.hasOwnProperty(x)) {
+                    var chart = charts[x];
+                    chart.export.capture( {}, function() {
+                      this.toJPG( {
+                        multiplier: 2
+                      }, function( data ) {
+                        images.push( {
+                          "image": data,
+                          "fit": [ 523.28, 769.89 ]
+                        } );
 
-    _public.getGraficoBarrassVehiculo2 = function () {
-        var año = $("#listarAño").val();
-        $.ajax({
-            type: "POST",            
-            url: 'SERVReporte',
-            data: "&action=listarVehiculoPorMes&año="+año,
-            dataType: 'json',
-            success: function (data) {
-                console.log(data.mvehiculo);
-               _private.setBarras2(data);
-            }
-        });
-    };
-    
-    _public.getGraficoBarras3 = function () {
-        $.ajax({
-            type: "POST",
-            url: 'SERVReporte',
-            data: "&action=listarTipoEncomiendaPorAño",
-            dataType: 'json',
-            success: function (data) {
-                console.log(data.mvehiculo);
-               _private.setBarras3(data);
-            }
-        });
-    };  
-    
-    _public.getGraficoBarras4 = function () {
-        var año = $("#listarAño").val();
-        $.ajax({
-            type: "POST",           
-            url: 'SERVReporte',
-            data: "&action=listarTipoEncomiendaMes&año="+año,
-            dataType: 'json',
-            success: function (data) {
-                 console.log(data.mvehiculo);
-                _private.setBarras4(data);
-            }
-        });
-    };    
-    
-    _public.getGraficoPieVehiculo1 = function () {
-        $.ajax({
-            type: "POST",           
-            url: 'SERVReporte',
-            data: "&action=listarVehiculoPorAño",
-            dataType: 'json',
-            success: function (data) {
-                 console.log(data.mvehiculo);
-                _private.setPie1(data);
-            }
-        });
-    };
-    
-    _public.getGraficoPie2 = function () {
-        var año = $("#listarAño").val();
-        $.ajax({
-            type: "POST",           
-            url: 'SERVReporte',
-            data: "&action=listarEncomiendaPorMes&año="+año,
-            dataType: 'json',
-            success: function (data) {
-                 console.log(data.mvehiculo);
-                _private.setPie2(data);
-            }
-        });
-    };
-    
-    _public.getGraficoPie3 = function () {
-        var tipo = $("#listarTipo").val();
-        $.ajax({
-            type: "POST",           
-            url: 'SERVReporte',
-            data: "&action=listarTipoEncomiendaPorAño&tipo="+tipo,
-            dataType: 'json',
-            success: function (data) {
-                 console.log(data.mvehiculo);
-                _private.setPie3(data);
-            }
-        });
-    };          
-    
-    _public.getGraficoBarrasFecha = function () {
-        var fecha_inicio = $("#from").val();
-        var fecha_final = $("#to").val();
-        $.ajax({
-            type: "POST",           
-            url: 'SERVReporte',
-            data: "&action=listarEncomiendaPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
-            dataType: 'json',
-            success: function (data) {
-                 console.log(data.mvehiculo);
-                _private.setBarrasFecha(data);
-            }
-        });                
-    };    
-    
-    _public.getGraficoBarrasFecha2 = function () {
-        var fecha_inicio = $("#from").val();
-        var fecha_final = $("#to").val();        
-        $.ajax({
-            type: "POST",           
-            url: 'SERVReporte',
-            data: "&action=listarTipoEncomiendaPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
-            dataType: 'json',
-            success: function (data) {
-                 console.log(data.mvehiculo);
-                _private.setBarrasFecha2(data);
-            }
-        });                
-    };   
-    
-    return _public;          
+                        charts_remaining--;
 
-};
+                        if ( charts_remaining === 0 ) {
+                          // all done - construct PDF
+                          chart.export.toPDF( {
+                            content: images
+                          }, function( data ) {
+                            this.download( data, "application/pdf", "ReporteEncomienda.pdf" );
+                          } );
+                        }
+                      } );
+        } );
+                }
+            }
+        }
+        catch(err)
+        {
+            alert('Ocurrió un error al exportar.\nConsulte con el administrador.');
+            console.log(err.message);
+        }
+    }
 
-var index2 = new index_();

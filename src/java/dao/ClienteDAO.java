@@ -1,9 +1,12 @@
 
 package dao;
 
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-import java.sql.*;
-import java.util.*;
 
 import modelado.Cliente;
 
@@ -13,7 +16,7 @@ public class ClienteDAO extends Conexion implements DAO{
     public void insertar(Object obj) throws Exception {
         Cliente c = (Cliente) obj;
         PreparedStatement pst = null;
-        String sql="INSERT INTO clientes (ruc_dni, nom, email, tel_fij, tel_cel, direc, distr) VALUES(?,?,?,?,?,?,?)";
+        String sql="INSERT INTO clientes (ruc_dni, nom, email, tel_fij, tel_cel, direc, distr, fech_ing) VALUES(?,?,?,?,?,?,?, CURDATE())";
         try {
             this.conectar();
             pst = conexion.prepareStatement(sql);
@@ -196,5 +199,220 @@ public class ClienteDAO extends Conexion implements DAO{
         }        
         return cliente;
     }    
+    
+    public List<Cliente> consultarClientePorAño() throws Exception  {
+        List<Cliente> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT year(c.fech_ing) AS mes, count(c.id) AS total FROM clientes c GROUP BY mes ORDER BY c.fech_ing";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();         
+            while(rs.next()){
+                datos.add(new Cliente(
+                        rs.getString("mes"),
+                        rs.getDouble("total")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }  
+    
+    public List<Cliente> consultarClientePorMes(String año) throws Exception  {
+        List<Cliente> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT monthname(c.fech_ing) AS mes, SUM(c.estado) AS total FROM clientes c WHERE year(c.fech_ing)='"+año+"' GROUP BY mes ORDER BY c.fech_ing";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();       
+            while(rs.next()){
+                datos.add(new Cliente(
+                        rs.getString("mes"),
+                        rs.getDouble("total")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }      
+    
+    public List<Cliente> consultarClientePorFecha(Date inicio, Date fin) throws Exception  {
+        List<Cliente> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT c.fech_ing AS mes, SUM(c.estado) AS total FROM clientes c WHERE c.fech_ing BETWEEN '"+inicio+"' AND '"+fin+"' GROUP BY mes ORDER BY c.fech_ing";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();       
+            while(rs.next()){
+                datos.add(new Cliente(
+                        rs.getString("mes"),
+                        rs.getDouble("total")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }    
+    
+    public List<Cliente> consultarTipoClientePorAño() throws Exception  {
+        List<Cliente> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT year(c.fech_ing) AS mes, SUM(CASE WHEN LENGTH(c.ruc_dni)=11 THEN c.estado ELSE 0 END) AS empresa, SUM(CASE WHEN LENGTH(c.ruc_dni)=8 THEN c.estado ELSE 0 END) AS persona FROM clientes c GROUP BY mes ORDER BY c.fech_ing";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();      
+            while(rs.next()){
+                datos.add(new Cliente(
+                        rs.getString("mes"),
+                        rs.getDouble("empresa"),
+                        rs.getDouble("persona")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }    
+       
+    
+    public List<Cliente> consultarTipoClientePorAño(String tipo) throws Exception  {
+        List<Cliente> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT year(c.fech_ing) AS mes, SUM(CASE WHEN LENGTH(c.ruc_dni)=11 THEN c.estado ELSE 0 END) AS empresa, SUM(CASE WHEN LENGTH(c.ruc_dni)=8 THEN c.estado ELSE 0 END) AS persona FROM clientes c GROUP BY mes ORDER BY c.fech_ing";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();      
+            while(rs.next()){
+                datos.add(new Cliente(
+                        rs.getString("mes"),
+                        rs.getDouble("empresa"),
+                        rs.getDouble("persona")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }    
+    
+    public List<Cliente> consultarTipoClientePorMes(String año) throws Exception  {
+        List<Cliente> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT year(c.fech_ing) AS mes, SUM(CASE WHEN LENGTH(c.ruc_dni)=11 THEN c.estado ELSE 0 END) AS empresa, SUM(CASE WHEN LENGTH(c.ruc_dni)=8 THEN c.estado ELSE 0 END) AS persona FROM clientes c WHERE year(c.fech_ing) ='"+año+"' GROUP BY mes ORDER BY c.fech_ing";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();         
+            while(rs.next()){
+                datos.add(new Cliente(
+                        rs.getString("mes"),
+                        rs.getDouble("empresa"),
+                        rs.getDouble("persona")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }   
+    
+    public List<Cliente> consultarTipoClientePorFecha(Date inicio, Date fin) throws Exception  {
+        List<Cliente> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT monthname(c.fech_ing) AS mes, SUM(CASE WHEN LENGTH(c.ruc_dni)=11 THEN c.estado ELSE 0 END) AS empresa, SUM(CASE WHEN LENGTH(c.ruc_dni)=8 THEN c.estado ELSE 0 END) AS persona FROM clientes c WHERE c.fech_ing BETWEEN '"+inicio+"' AND '"+fin+"' GROUP BY mes ORDER BY c.fech_ing";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();       
+            while(rs.next()){
+                datos.add(new Cliente(
+                        rs.getString("mes"),
+                        rs.getDouble("empresa"),
+                        rs.getDouble("persona")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }     
     
 }

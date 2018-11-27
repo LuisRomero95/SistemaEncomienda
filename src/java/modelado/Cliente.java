@@ -11,6 +11,12 @@ public class Cliente {
     private String tel_cel;
     private String direc;
     private String distr;
+    
+    private String mes;
+    private double total;
+    
+    private double empresa;
+    private double persona;
 
     //Constructor vacío para crear objetos vacios
     public Cliente() {
@@ -28,6 +34,17 @@ public class Cliente {
         this.direc = direc;
         this.distr = distr;
     }
+
+    public Cliente(String mes, double total) {
+        this.mes = mes;
+        this.total = total;
+    }        
+    
+    public Cliente(String mes, double empresa, double persona) {
+        this.mes = mes;
+        this.empresa = empresa;
+        this.persona = persona;
+    }    
    
     //Para obtener o establecer los valores de los campos
 

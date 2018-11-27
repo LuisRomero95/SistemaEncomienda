@@ -45,25 +45,19 @@ HttpSession sesion = request.getSession();
                 <br>
                 
             <div class="row">
-                 <div class="col-md-12">
-                     <div class="row" style=" padding: 5px 5px 5px; background-color: #E5E7E9">
-                         <div class="col-md-2">
-                             <input type="button" id="btnGraficoBarraGananciaVehiculoPorAño" class="btn btn-primary" value="Ver Según el Año">
-                         </div>
-                         <div class="col-md-2">
-                             <input type="button" id="btnGraficoPastelGananciaVehiculoPorAño" class="btn btn-primary" value="Ver Según el Año (%)">
-                         </div>
-                         <div class="col-md-2">
-                             <a class="btn btn-info" href="ReporteTipoEncomienda.jsp"> Ver Tipos de Encomienda</a>
-                         </div>
-                         <div class="col-md-2">
-                             <a class="btn btn-warning" href="SERVEncomienda?action=refresh"> Salir</a> 
-                         </div>
-                     </div>
-                 </div>
+                <div class="col-md-12">
+                    <div class="row" style=" padding: 5px 5px 5px; background-color: #E5E7E9">
+                        <div class="col-md-2">
+                            <input type="button" id="btnGraficoBarraGananciaVehiculoPorAño" class="btn btn-primary" value="Ver Según el Año">
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-warning" href="SERVEncomienda?action=refresh"> Salir</a> 
+                        </div>
+                    </div>
+                </div>
              </div>            
                 
-                <div id="chartdiv1" style="width: 900px;height: 400px"  ></div> 
+                <br>
                 
     <div class="row">
 	<div class="col-md-12">
@@ -79,9 +73,6 @@ HttpSession sesion = request.getSession();
                 </div>
                 <div class="col-md-2">
                     <input type="button" id="btnGraficoBarraGananciaVehiculoPorMes" class="btn btn-primary" value="Ver Por Mes">            
-                </div>
-                <div class="col-md-2">
-                    <input type="button" id="btnGraficoPastelGananciaVehiculoPorMes" class="btn btn-primary" value="Ver Por Mes (%)">                        
                 </div>
             </div>
 	</div>
@@ -110,14 +101,20 @@ HttpSession sesion = request.getSession();
 	</div>
     </div>                               
                 <br>                
-                <div id="chartdiv2" style="width: 900px;height: 400px"></div>                          
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-body">
+                            <div id="chartdiv1" class="chartdiv"></div>                                                   
+                            <div id="chartdiv2" class="chartdiv"></div>      
+                            <div id="chartdiv3" class="chartdiv"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>                        
                 
             </form>
         </div>
-    </body>
-    
-    <script>
-        index2.init();
-    </script>
+    </body>    
     
 </html>

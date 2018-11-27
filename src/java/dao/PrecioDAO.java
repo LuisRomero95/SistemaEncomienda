@@ -1,6 +1,7 @@
 
 package dao;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -140,5 +141,218 @@ public class PrecioDAO extends Conexion implements DAO{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    
+    public List<Precio> consultarIngresoPorAño() throws Exception  {
+        List<Precio> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT year(e.fech_env) AS mes, SUM(p.result) AS total FROM encomiendas e, precios p WHERE e.id = p.id_enc AND e.id_tipo='2' GROUP BY mes ORDER BY e.fech_env";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();         
+            while(rs.next()){
+                datos.add(new Precio(
+                        rs.getString("mes"),
+                        rs.getDouble("total")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }     
+    
+    public List<Precio> consultarIngresoPorMes(String año) throws Exception  {
+        List<Precio> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT monthname(e.fech_env) AS mes, SUM(p.result) AS total FROM encomiendas e, precios p WHERE e.id = p.id_enc AND year(e.fech_env)='"+año+"' AND e.id_tipo='2' GROUP BY mes ORDER BY e.fech_env";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();       
+            while(rs.next()){
+                datos.add(new Precio(
+                        rs.getString("mes"),
+                        rs.getDouble("total")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }        
+        
+    public List<Precio> consultarIngresoPorFecha(Date inicio, Date fin) throws Exception  {
+        List<Precio> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT e.fech_env as mes, SUM(p.result) AS total FROM encomiendas e, precios p WHERE e.id = p.id_enc AND e.fech_env BETWEEN '"+inicio+"' AND '"+fin+"' AND e.estado =1 AND e.id_tipo='2' GROUP by mes";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();       
+            while(rs.next()){
+                datos.add(new Precio(
+                        rs.getString("mes"),
+                        rs.getDouble("total")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }       
+    
+    public List<Precio> consultarTipoIngresoPorAño() throws Exception  {
+        List<Precio> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT year(e.fech_env) AS mes, SUM(CASE WHEN p.tipo = 'sobre' THEN p.result ELSE 0 END) AS sobre, SUM(CASE WHEN p.tipo = 'paquete' THEN p.result ELSE 0 END) AS paquete FROM encomiendas e INNER JOIN precios p ON e.id = p.id_enc WHERE e.id_tipo='2' GROUP BY mes ORDER BY e.fech_env";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();      
+            while(rs.next()){
+                datos.add(new Precio(
+                        rs.getString("mes"),
+                        rs.getDouble("sobre"),
+                        rs.getDouble("paquete")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }
+    
+    public List<Precio> consultarTipoIngresoPorAño(String tipo) throws Exception  {
+        List<Precio> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT year(e.fech_env) AS mes, SUM(p.result) AS tipo FROM encomiendas e, precios p WHERE e.id = p.id_enc AND e.id_tipo='2' AND p.tipo='"+tipo+"' GROUP BY mes ORDER BY e.fech_env";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();      
+            while(rs.next()){
+                datos.add(new Precio(
+                        rs.getString("mes"),
+                        rs.getDouble("tipo")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }    
+    
+    public List<Precio> consultarTipoIngresoPorMes(String año) throws Exception  {
+        List<Precio> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT monthname(e.fech_env) AS mes, SUM(CASE WHEN p.tipo = 'sobre' THEN p.result ELSE 0 END) AS sobre, SUM(CASE WHEN p.tipo = 'paquete' THEN p.result ELSE 0 END) AS paquete FROM encomiendas e INNER JOIN precios p ON e.id = p.id_enc WHERE year(e.fech_env) ='"+año+"' GROUP BY mes  ORDER BY e.fech_env";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();         
+            while(rs.next()){
+                datos.add(new Precio(
+                        rs.getString("mes"),
+                        rs.getDouble("sobre"),
+                        rs.getDouble("paquete")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }  
+        
+    public List<Precio> consultarTipoIngresoPorFecha(Date inicio, Date fin) throws Exception  {
+        List<Precio> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT monthname(e.fech_env) AS mes, SUM(CASE WHEN p.tipo = 'sobre' THEN p.result ELSE 0 END) AS sobre, SUM(CASE WHEN p.tipo = 'paquete' THEN p.result ELSE 0 END) AS paquete FROM encomiendas e INNER JOIN precios p ON e.id = p.id_enc WHERE e.fech_env BETWEEN '"+inicio+"' AND '"+fin+"' GROUP BY mes ORDER BY e.fech_env";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();       
+            while(rs.next()){
+                datos.add(new Precio(
+                        rs.getString("mes"),
+                        rs.getDouble("sobre"),
+                        rs.getDouble("paquete")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }      
     
 }

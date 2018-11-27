@@ -30,19 +30,19 @@
     
     $(document).ready(function(){
                        
-        /*Ingreso Grafico de Barras*/  
-        $('#btnGraficoBarraPastelGananciaIngresoPorAño').click(function () {
+        /*Encomienda Grafico de Barras*/  
+        $('#btnGraficoBarraPastelGananciaClientePorAño').click(function () {
             
             getGraficoBarras1();
             //Luego ejecuta --> getGraficoPie1();
             
         });                
-        $('#btnGraficoBarraPastelGananciaIngresoPorMes').click(function () {
+        $('#btnGraficoBarraPastelGananciaClientePorMes').click(function () {
             
             getGraficoBarras2();
         });
         
-        $('#btnGraficoBarraLineaGananciaIngresoPorFecha').click(function () {     
+        $('#btnGraficoBarraLineaGananciaClientePorFecha').click(function () {     
             
             var from = $('#from').val();
             var to = $('#to').val();
@@ -57,7 +57,35 @@
             }
             getGraficoBarrasFecha1();
                      
-        });                    
+        });
+        
+        /*Tipo de Encomienda Grafico de Barras*/        
+        $('#btnGraficoBarraGananciaTipoEncomiendaPorAño').click(function () {
+            getGraficoBarras3();
+        });                           
+        $('#btnGraficoBarraGananciaTipoEncomiendaPorMes').click(function () {
+            getGraficoBarras4();
+        });
+        
+        /*Tipo de Encomienda Grafico de Pastel*/    
+        $('#btnGraficoPastelGananciaTipoEncomiendaPorAño').click(function () {
+            getGraficoPie3();
+        });                
+        $('#btnGraficoPastelGananciaTipoEncomiendaPorFecha').click(function () {
+            
+            var from = $('#from').val();
+            var to = $('#to').val();
+            
+            if( from === null || from.length === 0 || /^\s+$/.test(from) ) {
+              alert('[ERROR] Ingrese fecha de inicio');
+              return false;              
+            }
+            else if( to === null || to.length === 0 || /^\s+$/.test(to) ) {
+              alert('[ERROR] Ingrese fecha final');
+              return false;              
+            }                                    
+            getGraficoBarrasFecha2();
+        });                
         
         $('#btnExportChartsPDF').click(function (){                                     
             fc_export_pdf(); 
@@ -73,10 +101,10 @@
         $.ajax({
             type: "POST",            
             url: 'SERVReporte',
-            data: "&action=listarIngresoPorAño",
+            data: "&action=listarClientePorAño",
             dataType: 'json',
             success: function (data) {
-                console.log(data.mensaje);
+                console.log(data.mcliente);
                _private.setBarras1(data);
             },
             complete:function(){
@@ -85,15 +113,16 @@
         });
     };
 
+
     getGraficoBarras2 = function () {
         var año = $("#listarAño").val();
         $.ajax({
             type: "POST",            
             url: 'SERVReporte',
-            data: "&action=listarIngresoPorMes&año="+año,
+            data: "&action=listarClientePorMes&año="+año,
             dataType: 'json',
             success: function (data) {
-                console.log(data.mensaje);
+                console.log(data.mcliente);
                _private.setBarras2(data);
             },
             complete:function(){
@@ -106,10 +135,10 @@
         $.ajax({
             type: "POST",
             url: 'SERVReporte',
-            data: "&action=listarTipoIngresoPorAño",
+            data: "&action=listarTipoClientePorAño",
             dataType: 'json',
             success: function (data) {
-                console.log(data.mensaje);
+                console.log(data.mcliente);
                _private.setBarras3(data);
             }
         });
@@ -120,10 +149,10 @@
         $.ajax({
             type: "POST",           
             url: 'SERVReporte',
-            data: "&action=listarTipoIngresoMes&año="+año,
+            data: "&action=listarTipoClienteMes&año="+año,
             dataType: 'json',
             success: function (data) {
-                 console.log(data.mensaje);
+                 console.log(data.mcliente);
                 _private.setBarras4(data);
             }
         });
@@ -133,10 +162,10 @@
         $.ajax({
             type: "POST",           
             url: 'SERVReporte',
-            data: "&action=listarIngresoPorAño",
+            data: "&action=listarClientePorAño",
             dataType: 'json',
             success: function (data) {
-                 console.log(data.mensaje);
+                 console.log(data.mcliente);
                 _private.setPie1(data);
             },
             complete:function(){
@@ -144,16 +173,18 @@
             }
         });
     };
-               
+    
+    
+        
     getGraficoPie2 = function () {
         var año = $("#listarAño").val();
         $.ajax({
             type: "POST",           
             url: 'SERVReporte',
-            data: "&action=listarIngresoPorMes&año="+año,
+            data: "&action=listarClientePorMes&año="+año,
             dataType: 'json',
             success: function (data) {
-                 console.log(data.mensaje);
+                 console.log(data.mcliente);
                 _private.setPie2(data);
             },
             complete:function(){
@@ -167,10 +198,10 @@
         $.ajax({
             type: "POST",           
             url: 'SERVReporte',
-            data: "&action=listarTipoIngresoPorAño&tipo="+tipo,
+            data: "&action=listarTipoEncomiendaPorAño&tipo="+tipo,
             dataType: 'json',
             success: function (data) {
-                 console.log(data.mensaje);
+                 console.log(data.mcliente);
                 _private.setPie3(data);
             }
         });
@@ -182,10 +213,10 @@
         $.ajax({
             type: "POST",           
             url: 'SERVReporte',
-            data: "&action=listarTipoIngresoPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
+            data: "&action=listarTipoClientePorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
             dataType: 'json',
             success: function (data) {
-                 console.log(data.mensaje);
+                 console.log(data.mcliente);
                 _private.setBarrasFecha1(data);
             },
             complete:function(){
@@ -200,10 +231,10 @@
         $.ajax({
             type: "POST",           
             url: 'SERVReporte',
-            data: "&action=listarIngresoPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
+            data: "&action=listarClientePorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
             dataType: 'json',
             success: function (data) {
-                 console.log(data.mensaje);
+                 console.log(data.mcliente);
                 _private.setLineasFecha1(data);
             },
             complete:function(){
@@ -218,27 +249,30 @@
         $.ajax({
             type: "POST",           
             url: 'SERVReporte',
-            data: "&action=listarTipoIngresoPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
+            data: "&action=listarTipoClientePorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
             dataType: 'json',
             success: function (data) {
-                 console.log(data.mensaje);
+                 console.log(data.mcliente);
                 _private.setBarrasFecha2(data);
             }
         });                
     };   
     
+      
+//var index_ = function () {
+    
     /*metodos, propiedades privadas*/
     var _private = {};
 
     _private.setBarras1 = function (data) {
-        var objeto = JSON.parse(data.mensaje);  
+        var objeto = JSON.parse(data.mcliente);  
 //        alert(objeto.length);
 
         var chart = AmCharts.makeChart("chartdiv1", {
             "theme": "light",
             "type": "serial",
             "titles": [{
-                    "text": "Reporte de ingresos según el año",
+                    "text": "Reporte de cantidad de clientes según el año",
                     "size": 16
                 }],            
             "startDuration": 2,
@@ -286,7 +320,7 @@
     };
 
     _private.setBarras2 = function (data) {
-        var objeto = JSON.parse(data.mensaje);  
+        var objeto = JSON.parse(data.mcliente);  
 //        alert(objeto.length);
         var año = $("#listarAño").val();
         
@@ -294,14 +328,14 @@
             "theme": "light",
             "type": "serial",
             "titles": [{
-                    "text": "Reporte de ingresos del "+año +" según el mes",
+                    "text": "Reporte de cantidad de clientes del "+año +" según el mes",
                     "size": 16
                 }],            
             "startDuration": 2,
             "dataProvider": objeto,
             "valueAxes": [{
                     "position": "left",
-                    "title": "Ingresos (S/.)"
+                    "title": "Cantidad de Clientes"
                 }],
             "graphs": [{
                     "balloonText": "[[category]]: <b>[[value]]</b>",
@@ -333,7 +367,7 @@
     };
         
     _private.setBarras3 = function (data) {
-        var objeto = JSON.parse(data.mensaje);  
+        var objeto = JSON.parse(data.mcliente);  
 //        alert(objeto.length);        
         var chart = AmCharts.makeChart("chartdiv3", {
             "type": "serial",            
@@ -349,24 +383,24 @@
             "trendLines": [],
             "graphs": [
                     {
-                        "balloonText": "sobre:[[value]]",
+                        "balloonText": "empresa:[[value]]",
                         "fillAlphas": 0.8,
                         "id": "AmGraph-1",
                         "lineAlpha": 0.2,
                         "title": "Sobre",
                         "type": "column",
-                        "valueField": "sobre",
-                        labelText: "sobre:[[value]]"
+                        "valueField": "empresa",
+                        labelText: "empresa:[[value]]"
                     },
                     {
-                        "balloonText": "paquete:[[value]]",
+                        "balloonText": "persona:[[value]]",
                         "fillAlphas": 0.8,
                         "id": "AmGraph-2",
                         "lineAlpha": 0.2,
                         "title": "Paquete",
                         "type": "column",
-                        "valueField": "paquete",
-                        labelText: "paquete:[[value]]"
+                        "valueField": "persona",
+                        labelText: "persona:[[value]]"
                     }
             ],
             "guides": [],
@@ -375,14 +409,14 @@
                         "id": "ValueAxis-1",
                         "position": "left",
                         "axisAlpha": 0,
-                        "title": "Ingresos (S/.)"
+                        "title": "Cantidad de clientes"
                     }
             ],
             "allLabels": [],
             "balloon": {},
             "titles": [
                 {
-                    "text": "Reporte de ingresos de sobres vs ingresos de paquetes según el año"
+                    "text": "Reporte de cantidad de empresas vs de personas según el año"
                 }
             ],
             "dataProvider": objeto,
@@ -395,7 +429,7 @@
     };    
         
     _private.setBarras4 = function (data) {
-        var objeto = JSON.parse(data.mensaje);  
+        var objeto = JSON.parse(data.mcliente);  
 //        alert(objeto.length);        
         var año = $("#listarAño").val();        
         
@@ -413,22 +447,22 @@
             "trendLines": [],
             "graphs": [
                     {
-                        "balloonText": "sobre:[[value]]",
+                        "balloonText": "empresa:[[value]]",
                         "fillAlphas": 0.8,
                         "id": "AmGraph-1",
                         "lineAlpha": 0.2,
-                        "title": "Sobre",
+                        "title": "Empresa",
                         "type": "column",
-                        "valueField": "sobre"
+                        "valueField": "empresa"
                     },
                     {
-                        "balloonText": "paquete:[[value]]",
+                        "balloonText": "persona:[[value]]",
                         "fillAlphas": 0.8,
                         "id": "AmGraph-2",
                         "lineAlpha": 0.2,
-                        "title": "Paquete",
+                        "title": "Persona",
                         "type": "column",
-                        "valueField": "paquete"
+                        "valueField": "persona"
                     }
             ],
             "guides": [],
@@ -437,14 +471,14 @@
                         "id": "ValueAxis-1",
                         "position": "left",
                         "axisAlpha": 0,
-                        "title": "Ingresos (S/.)"
+                        "title": "Años"
                     }
             ],
             "allLabels": [],
             "balloon": {},
             "titles": [
                  {
-                    "text": "Reporte de ingresos de sobres vs paquetes del "+año+" según el mes"
+                    "text": "Reporte de cantidad de empresas vs personas del "+año+" según el mes"
                 }
             ],
             "dataProvider": objeto,
@@ -457,25 +491,25 @@
     };    
 
     _private.setBarrasFecha1 = function (data) {
-        var objeto = JSON.parse(data.mensaje);  
+        var objeto = JSON.parse(data.mcliente);  
 //        alert(objeto.length);
         var from = $('#from').val();
-        var to = $('#to').val();                                
+        var to = $('#to').val();         
         
         var chart = AmCharts.makeChart("chartdiv1", {
             
             "type": "serial",
             "theme": "none",
             "titles": [{
-                    "text": "Reporte de ingresos desde el "+from+" hasta el "+to,
+                    "text": "Reporte de cantidad de clientes desde el "+from+" hasta el "+to,
                     "size": 16
-                }],              
+                }], 
             "legend": {
                 "horizontalGap": 10,
                 "maxColumns": 1,
                 "position": "right",
-                "useGraphSettings": true,
-                "markerSize": 10
+            "useGraphSettings": true,
+            "markerSize": 10
             },
             "dataProvider": objeto,
             "graphs": [{
@@ -483,19 +517,19 @@
                 "fillAlphas": 0.8,
                 "labelText": "[[value]]",
                 "lineAlpha": 0.3,
-                "title": "Sobres",
+                "title": "Empresas",
                 "type": "column",
                 "color": "#000000",
-                "valueField": "sobre"
+                "valueField": "empresa"
             }, {
                 "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
                 "fillAlphas": 0.8,
                 "labelText": "[[value]]",
                 "lineAlpha": 0.3,
-                "title": "Paquetes",
+                "title": "Persona",
                 "type": "column",
                 "color": "#000000",
-                "valueField": "paquete"
+                "valueField": "persona"
             }],
             "categoryField": "mes",
             "categoryAxis": {
@@ -510,26 +544,27 @@
                         "id": "ValueAxis-1",
                         "position": "left",
                         "axisAlpha": 0,
-                        "title": " Ingresos (S/.)"
+                        "title": " Cantidad de clientes "
                     }                
             ],
             "export": {
                 "enabled": true,
                 "menu": []
              }
+
         });   
     };
 
 
     _private.setPie1 = function (data) {
-        var objeto = JSON.parse(data.mensaje);  
+        var objeto = JSON.parse(data.mcliente);  
 //        alert(objeto.length);
         
         var chart = AmCharts.makeChart("chartdiv2", {
             "type": "pie",
             "theme": "light",
             "titles": [{
-                    "text": "Reporte % de ingresos según el año",
+                    "text": "Reporte % de cantidad de clientes según el año",
                     "size": 16
                 }],
             "dataProvider": objeto,
@@ -550,7 +585,7 @@
     };
 
     _private.setPie2 = function (data) {
-        var objeto = JSON.parse(data.mensaje);  
+        var objeto = JSON.parse(data.mcliente);  
 //        alert(objeto.length);
         var año = $("#listarAño").val();
         
@@ -558,7 +593,7 @@
             "type": "pie",
             "theme": "light",
             "titles": [{
-                    "text": "Reporte % ingresos del "+año+" según el mes",
+                    "text": "Reporte % de cantidad de cliente del "+año+" según el mes",
                     "size": 16
                 }],
             "dataProvider": objeto,
@@ -579,7 +614,7 @@
     };
     
     _private.setPie3 = function (data) {
-        var objeto = JSON.parse(data.mensaje);  
+        var objeto = JSON.parse(data.mcliente);  
 //        alert(objeto.length);
         var tipo = $("#listarTipo").val();
         
@@ -587,7 +622,7 @@
             "type": "pie",
             "theme": "light",
             "titles": [{
-                    "text": "Reporte % de ingresos de "+tipo+" según el año",
+                    "text": "Reporte de ingresos de "+tipo+" según el año",
                     "size": 16
                 }],
             "dataProvider": objeto,
@@ -608,7 +643,7 @@
     };        
     
     _private.setLineasFecha1 = function (data) {
-        var objeto = JSON.parse(data.mensaje);  
+        var objeto = JSON.parse(data.mcliente);  
 //        alert(objeto.length);       
 
         var from = $('#from').val();
@@ -617,7 +652,7 @@
         var chart = AmCharts.makeChart("chartdiv2", {
         "type": "serial",
         "titles": [{
-                "text": "Reporte de ingresos desde el "+from+" hasta el "+to,
+                "text": "Reporte de cantidad de clientes desde el "+from+" hasta el "+to,
                 "size": 16
             }],           
         "theme": "light",
@@ -631,7 +666,7 @@
             "axisAlpha": 0,
             "position": "left",
             "ignoreAxisWidth":true,
-            "title": "Ingresos (S/.)"
+            "title": "Cantidad de clientes"
         }],
         "balloon": {
             "borderThickness": 1,
@@ -709,7 +744,7 @@
     };   
     
     _private.setBarrasFecha2 = function (data) {
-        var objeto = JSON.parse(data.mensaje);  
+        var objeto = JSON.parse(data.mcliente);  
 //        alert(objeto.length);       
 
         var from = $('#from').val();
@@ -718,7 +753,7 @@
         var chart = AmCharts.makeChart("chartdiv3", {
             "type": "serial",
             "titles": [{
-                "text": "Reporte de tipos de ingresos desde el "+from+" hasta el "+to,
+                "text": "Reporte de ingresos de tipos de clientes desde el "+from+" hasta el "+to,
                 "size": 16
             }],               
              "theme": "light",
@@ -735,7 +770,7 @@
                  "stackType": "regular",
                  "gridAlpha": 0.07,
                  "position": "left",
-                 "title": "Ingresos (S/.)"
+                 "title": "Ingresos"
              }],
              "graphs": [{
                  "balloonText": "<img src='https://www.amcharts.com/lib/3/images/car.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>[[value]]</b></span>",
@@ -748,14 +783,14 @@
                  "balloonText": "<img src='https://www.amcharts.com/lib/3/images/motorcycle.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>[[value]]</b></span>",
                  "fillAlphas": 0.6,
                  "lineAlpha": 0.4,
-                 "title": "Paquetes",
-                 "valueField": "paquete"
+                 "title": "Empresa",
+                 "valueField": "empresa"
              }, {
                  "balloonText": "<img src='https://www.amcharts.com/lib/3/images/bicycle.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>[[value]]</b></span>",
                  "fillAlphas": 0.6,
                  "lineAlpha": 0.4,
-                 "title": "Sobres",
-                 "valueField": "sobre"
+                 "title": "Persona",
+                 "valueField": "persona"
              }],
              "plotAreaBorderAlpha": 0,
              "marginTop": 10,
@@ -840,7 +875,7 @@ console.log(myObj);
                                 chart.export.toPDF( {
                                   content: images
                                 }, function( data ) {
-                                  this.download( data, "application/pdf", "ReporteIngreso.pdf" );
+                                  this.download( data, "application/pdf", "ReporteCliente.pdf" );
                                 } );
                             }
                         } );

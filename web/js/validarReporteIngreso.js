@@ -85,6 +85,7 @@
         });
     };
 
+
     getGraficoBarras2 = function () {
         var año = $("#listarAño").val();
         $.ajax({
@@ -144,7 +145,9 @@
             }
         });
     };
-               
+    
+    
+        
     getGraficoPie2 = function () {
         var año = $("#listarAño").val();
         $.ajax({

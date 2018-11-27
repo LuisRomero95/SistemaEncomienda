@@ -9,6 +9,12 @@ public class Precio {
     private double peso;    
     private double resultado;
     
+    
+    private String mes;
+    private double total;
+    private double sobre;
+    private double paquete;
+    
     public Precio() {
     }
 
@@ -20,7 +26,18 @@ public class Precio {
         this.peso = peso;
         this.resultado = resultado;
     }
+    
+    public Precio(String mes, double total) {
+        this.mes = mes;
+        this.total = total;
+    }    
 
+    public Precio(String mes, double sobre, double paquete) {
+        this.mes = mes;
+        this.sobre = sobre;
+        this.paquete = paquete;
+    }    
+    
     public int getId() {
         return id;
     }
