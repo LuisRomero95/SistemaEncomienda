@@ -239,7 +239,20 @@
 
     _private.setBarras1 = function (data) {
         var objeto = JSON.parse(data.mvehiculo);  
-//        alert(objeto.length);
+        
+        for(var i=0; i< objeto.length; i++){
+               delete objeto[i].acura;
+               delete objeto[i].audi;
+               delete objeto[i].honda;
+               delete objeto[i].cadillac;
+               delete objeto[i].ford;
+        }
+
+        var arreglado = objeto.map( item => { 
+            return { año: item.tiempo , total : item.total }; 
+        });
+
+        console.log(arreglado);
 
         var chart = AmCharts.makeChart("chartdiv1", {
             "theme": "light",
@@ -249,7 +262,7 @@
                     "size": 16
                 }],            
             "startDuration": 2,
-            "dataProvider": objeto,
+            "dataProvider": arreglado,
             "valueAxes": [{
                     "position": "left",
                     "title": "cantidad de vehiculos"
@@ -270,7 +283,7 @@
                 "cursorAlpha": 0,
                 "zoomable": false
             },
-            "categoryField": "tiempo",
+            "categoryField": "año",
             "categoryAxis": {
                 "gridPosition": "start",
                 "labelRotation": 90,
@@ -300,7 +313,21 @@
 
     _private.setBarras2 = function (data) {
         var objeto = JSON.parse(data.mvehiculo);  
-//        alert(objeto.length);
+        
+        for(var i=0; i< objeto.length; i++){
+               delete objeto[i].acura;
+               delete objeto[i].audi;
+               delete objeto[i].honda;
+               delete objeto[i].cadillac;
+               delete objeto[i].ford;
+        }
+     
+        var arreglado = objeto.map( item => { 
+            return { mes: item.tiempo , total : item.total }; 
+        });
+
+        console.log(arreglado);
+        
         var año = $("#listarAño").val();
         
         var chart = AmCharts.makeChart("chartdiv1", {
@@ -311,7 +338,7 @@
                     "size": 16
                 }],            
             "startDuration": 2,
-            "dataProvider": objeto,
+            "dataProvider": arreglado,
             "valueAxes": [{
                     "position": "left",
                     "title": "Cantidad de marcas"
@@ -331,7 +358,7 @@
                 "cursorAlpha": 0,
                 "zoomable": false
             },
-            "categoryField": "tiempo",
+            "categoryField": "mes",
             "categoryAxis": {
                 "gridPosition": "start",
                 "labelRotation": 90,
@@ -361,11 +388,21 @@
         
     _private.setBarras3 = function (data) {
         var objeto = JSON.parse(data.mvehiculo);  
-//        alert(objeto.length);        
+        
+        for(var i=0; i< objeto.length; i++){
+               delete objeto[i].total;
+        }
+     
+        var arreglado = objeto.map( item => { 
+            return { año: item.tiempo , acura: item.acura, audi: item.audi, honda: item.honda, cadillac: item.cadillac, ford: item.ford }; 
+        });
+
+        console.log(arreglado);
+        
         var chart = AmCharts.makeChart("chartdiv3", {
             "type": "serial",            
             "theme": "light",          
-            "categoryField": "tiempo",
+            "categoryField": "año",
             "rotate": true,
             "startDuration": 1,
             "categoryAxis": 
@@ -451,7 +488,7 @@
                     "text": "Reporte de cantidad de marcas según el año"
                 }
             ],
-            "dataProvider": objeto,
+            "dataProvider": arreglado,
             "export": {
                 "enabled": true,
                 "menu": []
@@ -468,13 +505,25 @@
         
     _private.setBarras4 = function (data) {
         var objeto = JSON.parse(data.mvehiculo);  
-//        alert(objeto.length);        
+        
+        for(var i=0; i< objeto.length; i++){
+               delete objeto[i].total;
+        }
+     
+        var arreglado = objeto.map( item => { 
+            return { mes: item.tiempo , acura: item.acura, audi: item.audi, honda: item.honda, cadillac: item.cadillac, ford: item.ford }; 
+        });
+
+        console.log(arreglado);    
+        
+        var año = $("#listarAño").val();   
+        
         var año = $("#listarAño").val();        
         
         var chart = AmCharts.makeChart("chartdiv3", {
             "type": "serial",            
             "theme": "light",          
-            "categoryField": "tiempo",
+            "categoryField": "mes",
             "rotate": true,
             "startDuration": 1,
             "categoryAxis": {
@@ -559,7 +608,7 @@
                     "text": "Reporte de tipos de marcas del "+año+" según el año"
                 }
             ],
-            "dataProvider": objeto,
+            "dataProvider": arreglado,
             "export": {
                 "enabled": true,
                 "menu": []
@@ -576,7 +625,17 @@
 
     _private.setBarrasFecha1 = function (data) {
         var objeto = JSON.parse(data.mvehiculo);  
-//        alert(objeto.length);
+
+        for(var i=0; i< objeto.length; i++){
+               delete objeto[i].total;
+        }
+     
+        var arreglado = objeto.map( item => { 
+            return { mes: item.tiempo , acura: item.acura, audi: item.audi, honda: item.honda, cadillac: item.cadillac, ford: item.ford };
+        });
+
+        console.log(arreglado);
+
         var from = $('#from').val();
         var to = $('#to').val();                                
         
@@ -585,7 +644,7 @@
             "type": "serial",
             "theme": "none",
             "titles": [{
-                    "text": "Reporte de cantidad marcas desde el "+from+" hasta el "+to,
+                    "text": "Reporte de cantidad de vehiculos  según el tipo y el mes",
                     "size": 16
                 }],              
             "legend": {
@@ -595,7 +654,7 @@
                 "useGraphSettings": true,
                 "markerSize": 10
             },
-            "dataProvider": objeto,
+            "dataProvider": arreglado,
             "graphs": [
                 {
                     "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
@@ -644,13 +703,13 @@
                     "valueField": "ford"
                 }
                     ],
-            "categoryField": "tiempo",
+            "categoryField": "mes",
             "categoryAxis": {
                 "gridPosition": "start",
                 "axisAlpha": 0,
                 "gridAlpha": 0,
                 "position": "left",
-                "title": "Fecha", 
+                "title": "Mes", 
                 "listeners": [{
                   "event": "clickGraphItem",
                   "method": exportXLSX
@@ -770,7 +829,17 @@
     
     _private.setLineasFecha1 = function (data) {
         var objeto = JSON.parse(data.mvehiculo);  
-//        alert(objeto.length);       
+
+        for(var i=0; i< objeto.length; i++){
+               delete objeto[i].sobre;
+               delete objeto[i].paquete;
+        }
+     
+        var arreglado = objeto.map( item => { 
+            return { fecha: item.tiempo , total: item.total }; 
+        });
+
+        console.log(arreglado);
 
         var from = $('#from').val();
         var to = $('#to').val();
@@ -778,7 +847,7 @@
         var chart = AmCharts.makeChart("chartdiv2", {
         "type": "serial",
         "titles": [{
-                "text": "Reporte de cantidad de vehiculos desde el "+from+" hasta el "+to,
+                "text": "Reporte de cantidad de vehiculos según la fecha",
                 "size": 16
             }],           
         "theme": "light",
@@ -846,7 +915,7 @@
           "offset":50,
           "scrollbarHeight":10
         },
-        "categoryField": "tiempo",
+        "categoryField": "fecha",
         "categoryAxis": {
             "parseDates": true,
             "dashLength": 1,
@@ -865,7 +934,7 @@
             "enabled": true,
                 "menu": []
         },
-        "dataProvider": objeto
+        "dataProvider": arreglado
     });
 
         chart.addListener("rendered", zoomChart);
@@ -886,7 +955,16 @@
     
     _private.setBarrasFecha2 = function (data) {
         var objeto = JSON.parse(data.mvehiculo);  
-//        alert(objeto.length);       
+
+        for(var i=0; i< objeto.length; i++){
+               delete objeto[i].total;
+        }
+     
+        var arreglado = objeto.map( item => { 
+            return { mes: item.tiempo , acura: item.acura, audi: item.audi, honda: item.honda, cadillac: item.cadillac, ford: item.ford };
+        });
+
+        console.log(arreglado);  
 
         var from = $('#from').val();
         var to = $('#to').val();        
@@ -894,7 +972,7 @@
         var chart = AmCharts.makeChart("chartdiv3", {
             "type": "serial",
             "titles": [{
-                "text": "Reporte de cantidad de marcas desde el "+from+" hasta el "+to,
+                "text": "Reporte de cantidad de marcas por tipo según el mes",
                 "size": 16
             }],               
              "theme": "light",
@@ -906,7 +984,7 @@
                  "valueAlign": "left",
                  "valueWidth": 100
              },
-             "dataProvider": objeto,
+             "dataProvider": arreglado,
              "valueAxes": [{
                  "stackType": "regular",
                  "gridAlpha": 0.07,
@@ -961,7 +1039,7 @@
              "chartCursor": {
                  "cursorAlpha": 0
              },
-             "categoryField": "tiempo",
+             "categoryField": "mes",
              "categoryAxis": {
                  "startOnAxis": true,
                  "axisColor": "#DADADA",
@@ -1013,107 +1091,97 @@
 var myObj = { firstname : "John", lastname : "Doe" };
 console.log(myObj);
 
-    var charts = {};
-    
-    function fc_export_pdf()
+var charts = {};
+             
+function fc_export_pdf()
     {
         try
         {
-            var images = [];
+            // So that we know export was started
+            console.log("Starting export...");
+
+            // Define IDs of the charts we want to include in the report
             var ids = ["chartdiv1", "chartdiv2", "chartdiv3"];
+
+            // Collect actual chart objects out of the AmCharts.charts array
+            var charts = {}
             var charts_remaining = ids.length;
-            
-            var pending = AmCharts.charts.length;
-            
             for (var i = 0; i < ids.length; i++) {
-                for (var x = 0; x < AmCharts.charts.length; x++) {
-                    if (AmCharts.charts[x].div.id === ids[i])
-                        charts[ids[i]] = AmCharts.charts[x];
-                }
+              for (var x = 0; x < AmCharts.charts.length; x++) {
+                if (AmCharts.charts[x].div.id === ids[i])
+                  charts[ids[i]] = AmCharts.charts[x];
+              }
             }
-            
+
+            // Trigger export of each chart
             for (var x in charts) {
-                if (charts.hasOwnProperty(x)) {
-                    var chart = charts[x];
-                    chart.export.capture( {}, function() {
-                      this.toJPG( {
-                        multiplier: 2
-                      }, function( data ) {
-                        images.push( {
-                          "image": data,
-                          "fit": [ 523.28, 769.89 ]
-                        } );
+              if (charts.hasOwnProperty(x)) {
+                var chart = charts[x];
+                chart["export"].capture({}, function() {
+                  this.toPNG({}, function(data) {
 
-                        charts_remaining--;
+                    // Save chart data into chart object itself
+                    this.setup.chart.exportedImage = data;
 
-                            if ( charts_remaining === 0 ) {
-                                // all done - construct PDF
-                                chart.export.toPDF( {
-                                  content: images
-                                }, function( data ) {
-                                  this.download( data, "application/pdf", "ReporteVehiculo.pdf" );
-                                } );
-                            }
-                        } );
-                    } );
-                }
+                    // Reduce the remaining counter
+                    charts_remaining--;
+
+                    // Check if we got all of the charts
+                    if (charts_remaining === 0) {
+                      // Yup, we got all of them
+                      // Let's proceed to putting PDF together
+                      fc_generate_pdf();
+                      
+                    }
+                  });
+                });
+              }
             }
+
         }
         catch(err)
         {
             alert('Ocurrió un error al exportar.\nConsulte con el administrador.');
             console.log(err.message);
         }
-    }
+        
+    function fc_generate_pdf() {                
+        
+        var from = $('#from').val();
+        var to = $('#to').val();      
+        var addtext = "";
+        
+        var layout = {
+            "content": []
+        };
+        
+        addtext = "Desde: " + from + "      ";
+        addtext += "Hasta: " + to;   
 
-//    function fc_export_excel()
-//    {
-//        try
-//        {
-//            
-//            var ids = ["chartdiv1", "chartdiv2", "chartdiv3"];
-//            var charts_remaining = ids.length;
-//            
-//            var pending = AmCharts.charts.length;
-//            
-//            for (var i = 0; i < ids.length; i++) {
-//                for (var x = 0; x < AmCharts.charts.length; x++) {
-//                    if (AmCharts.charts[x].div.id === ids[i])
-//                        charts[ids[i]] = AmCharts.charts[x];
-//                }
-//            }
-//            
-//            for (var x in charts) {
-//                if (charts.hasOwnProperty(x)) {
-//                    var chart = charts[x];
-//                    
-//                        charts_remaining--;
-//
-//                        if ( charts_remaining === 0 ) {
-//                          // all done - construct PDF
-//                          chart["export"].toXLSX( {
-//                            data: chart.dataProvider
-//                          }, function( data ) {
-//                             this.download(data, this.defaults.formats.XLSX.mimeType, "amCharts.xlsx");
-//                          } );
-//                        }
-//                    
-//   
-//                }
-//            }
-//        }
-//        catch(err)
-//        {
-//            alert('Ocurrió un error al exportar.\nConsulte con el administrador.');
-//            console.log(err.message);
-//        }
-//    }
-//    
-//    function exportXLSX() {
-//    var chart = {};
-//    chart["export"].toXLSX({
-//      data: chart.dataProvider
-//    }, function(data) {
-//      this.download(data, this.defaults.formats.XLSX.mimeType, "amCharts.xlsx");
-//    });
-//}
+
+        layout.content.push({
+            text: addtext,
+            fontSize: 11
+        });
+        
+        layout.content.push({
+            "image": charts["chartdiv1"].exportedImage,
+            "fit": [ 523, 300 ]
+        });
+        
+        layout.content.push({
+            "image": charts["chartdiv2"].exportedImage,
+            "fit": [ 523, 300 ]
+        });
+        
+        layout.content.push({
+            image: charts["chartdiv3"].exportedImage,
+            fit: [523, 300]
+        });        
+
+        chart["export"].toPDF(layout, function(data) {
+            this.download(data, "application/pdf", "ReporteVehiculo.pdf");
+          });
+        }         
+        
+    }

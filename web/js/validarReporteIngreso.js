@@ -588,7 +588,7 @@
             "type": "serial",
             "theme": "none",
             "titles": [{
-                    "text": "Cantidad de ingreso según el tipo de encomienda y el mes",
+                    "text": "Reporte de cantidad de ingreso según el tipo de encomienda y el mes",
                     "size": 16
                 }],              
             "legend": {
@@ -624,7 +624,7 @@
                 "axisAlpha": 0,
                 "gridAlpha": 0,
                 "position": "left",
-                "title": "Fecha", 
+                "title": "Mes", 
                 "listeners": [{
                   "event": "clickGraphItem",
                   "method": exportXLSX
@@ -770,7 +770,7 @@
         var chart = AmCharts.makeChart("chartdiv2", {
         "type": "serial",
         "titles": [{
-                "text": "Cantidad de ingresos según la fecha",
+                "text": "Reporte de cantidad de ingresos según la fecha",
                 "size": 16
             }],           
         "theme": "light",
@@ -880,8 +880,16 @@
     
     _private.setBarrasFecha2 = function (data) {
         var objeto = JSON.parse(data.mensaje);  
-//        alert(objeto.length);       
+        
+        for(var i=0; i< objeto.length; i++){
+               delete objeto[i].total;
+        }
+     
+        var arreglado = objeto.map( item => { 
+            return { mes: item.tiempo , sobre: item.sobre, paquete: item.paquete }; 
+        });
 
+        console.log(arreglado);
 
         var from = $('#from').val();
         var to = $('#to').val();        
@@ -889,7 +897,7 @@
         var chart = AmCharts.makeChart("chartdiv3", {
             "type": "serial",
             "titles": [{
-                "text": "Reporte de ingresos por tipo según el mes ",
+                "text": "Reporte de ingresos por tipo según el mes",
                 "size": 16
             }],               
              "theme": "light",
@@ -901,7 +909,7 @@
                  "valueAlign": "left",
                  "valueWidth": 100
              },
-             "dataProvider": objeto,
+             "dataProvider": arreglado,
              "valueAxes": [{
                  "stackType": "regular",
                  "gridAlpha": 0.07,
@@ -936,7 +944,7 @@
              "chartCursor": {
                  "cursorAlpha": 0
              },
-             "categoryField": "tiempo",
+             "categoryField": "mes",
              "categoryAxis": {
                  "startOnAxis": true,
                  "axisColor": "#DADADA",
@@ -989,9 +997,9 @@
 var myObj = { firstname : "John", lastname : "Doe" };
 console.log(myObj);
 
-    var charts = {};
+var charts = {};
              
- function fc_export_pdf()
+function fc_export_pdf()
     {
         try
         {
