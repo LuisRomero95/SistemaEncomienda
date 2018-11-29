@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import modelado.ReporteVehiculo;
 import modelado.Vehiculo;
 
 public class VehiculoDAO extends Conexion implements DAO{    
@@ -164,8 +165,8 @@ public class VehiculoDAO extends Conexion implements DAO{
          return res.next();       
     }
 
-    public List<Vehiculo> consultarVehiculoPorAño() throws Exception  {
-        List<Vehiculo> datos = new ArrayList<>();
+    public List<ReporteVehiculo> consultarVehiculoPorAño() throws Exception  {
+        List<ReporteVehiculo> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
@@ -179,7 +180,7 @@ public class VehiculoDAO extends Conexion implements DAO{
             rs1 = pst1.executeQuery();             
             rs = pst.executeQuery();      
             while(rs.next()){
-                datos.add(new Vehiculo(
+                datos.add(new ReporteVehiculo(
                         rs.getString("marca"),
                         rs.getDouble("total")
                     )                    
@@ -194,8 +195,8 @@ public class VehiculoDAO extends Conexion implements DAO{
         return datos;
     }
     
-    public List<Vehiculo> consultarVehiculoPorMes(String año) throws Exception  {
-        List<Vehiculo> datos = new ArrayList<>();
+    public List<ReporteVehiculo> consultarVehiculoPorMes(String año) throws Exception  {
+        List<ReporteVehiculo> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
@@ -209,7 +210,7 @@ public class VehiculoDAO extends Conexion implements DAO{
             rs1 = pst1.executeQuery();  
             rs = pst.executeQuery();       
             while(rs.next()){
-                datos.add(new Vehiculo(
+                datos.add(new ReporteVehiculo(
                         rs.getString("marca"),
                         rs.getInt("total")
                     )                    
@@ -224,8 +225,8 @@ public class VehiculoDAO extends Conexion implements DAO{
         return datos;
     }
     
-    public List<Vehiculo> consultarTipoVehiculoPorAño() throws Exception  {
-        List<Vehiculo> datos = new ArrayList<>();
+    public List<ReporteVehiculo> consultarTipoVehiculoPorAño() throws Exception  {
+        List<ReporteVehiculo> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
@@ -239,7 +240,7 @@ public class VehiculoDAO extends Conexion implements DAO{
             rs1 = pst1.executeQuery();             
             rs = pst.executeQuery();      
             while(rs.next()){
-                datos.add(new Vehiculo(
+                datos.add(new ReporteVehiculo(
                         rs.getString("mes"),
                         rs.getDouble("acura"),
                         rs.getDouble("audi"),
@@ -256,40 +257,10 @@ public class VehiculoDAO extends Conexion implements DAO{
             this.cerrar();
         }
         return datos;
-    }    
-
-    public List<Vehiculo> consultarVehiculoPorFecha(Date inicio, Date fin) throws Exception  {
-        List<Vehiculo> datos = new ArrayList<>();
-        PreparedStatement pst;
-        PreparedStatement pst1;
-        ResultSet rs;
-        ResultSet rs1;
-        String sqlTrac = "SET lc_time_names = 'es_ES' ";
-        String sql = "SELECT monthname(e.fech_env) as mes, COUNT(v.marca) as total from vehiculos v, encomiendas e WHERE e.id_veh = v.id AND e.estado =1 AND e.id_tipo='2' AND e.fech_env BETWEEN '"+inicio+"' AND '"+fin+"' GROUP BY mes";
-        try {
-            this.conectar();
-            pst1 = conexion.prepareStatement(sqlTrac);
-            pst = conexion.prepareStatement(sql);
-            rs1 = pst1.executeQuery();             
-            rs = pst.executeQuery();      
-            while(rs.next()){
-                datos.add(new Vehiculo(
-                        rs.getString("mes"),
-                        rs.getInt("total")
-                    )                    
-                );
-            }
-        } catch (SQLException e ) {
-            throw e;
-        }
-        finally{
-            this.cerrar();
-        }
-        return datos;
-    }       
+    }      
     
-    public List<Vehiculo> consultarTipoVehiculoPorMes(String año) throws Exception  {
-        List<Vehiculo> datos = new ArrayList<>();
+    public List<ReporteVehiculo> consultarTipoVehiculoPorMes(String año) throws Exception  {
+        List<ReporteVehiculo> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
@@ -303,13 +274,77 @@ public class VehiculoDAO extends Conexion implements DAO{
             rs1 = pst1.executeQuery();             
             rs = pst.executeQuery();         
             while(rs.next()){
-                datos.add(new Vehiculo(
+                datos.add(new ReporteVehiculo(
                         rs.getString("mes"),
                         rs.getDouble("acura"),
                         rs.getDouble("audi"),
                         rs.getDouble("honda"),
                         rs.getDouble("cadillac"),
                         rs.getDouble("ford")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }      
+    
+    public List<ReporteVehiculo> consultarTipoVehiculoPorFecha(Date inicio, Date fin) throws Exception  {
+        List<ReporteVehiculo> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT monthname(v.fech_ing) AS mes, SUM(CASE WHEN v.marca = 'acura' THEN v.estado ELSE 0 END) AS acura, SUM(CASE WHEN v.marca = 'audi' THEN v.estado ELSE 0 END) AS audi, SUM(CASE WHEN v.marca = 'honda' THEN v.estado ELSE 0 END) AS honda, SUM(CASE WHEN v.marca = 'cadillac' THEN v.estado ELSE 0 END) AS cadillac, SUM(CASE WHEN v.marca = 'ford' THEN v.estado ELSE 0 END) AS ford FROM vehiculos v WHERE v.fech_ing BETWEEN '"+inicio+"' AND '"+fin+"' AND v.estado=1 GROUP BY mes ORDER BY v.fech_ing";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();       
+            while(rs.next()){
+                datos.add(new ReporteVehiculo(
+                        rs.getString("mes"),
+                        rs.getDouble("acura"),
+                        rs.getDouble("audi"),
+                        rs.getDouble("honda"),
+                        rs.getDouble("cadillac"),
+                        rs.getDouble("ford")
+                    )                    
+                );
+            }
+        } catch (SQLException e ) {
+            throw e;
+        }
+        finally{
+            this.cerrar();
+        }
+        return datos;
+    }     
+    
+    public List<ReporteVehiculo> consultarVehiculoPorFecha(Date inicio, Date fin) throws Exception  {
+        List<ReporteVehiculo> datos = new ArrayList<>();
+        PreparedStatement pst;
+        PreparedStatement pst1;
+        ResultSet rs;
+        ResultSet rs1;
+        String sqlTrac = "SET lc_time_names = 'es_ES' ";
+        String sql = "SELECT v.fech_ing as mes, SUM(v.estado) as total from vehiculos v WHERE v.fech_ing BETWEEN '"+inicio+"' AND '"+fin+"' AND v.estado =1 GROUP BY mes ORDER BY v.fech_ing";
+        try {
+            this.conectar();
+            pst1 = conexion.prepareStatement(sqlTrac);
+            pst = conexion.prepareStatement(sql);
+            rs1 = pst1.executeQuery();             
+            rs = pst.executeQuery();      
+            while(rs.next()){
+                datos.add(new ReporteVehiculo(
+                        rs.getString("mes"),
+                        rs.getDouble("total")
                     )                    
                 );
             }

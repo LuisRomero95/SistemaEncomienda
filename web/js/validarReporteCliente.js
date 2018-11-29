@@ -14,7 +14,7 @@
             dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié;', 'Juv', 'Vie', 'Sáb'],
             dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
             weekHeader: 'Sm',
-            dateFormat: 'yy-mm-dd',
+            dateFormat: 'dd/mm/yy',
             firstDay: 1,
             isRTL: false,
             showMonthAfterYear: false,
@@ -56,7 +56,7 @@
               return false;              
             }
             else if( from > to ) {
-              alert('[ERROR] '+from+' no puede ser mayor a '+to);
+              alert('[ERROR] La fecha de inicio no puede ser mayor a la fecha final');
               return false;              
             }            
             getGraficoBarrasFecha1();
@@ -301,26 +301,32 @@
                 "cursorAlpha": 0,
                 "zoomable": false
             },
-            "categoryField": "mes",
+            "categoryField": "tiempo",
             "categoryAxis": {
                 "gridPosition": "start",
                 "labelRotation": 90,
-                "title": "Años" 
-//                "listeners": [{
-//                  "event": "clickGraphItem",
-//                  "method": exportXLSX
-//                }]
+                "title": "Años", 
+                "listeners": [{
+                  "event": "clickGraphItem",
+                  "method": exportXLSX
+                }]
             },
-//            "listeners": [{
-//              "event": "clickGraphItem",
-//              "method": exportXLSX
-//            }],
+            "listeners": [{
+              "event": "clickGraphItem",
+              "method": exportXLSX
+            }],
             "export": {
                 "enabled": true,
                 "menu": []                
             }
-
         });
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteCantidadClientePorAño.xlsx");
+            });
+        }           
     };
 
     _private.setBarras2 = function (data) {
@@ -347,7 +353,8 @@
                     "fillAlphas": 1,
                     "lineAlpha": 0.1,
                     "type": "column",
-                    "valueField": "total"
+                    "valueField": "total",
+                    "labelText": "[[value]]"
                 }],
             "depth3D": 20,
             "angle": 30,
@@ -356,18 +363,32 @@
                 "cursorAlpha": 0,
                 "zoomable": false
             },
-            "categoryField": "mes",
+            "categoryField": "tiempo",
             "categoryAxis": {
                 "gridPosition": "start",
                 "labelRotation": 90,
-                "title": "Meses"
+                "title": "Meses", 
+                "listeners": [{
+                  "event": "clickGraphItem",
+                  "method": exportXLSX
+                }]
             },
+            "listeners": [{
+              "event": "clickGraphItem",
+              "method": exportXLSX
+            }],
             "export": {
                 "enabled": true,
                 "menu": []
             }
-
         });
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteCantidadCliente"+año+".xlsx");
+            });
+        }           
     };
         
     _private.setBarras3 = function (data) {
@@ -376,14 +397,23 @@
         var chart = AmCharts.makeChart("chartdiv3", {
             "type": "serial",            
             "theme": "light",          
-            "categoryField": "mes",
+            "categoryField": "tiempo",
             "rotate": true,
             "startDuration": 1,
-            "categoryAxis": {
+            "categoryAxis": 
+                {
                     "gridPosition": "start",
                     "position": "left",
-                    "title": "Años"
-            },
+                    "title": "Años", 
+                    "listeners": [{
+                        "event": "clickGraphItem",
+                        "method": exportXLSX
+                    }]
+                },
+            "listeners": [{ 
+                "event": "clickGraphItem",
+                "method": exportXLSX
+            }], 
             "trendLines": [],
             "graphs": [
                     {
@@ -391,7 +421,7 @@
                         "fillAlphas": 0.8,
                         "id": "AmGraph-1",
                         "lineAlpha": 0.2,
-                        "title": "Sobre",
+                        "title": "Empresa",
                         "type": "column",
                         "valueField": "empresa",
                         labelText: "empresa:[[value]]"
@@ -401,7 +431,7 @@
                         "fillAlphas": 0.8,
                         "id": "AmGraph-2",
                         "lineAlpha": 0.2,
-                        "title": "Paquete",
+                        "title": "Persona",
                         "type": "column",
                         "valueField": "persona",
                         labelText: "persona:[[value]]"
@@ -413,7 +443,7 @@
                         "id": "ValueAxis-1",
                         "position": "left",
                         "axisAlpha": 0,
-                        "title": "Cantidad de clientes"
+                        "title": "Cantidad de tipos de clientes"
                     }
             ],
             "allLabels": [],
@@ -428,8 +458,14 @@
                 "enabled": true,
                 "menu": []
             }
-
-        });            
+        });  
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteCantidadTipoClientePorAño.xlsx");
+            });
+        }           
     };    
         
     _private.setBarras4 = function (data) {
@@ -440,14 +476,22 @@
         var chart = AmCharts.makeChart("chartdiv3", {
             "type": "serial",            
             "theme": "light",          
-            "categoryField": "mes",
+            "categoryField": "tiempo",
             "rotate": true,
             "startDuration": 1,
             "categoryAxis": {
                     "gridPosition": "start",
                     "position": "left",
-                    "title": "Meses"
-            },
+                    "title": "Meses", 
+                    "listeners": [{
+                        "event": "clickGraphItem",
+                        "method": exportXLSX
+                    }]
+                },
+            "listeners": [{ 
+                "event": "clickGraphItem",
+                "method": exportXLSX
+            }],
             "trendLines": [],
             "graphs": [
                     {
@@ -457,7 +501,8 @@
                         "lineAlpha": 0.2,
                         "title": "Empresa",
                         "type": "column",
-                        "valueField": "empresa"
+                        "valueField": "empresa",
+                        labelText: "empresa:[[value]]"
                     },
                     {
                         "balloonText": "persona:[[value]]",
@@ -466,7 +511,8 @@
                         "lineAlpha": 0.2,
                         "title": "Persona",
                         "type": "column",
-                        "valueField": "persona"
+                        "valueField": "persona",
+                        labelText: "persona:[[value]]"
                     }
             ],
             "guides": [],
@@ -475,7 +521,7 @@
                         "id": "ValueAxis-1",
                         "position": "left",
                         "axisAlpha": 0,
-                        "title": "Años"
+                        "title": "Cantidad de tipos de clientes"
                     }
             ],
             "allLabels": [],
@@ -490,8 +536,14 @@
                 "enabled": true,
                 "menu": []
             }
-
-        });            
+        });  
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteCantidadTipoCliente"+año+".xlsx");
+            });
+        }          
     };    
 
     _private.setBarrasFecha1 = function (data) {
@@ -535,14 +587,22 @@
                 "color": "#000000",
                 "valueField": "persona"
             }],
-            "categoryField": "mes",
+            "categoryField": "tiempo",
             "categoryAxis": {
                 "gridPosition": "start",
                 "axisAlpha": 0,
                 "gridAlpha": 0,
                 "position": "left",
-                "title": "Fecha"
+                "title": "Fecha", 
+                "listeners": [{
+                  "event": "clickGraphItem",
+                  "method": exportXLSX
+                }]
             },
+            "listeners": [{
+              "event": "clickGraphItem",
+              "method": exportXLSX
+            }],
             "valueAxes": [
                     {
                         "id": "ValueAxis-1",
@@ -555,8 +615,14 @@
                 "enabled": true,
                 "menu": []
              }
-
         });   
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteCantidadTipoClienteDesde"+from+"Hasta"+to+".xlsx");
+            });
+        }            
     };
 
 
@@ -573,7 +639,7 @@
                 }],
             "dataProvider": objeto,
             "valueField": "total",
-            "titleField": "mes",
+            "titleField": "tiempo",
             "startEffect": "elastic",
             "startDuration": 2,
             "labelRadius": 15,
@@ -585,7 +651,7 @@
                 "enabled": true,
                 "menu": []
             }
-        });
+        });         
     };
 
     _private.setPie2 = function (data) {
@@ -602,7 +668,7 @@
                 }],
             "dataProvider": objeto,
             "valueField": "total",
-            "titleField": "mes",
+            "titleField": "tiempo",
             "startEffect": "elastic",
             "startDuration": 2,
             "labelRadius": 15,
@@ -631,7 +697,7 @@
                 }],
             "dataProvider": objeto,
             "valueField": "total",
-            "titleField": "mes",
+            "titleField": "tiempo",
             "startEffect": "elastic",
             "startDuration": 2,
             "labelRadius": 15,
@@ -724,13 +790,21 @@
           "offset":50,
           "scrollbarHeight":10
         },
-        "categoryField": "mes",
+        "categoryField": "tiempo",
         "categoryAxis": {
             "parseDates": true,
             "dashLength": 1,
             "minorGridEnabled": true,
-            "title": "Fechas"
-        },
+            "title": "Fechas", 
+            "listeners": [{
+                  "event": "clickGraphItem",
+                  "method": exportXLSX
+                }]
+            },
+        "listeners": [{
+          "event": "clickGraphItem",
+          "method": exportXLSX
+        }],
         "export": {
             "enabled": true,
                 "menu": []
@@ -745,6 +819,14 @@
         function zoomChart() {
             chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
         }
+        
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteCantidadClienteDesde"+from+"Hasta"+to+".xlsx");
+            });
+        }          
     };   
     
     _private.setBarrasFecha2 = function (data) {
@@ -804,12 +886,16 @@
              "chartCursor": {
                  "cursorAlpha": 0
              },
-             "categoryField": "mes",
+             "categoryField": "tiempo",
              "categoryAxis": {
                  "startOnAxis": true,
                  "axisColor": "#DADADA",
                  "gridAlpha": 0.07,
                  "title": "Fecha",
+                 "listeners": [{
+                  "event": "clickGraphItem",
+                  "method": exportXLSX
+                 }],                     
                  "guides": [{
                      category: "2001",
                      toCategory: "2003",
@@ -831,11 +917,22 @@
                      label: "motorcycle fee introduced"
                  }]
              },
+            "listeners": [{
+              "event": "clickGraphItem",
+              "method": exportXLSX
+            }],                 
              "export": {
                  "enabled": true,
                 "menu": []
               }
          });            
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteCantidadTipoClienteDesde"+from+"Hasta"+to+".xlsx");
+            });
+        }                
     };
     
 var myObj = { firstname : "John", lastname : "Doe" };
@@ -893,55 +990,3 @@ console.log(myObj);
             console.log(err.message);
         }
     }
-
-//    function fc_export_excel()
-//    {
-//        try
-//        {
-//            
-//            var ids = ["chartdiv1", "chartdiv2", "chartdiv3"];
-//            var charts_remaining = ids.length;
-//            
-//            var pending = AmCharts.charts.length;
-//            
-//            for (var i = 0; i < ids.length; i++) {
-//                for (var x = 0; x < AmCharts.charts.length; x++) {
-//                    if (AmCharts.charts[x].div.id === ids[i])
-//                        charts[ids[i]] = AmCharts.charts[x];
-//                }
-//            }
-//            
-//            for (var x in charts) {
-//                if (charts.hasOwnProperty(x)) {
-//                    var chart = charts[x];
-//                    
-//                        charts_remaining--;
-//
-//                        if ( charts_remaining === 0 ) {
-//                          // all done - construct PDF
-//                          chart["export"].toXLSX( {
-//                            data: chart.dataProvider
-//                          }, function( data ) {
-//                             this.download(data, this.defaults.formats.XLSX.mimeType, "amCharts.xlsx");
-//                          } );
-//                        }
-//                    
-//   
-//                }
-//            }
-//        }
-//        catch(err)
-//        {
-//            alert('Ocurrió un error al exportar.\nConsulte con el administrador.');
-//            console.log(err.message);
-//        }
-//    }
-//    
-//    function exportXLSX() {
-//    var chart = {};
-//    chart["export"].toXLSX({
-//      data: chart.dataProvider
-//    }, function(data) {
-//      this.download(data, this.defaults.formats.XLSX.mimeType, "amCharts.xlsx");
-//    });
-//}

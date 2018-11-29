@@ -14,7 +14,7 @@
             dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié;', 'Juv', 'Vie', 'Sáb'],
             dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
             weekHeader: 'Sm',
-            dateFormat: 'yy-mm-dd',
+            dateFormat: 'dd/mm/yy',
             firstDay: 1,
             isRTL: false,
             showMonthAfterYear: false,
@@ -56,7 +56,7 @@
               return false;              
             }
             else if( from > to ) {
-              alert('[ERROR] '+from+' no puede ser mayor a '+to);
+              alert('[ERROR] La fecha de inicio no puede ser mayor a la fecha final');
               return false;              
             }            
             getGraficoBarrasFecha1();
@@ -189,7 +189,7 @@
         $.ajax({
             type: "POST",           
             url: 'SERVReporte',
-            data: "&action=listarTipoIngresoPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
+            data: "&action=listarTipoVehiculoPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
             dataType: 'json',
             success: function (data) {
                  console.log(data.mvehiculo);
@@ -207,7 +207,7 @@
         $.ajax({
             type: "POST",           
             url: 'SERVReporte',
-            data: "&action=listarIngresoPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
+            data: "&action=listarVehiculoPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
             dataType: 'json',
             success: function (data) {
                  console.log(data.mvehiculo);
@@ -225,7 +225,7 @@
         $.ajax({
             type: "POST",           
             url: 'SERVReporte',
-            data: "&action=listarTipoIngresoPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
+            data: "&action=listarTipoVehiculoPorFecha&fechaI="+fecha_inicio+"&fechaF="+fecha_final,
             dataType: 'json',
             success: function (data) {
                  console.log(data.mvehiculo);
@@ -245,14 +245,14 @@
             "theme": "light",
             "type": "serial",
             "titles": [{
-                    "text": "Reporte de cantidad de vehiculos usados según el año",
+                    "text": "Reporte de cantidad de vehiculos según el año",
                     "size": 16
                 }],            
             "startDuration": 2,
             "dataProvider": objeto,
             "valueAxes": [{
                     "position": "left",
-                    "title": "Ingresos (S/.)"
+                    "title": "cantidad de vehiculos"
                 }],
             "graphs": [{
                     "balloonText": "[[category]]: <b>[[value]]</b>",
@@ -270,26 +270,32 @@
                 "cursorAlpha": 0,
                 "zoomable": false
             },
-            "categoryField": "marca",
+            "categoryField": "tiempo",
             "categoryAxis": {
                 "gridPosition": "start",
                 "labelRotation": 90,
-                "title": "Años" 
-//                "listeners": [{
-//                  "event": "clickGraphItem",
-//                  "method": exportXLSX
-//                }]
+                "title": "Años", 
+                "listeners": [{
+                  "event": "clickGraphItem",
+                  "method": exportXLSX
+                }]
             },
-//            "listeners": [{
-//              "event": "clickGraphItem",
-//              "method": exportXLSX
-//            }],
+            "listeners": [{
+              "event": "clickGraphItem",
+              "method": exportXLSX
+            }],
             "export": {
                 "enabled": true,
                 "menu": []                
             }
-
         });
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteCantidadVehiculoPorAño.xlsx");
+            });
+        }        
     };
 
     _private.setBarras2 = function (data) {
@@ -301,14 +307,14 @@
             "theme": "light",
             "type": "serial",
             "titles": [{
-                    "text": "Reporte de ingresos del "+año +" según el mes",
+                    "text": "Reporte de cantidad de vehiculos del "+año +" según la marca",
                     "size": 16
                 }],            
             "startDuration": 2,
             "dataProvider": objeto,
             "valueAxes": [{
                     "position": "left",
-                    "title": "Ingresos (S/.)"
+                    "title": "Cantidad de marcas"
                 }],
             "graphs": [{
                     "balloonText": "[[category]]: <b>[[value]]</b>",
@@ -325,18 +331,32 @@
                 "cursorAlpha": 0,
                 "zoomable": false
             },
-            "categoryField": "marca",
+            "categoryField": "tiempo",
             "categoryAxis": {
                 "gridPosition": "start",
                 "labelRotation": 90,
-                "title": "Meses"
+                "title": "Marcas", 
+                "listeners": [{
+                  "event": "clickGraphItem",
+                  "method": exportXLSX
+                }]
             },
+            "listeners": [{
+              "event": "clickGraphItem",
+              "method": exportXLSX
+            }],
             "export": {
                 "enabled": true,
                 "menu": []
             }
-
         });
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteCantidadVehiculos"+año+".xlsx");
+            });
+        }            
     };
         
     _private.setBarras3 = function (data) {
@@ -345,14 +365,23 @@
         var chart = AmCharts.makeChart("chartdiv3", {
             "type": "serial",            
             "theme": "light",          
-            "categoryField": "marca",
+            "categoryField": "tiempo",
             "rotate": true,
             "startDuration": 1,
-            "categoryAxis": {
+            "categoryAxis": 
+                {
                     "gridPosition": "start",
                     "position": "left",
-                    "title": "Años"
-            },
+                    "title": "Años", 
+                    "listeners": [{
+                        "event": "clickGraphItem",
+                        "method": exportXLSX
+                    }]
+                },
+            "listeners": [{ 
+                "event": "clickGraphItem",
+                "method": exportXLSX
+            }],
             "trendLines": [],
             "graphs": [
                     {
@@ -412,14 +441,14 @@
                         "id": "ValueAxis-1",
                         "position": "left",
                         "axisAlpha": 0,
-                        "title": "Ingresos (S/.)"
+                        "title": "Cantidad de vehiculos"
                     }
             ],
             "allLabels": [],
             "balloon": {},
             "titles": [
                 {
-                    "text": "Reporte de ingresos de sobres vs ingresos de paquetes según el año"
+                    "text": "Reporte de cantidad de marcas según el año"
                 }
             ],
             "dataProvider": objeto,
@@ -427,8 +456,14 @@
                 "enabled": true,
                 "menu": []
             }
-
-        });            
+        });  
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteCantidadMarcasPorAño.xlsx");
+            });
+        }       
     };    
         
     _private.setBarras4 = function (data) {
@@ -439,14 +474,22 @@
         var chart = AmCharts.makeChart("chartdiv3", {
             "type": "serial",            
             "theme": "light",          
-            "categoryField": "marca",
+            "categoryField": "tiempo",
             "rotate": true,
             "startDuration": 1,
             "categoryAxis": {
                     "gridPosition": "start",
                     "position": "left",
-                    "title": "Meses"
-            },
+                    "title": "Años", 
+                    "listeners": [{
+                        "event": "clickGraphItem",
+                        "method": exportXLSX
+                    }]
+                },
+            "listeners": [{ 
+                "event": "clickGraphItem",
+                "method": exportXLSX
+            }],
             "trendLines": [],
             "graphs": [
                     {
@@ -506,14 +549,14 @@
                         "id": "ValueAxis-1",
                         "position": "left",
                         "axisAlpha": 0,
-                        "title": "Ingresos (S/.)"
+                        "title": "Cantidad de marcas"
                     }
             ],
             "allLabels": [],
             "balloon": {},
             "titles": [
                  {
-                    "text": "Reporte de ingresos de sobres vs paquetes del "+año+" según el mes"
+                    "text": "Reporte de tipos de marcas del "+año+" según el año"
                 }
             ],
             "dataProvider": objeto,
@@ -521,8 +564,14 @@
                 "enabled": true,
                 "menu": []
             }
-
         });            
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteTipoMarcas"+año+".xlsx");
+            });
+        }         
     };    
 
     _private.setBarrasFecha1 = function (data) {
@@ -536,7 +585,7 @@
             "type": "serial",
             "theme": "none",
             "titles": [{
-                    "text": "Reporte de ingresos desde el "+from+" hasta el "+to,
+                    "text": "Reporte de cantidad marcas desde el "+from+" hasta el "+to,
                     "size": 16
                 }],              
             "legend": {
@@ -547,39 +596,76 @@
                 "markerSize": 10
             },
             "dataProvider": objeto,
-            "graphs": [{
-                "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
-                "fillAlphas": 0.8,
-                "labelText": "[[value]]",
-                "lineAlpha": 0.3,
-                "title": "Sobres",
-                "type": "column",
-                "color": "#000000",
-                "valueField": "sobre"
-            }, {
-                "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
-                "fillAlphas": 0.8,
-                "labelText": "[[value]]",
-                "lineAlpha": 0.3,
-                "title": "Paquetes",
-                "type": "column",
-                "color": "#000000",
-                "valueField": "paquete"
-            }],
-            "categoryField": "mes",
+            "graphs": [
+                {
+                    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+                    "fillAlphas": 0.8,
+                    "labelText": "[[value]]",
+                    "lineAlpha": 0.3,
+                    "title": "Acura",
+                    "type": "column",
+                    "color": "#000000",
+                    "valueField": "acura"
+                }, {
+                    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+                    "fillAlphas": 0.8,
+                    "labelText": "[[value]]",
+                    "lineAlpha": 0.3,
+                    "title": "Audi",
+                    "type": "column",
+                    "color": "#000000",
+                    "valueField": "audi"
+                }, {
+                    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+                    "fillAlphas": 0.8,
+                    "labelText": "[[value]]",
+                    "lineAlpha": 0.3,
+                    "title": "Honda",
+                    "type": "column",
+                    "color": "#000000",
+                    "valueField": "honda"
+                }, {
+                    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+                    "fillAlphas": 0.8,
+                    "labelText": "[[value]]",
+                    "lineAlpha": 0.3,
+                    "title": "Cadillac",
+                    "type": "column",
+                    "color": "#000000",
+                    "valueField": "cadillac"
+                }, {
+                    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+                    "fillAlphas": 0.8,
+                    "labelText": "[[value]]",
+                    "lineAlpha": 0.3,
+                    "title": "Ford",
+                    "type": "column",
+                    "color": "#000000",
+                    "valueField": "ford"
+                }
+                    ],
+            "categoryField": "tiempo",
             "categoryAxis": {
                 "gridPosition": "start",
                 "axisAlpha": 0,
                 "gridAlpha": 0,
                 "position": "left",
-                "title": "Fecha"
+                "title": "Fecha", 
+                "listeners": [{
+                  "event": "clickGraphItem",
+                  "method": exportXLSX
+                }]
             },
+            "listeners": [{
+              "event": "clickGraphItem",
+              "method": exportXLSX
+            }],
             "valueAxes": [
                     {
                         "id": "ValueAxis-1",
                         "position": "left",
                         "axisAlpha": 0,
-                        "title": " Ingresos (S/.)"
+                        "title": " Cantidad de marcas"
                     }                
             ],
             "export": {
@@ -587,8 +673,14 @@
                 "menu": []
              }
         });   
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteCantidadMarcaDesde"+from+"Hasta"+to+".xlsx");
+            });
+        }            
     };
-
 
     _private.setPie1 = function (data) {
         var objeto = JSON.parse(data.mvehiculo);  
@@ -598,12 +690,12 @@
             "type": "pie",
             "theme": "light",
             "titles": [{
-                    "text": "Reporte % de cantidad de vehiculos usados según el año",
+                    "text": "Reporte % de cantidad de vehiculos según el año",
                     "size": 16
                 }],
             "dataProvider": objeto,
             "valueField": "total",
-            "titleField": "marca",
+            "titleField": "tiempo",
             "startEffect": "elastic",
             "startDuration": 2,
             "labelRadius": 15,
@@ -627,12 +719,12 @@
             "type": "pie",
             "theme": "light",
             "titles": [{
-                    "text": "Reporte % ingresos del "+año+" según el mes",
+                    "text": "Reporte % de cantidad de vehiculos del "+año+" según la marca",
                     "size": 16
                 }],
             "dataProvider": objeto,
             "valueField": "total",
-            "titleField": "marca",
+            "titleField": "tiempo",
             "startEffect": "elastic",
             "startDuration": 2,
             "labelRadius": 15,
@@ -656,12 +748,12 @@
             "type": "pie",
             "theme": "light",
             "titles": [{
-                    "text": "Reporte % de ingresos de "+tipo+" según el año",
+                    "text": "Reporte % de cantidad de marcas de "+tipo+" según el año",
                     "size": 16
                 }],
             "dataProvider": objeto,
             "valueField": "total",
-            "titleField": "mes",
+            "titleField": "tiempo",
             "startEffect": "elastic",
             "startDuration": 2,
             "labelRadius": 15,
@@ -686,7 +778,7 @@
         var chart = AmCharts.makeChart("chartdiv2", {
         "type": "serial",
         "titles": [{
-                "text": "Reporte de ingresos desde el "+from+" hasta el "+to,
+                "text": "Reporte de cantidad de vehiculos desde el "+from+" hasta el "+to,
                 "size": 16
             }],           
         "theme": "light",
@@ -700,7 +792,7 @@
             "axisAlpha": 0,
             "position": "left",
             "ignoreAxisWidth":true,
-            "title": "Ingresos (S/.)"
+            "title": "Cantidad de vehiculos"
         }],
         "balloon": {
             "borderThickness": 1,
@@ -754,13 +846,21 @@
           "offset":50,
           "scrollbarHeight":10
         },
-        "categoryField": "mes",
+        "categoryField": "tiempo",
         "categoryAxis": {
             "parseDates": true,
             "dashLength": 1,
             "minorGridEnabled": true,
-            "title": "Fechas"
-        },
+            "title": "Fechas", 
+            "listeners": [{
+                  "event": "clickGraphItem",
+                  "method": exportXLSX
+                }]
+            },
+        "listeners": [{
+          "event": "clickGraphItem",
+          "method": exportXLSX
+        }],
         "export": {
             "enabled": true,
                 "menu": []
@@ -775,6 +875,13 @@
         function zoomChart() {
             chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
         }
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteCantidadVehiculoDesde"+from+"Hasta"+to+".xlsx");
+            });
+        }          
     };   
     
     _private.setBarrasFecha2 = function (data) {
@@ -787,7 +894,7 @@
         var chart = AmCharts.makeChart("chartdiv3", {
             "type": "serial",
             "titles": [{
-                "text": "Reporte de tipos de ingresos desde el "+from+" hasta el "+to,
+                "text": "Reporte de cantidad de marcas desde el "+from+" hasta el "+to,
                 "size": 16
             }],               
              "theme": "light",
@@ -804,28 +911,48 @@
                  "stackType": "regular",
                  "gridAlpha": 0.07,
                  "position": "left",
-                 "title": "Ingresos (S/.)"
+                 "title": "Cantidad de marcas"
              }],
-             "graphs": [{
-                 "balloonText": "<img src='https://www.amcharts.com/lib/3/images/car.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>[[value]]</b></span>",
-                 "fillAlphas": 0.6,
-                 "hidden": true,
-                 "lineAlpha": 0.4,
-                 "title": "Otro",
-                 "valueField": "Otro"
-             }, {
-                 "balloonText": "<img src='https://www.amcharts.com/lib/3/images/motorcycle.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>[[value]]</b></span>",
-                 "fillAlphas": 0.6,
-                 "lineAlpha": 0.4,
-                 "title": "Paquetes",
-                 "valueField": "paquete"
-             }, {
-                 "balloonText": "<img src='https://www.amcharts.com/lib/3/images/bicycle.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>[[value]]</b></span>",
-                 "fillAlphas": 0.6,
-                 "lineAlpha": 0.4,
-                 "title": "Sobres",
-                 "valueField": "sobre"
-             }],
+             "graphs": [
+                {
+                    "balloonText": "<img src='https://www.amcharts.com/lib/3/images/car.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>[[value]]</b></span>",
+                    "fillAlphas": 0.6,
+                    "hidden": true,
+                    "lineAlpha": 0.4,
+                    "title": "Otro",
+                    "valueField": "Otro"
+                }, {
+                    "balloonText": "<img src='https://www.amcharts.com/lib/3/images/car.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>[[value]]</b></span>",
+                    "fillAlphas": 0.6,
+                    "lineAlpha": 0.4,
+                    "title": "Acura",
+                    "valueField": "acura"
+                }, {
+                    "balloonText": "<img src='https://www.amcharts.com/lib/3/images/car.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>[[value]]</b></span>",
+                    "fillAlphas": 0.6,
+                    "lineAlpha": 0.4,
+                    "title": "Audi",
+                    "valueField": "audi"
+                }, {
+                    "balloonText": "<img src='https://www.amcharts.com/lib/3/images/car.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>[[value]]</b></span>",
+                    "fillAlphas": 0.6,
+                    "lineAlpha": 0.4,
+                    "title": "Honda",
+                    "valueField": "honda"
+                }, {
+                    "balloonText": "<img src='https://www.amcharts.com/lib/3/images/car.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>[[value]]</b></span>",
+                    "fillAlphas": 0.6,
+                    "lineAlpha": 0.4,
+                    "title": "Cadillac",
+                    "valueField": "cadillac"
+                }, {
+                    "balloonText": "<img src='https://www.amcharts.com/lib/3/images/car.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>[[value]]</b></span>",
+                    "fillAlphas": 0.6,
+                    "lineAlpha": 0.4,
+                    "title": "Ford",
+                    "valueField": "ford"
+                }
+                    ],
              "plotAreaBorderAlpha": 0,
              "marginTop": 10,
              "marginLeft": 0,
@@ -834,12 +961,16 @@
              "chartCursor": {
                  "cursorAlpha": 0
              },
-             "categoryField": "mes",
+             "categoryField": "tiempo",
              "categoryAxis": {
                  "startOnAxis": true,
                  "axisColor": "#DADADA",
                  "gridAlpha": 0.07,
                  "title": "Fecha",
+                 "listeners": [{
+                  "event": "clickGraphItem",
+                  "method": exportXLSX
+                }],                   
                  "guides": [{
                      category: "2001",
                      toCategory: "2003",
@@ -861,11 +992,22 @@
                      label: "motorcycle fee introduced"
                  }]
              },
+            "listeners": [{
+              "event": "clickGraphItem",
+              "method": exportXLSX
+            }],              
              "export": {
                  "enabled": true,
                 "menu": []
               }
          });            
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteCantidadMarcaDesde"+from+"Hasta"+to+".xlsx");
+            });
+        }           
     };
     
 var myObj = { firstname : "John", lastname : "Doe" };

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modelado.Cliente;
+import modelado.ReporteCliente;
 
 public class ClienteDAO extends Conexion implements DAO{
     
@@ -200,8 +201,8 @@ public class ClienteDAO extends Conexion implements DAO{
         return cliente;
     }    
     
-    public List<Cliente> consultarClientePorAño() throws Exception  {
-        List<Cliente> datos = new ArrayList<>();
+    public List<ReporteCliente> consultarClientePorAño() throws Exception  {
+        List<ReporteCliente> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
@@ -215,7 +216,7 @@ public class ClienteDAO extends Conexion implements DAO{
             rs1 = pst1.executeQuery();             
             rs = pst.executeQuery();         
             while(rs.next()){
-                datos.add(new Cliente(
+                datos.add(new ReporteCliente(
                         rs.getString("mes"),
                         rs.getDouble("total")
                     )                    
@@ -230,8 +231,8 @@ public class ClienteDAO extends Conexion implements DAO{
         return datos;
     }  
     
-    public List<Cliente> consultarClientePorMes(String año) throws Exception  {
-        List<Cliente> datos = new ArrayList<>();
+    public List<ReporteCliente> consultarClientePorMes(String año) throws Exception  {
+        List<ReporteCliente> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
@@ -245,7 +246,7 @@ public class ClienteDAO extends Conexion implements DAO{
             rs1 = pst1.executeQuery();             
             rs = pst.executeQuery();       
             while(rs.next()){
-                datos.add(new Cliente(
+                datos.add(new ReporteCliente(
                         rs.getString("mes"),
                         rs.getDouble("total")
                     )                    
@@ -260,8 +261,8 @@ public class ClienteDAO extends Conexion implements DAO{
         return datos;
     }      
     
-    public List<Cliente> consultarClientePorFecha(Date inicio, Date fin) throws Exception  {
-        List<Cliente> datos = new ArrayList<>();
+    public List<ReporteCliente> consultarClientePorFecha(Date inicio, Date fin) throws Exception  {
+        List<ReporteCliente> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
@@ -275,7 +276,7 @@ public class ClienteDAO extends Conexion implements DAO{
             rs1 = pst1.executeQuery();             
             rs = pst.executeQuery();       
             while(rs.next()){
-                datos.add(new Cliente(
+                datos.add(new ReporteCliente(
                         rs.getString("mes"),
                         rs.getDouble("total")
                     )                    
@@ -290,8 +291,8 @@ public class ClienteDAO extends Conexion implements DAO{
         return datos;
     }    
     
-    public List<Cliente> consultarTipoClientePorAño() throws Exception  {
-        List<Cliente> datos = new ArrayList<>();
+    public List<ReporteCliente> consultarTipoClientePorAño() throws Exception  {
+        List<ReporteCliente> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
@@ -305,7 +306,7 @@ public class ClienteDAO extends Conexion implements DAO{
             rs1 = pst1.executeQuery();             
             rs = pst.executeQuery();      
             while(rs.next()){
-                datos.add(new Cliente(
+                datos.add(new ReporteCliente(
                         rs.getString("mes"),
                         rs.getDouble("empresa"),
                         rs.getDouble("persona")
@@ -322,8 +323,8 @@ public class ClienteDAO extends Conexion implements DAO{
     }    
        
     
-    public List<Cliente> consultarTipoClientePorAño(String tipo) throws Exception  {
-        List<Cliente> datos = new ArrayList<>();
+    public List<ReporteCliente> consultarTipoClientePorAño(String tipo) throws Exception  {
+        List<ReporteCliente> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
@@ -337,7 +338,7 @@ public class ClienteDAO extends Conexion implements DAO{
             rs1 = pst1.executeQuery();             
             rs = pst.executeQuery();      
             while(rs.next()){
-                datos.add(new Cliente(
+                datos.add(new ReporteCliente(
                         rs.getString("mes"),
                         rs.getDouble("empresa"),
                         rs.getDouble("persona")
@@ -353,8 +354,8 @@ public class ClienteDAO extends Conexion implements DAO{
         return datos;
     }    
     
-    public List<Cliente> consultarTipoClientePorMes(String año) throws Exception  {
-        List<Cliente> datos = new ArrayList<>();
+    public List<ReporteCliente> consultarTipoClientePorMes(String año) throws Exception  {
+        List<ReporteCliente> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
@@ -368,7 +369,7 @@ public class ClienteDAO extends Conexion implements DAO{
             rs1 = pst1.executeQuery();             
             rs = pst.executeQuery();         
             while(rs.next()){
-                datos.add(new Cliente(
+                datos.add(new ReporteCliente(
                         rs.getString("mes"),
                         rs.getDouble("empresa"),
                         rs.getDouble("persona")
@@ -384,8 +385,8 @@ public class ClienteDAO extends Conexion implements DAO{
         return datos;
     }   
     
-    public List<Cliente> consultarTipoClientePorFecha(Date inicio, Date fin) throws Exception  {
-        List<Cliente> datos = new ArrayList<>();
+    public List<ReporteCliente> consultarTipoClientePorFecha(Date inicio, Date fin) throws Exception  {
+        List<ReporteCliente> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
@@ -399,7 +400,7 @@ public class ClienteDAO extends Conexion implements DAO{
             rs1 = pst1.executeQuery();             
             rs = pst.executeQuery();       
             while(rs.next()){
-                datos.add(new Cliente(
+                datos.add(new ReporteCliente(
                         rs.getString("mes"),
                         rs.getDouble("empresa"),
                         rs.getDouble("persona")

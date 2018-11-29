@@ -59,21 +59,18 @@ HttpSession sesion = request.getSession();
     <body>
         <div class="container">
             <form  id="formulario">
-                <h3>Reporte de Ingresos</h3>                
+                <h3>Reporte de Encomiendas</h3>                
                 <br>
                 
             <div class="row">
                  <div class="col-md-12">
                      <div class="row" style=" padding: 5px 5px 5px; background-color: #E5E7E9">
                             <div class="col-md-2">
-                                <input type="button" id="btnGraficoBarraPastelGananciaIngresoPorAño" class="btn btn-primary" value="Ver Según el Año">
+                                <input type="button" id="btnGraficoBarraPastelGananciaEncomiendaPorAño" class="btn btn-primary" value="Ver Según el Año">
                             </div>
                             <div class="col-md-2">                               
                                 <input type="button" id="btnExportChartsPDF" class="btn btn-danger btn-block" value="Exportar a PDF">
-                            </div>  
-                            <div class="col-md-2">                               
-                                <input type="button" id="btnExportChartsExcel" class="btn btn-success btn-block" value="Exportar a Excel">
-                            </div>                          
+                            </div>                         
                             <div class="col-md-2">
                                 <a class="btn btn-warning" href="SERVEncomienda?action=refresh"> Salir</a>
                             </div>
@@ -96,7 +93,7 @@ HttpSession sesion = request.getSession();
                                 </select>     
                         </div>
                         <div class="col-md-2">
-                            <input type="button" id="btnGraficoBarraPastelGananciaIngresoPorMes" class="btn btn-primary" value="Ver Por Mes">            
+                            <input type="button" id="btnGraficoBarraPastelGananciaEncomiendaPorMes" class="btn btn-primary" value="Ver Por Mes">            
                         </div>                      
                     </div>
                 </div>
@@ -111,16 +108,16 @@ HttpSession sesion = request.getSession();
                             <label class="control-label" for="from">Desde</label>
                         </div>
                         <div class="col-md-2">
-                            <input type="text" id="from" name="txtFechaEnvio" class="form-control mask_date" placeholder="dd/MM/yyyy" autocomplete="off" maxlength="10" />
+                            <input type="text" id="from" name="txtFechaEnvio" class="form-control mask_date" placeholder="dd/mm/yyyy" autocomplete="off" maxlength="10" />
                         </div>
                         <div class="col-md-1">
                             <label class="control-label" for="to">Hasta</label>
                         </div>
                         <div class="col-md-2">
-                            <input type="text" id="to" name="txtFechaFinal" class="form-control mask_date" placeholder="dd/MM/yyyy" autocomplete="off" maxlength="10" />
+                            <input type="text" id="to" name="txtFechaFinal" class="form-control mask_date" placeholder="dd/mm/yyyy" autocomplete="off" maxlength="10" />
                         </div>
                         <div class="col-md-2">
-                            <input type="button" id="btnGraficoBarraLineaGananciaIngresoPorFecha" class="btn btn-primary" value="Ver Por Fecha" >                                
+                            <input type="button" id="btnGraficoBarraLineaGananciaEncomiendaPorFecha" class="btn btn-primary" value="Ver Por Fecha" >                                
                         </div>                         
                     </div>
                 </div>

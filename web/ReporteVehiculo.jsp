@@ -70,12 +70,9 @@ HttpSession sesion = request.getSession();
                             </div>
                             <div class="col-md-2">                               
                                 <input type="button" id="btnExportChartsPDF" class="btn btn-danger btn-block" value="Exportar a PDF">
-                            </div>  
-                            <div class="col-md-2">                               
-                                <input type="button" id="btnExportChartsExcel" class="btn btn-success btn-block" value="Exportar a Excel">
-                            </div>                          
+                            </div>                   
                             <div class="col-md-2">
-                                <a class="btn btn-warning" href="SERVVehiculos?action=refresh"> Salir</a>
+                                <a class="btn btn-warning" href="SERVVehiculo?action=refresh"> Salir</a>
                             </div>
                      </div>
                  </div>
@@ -111,13 +108,13 @@ HttpSession sesion = request.getSession();
                             <label class="control-label" for="from">Desde</label>
                         </div>
                         <div class="col-md-2">
-                            <input type="text" id="from" name="txtFechaEnvio" class="form-control mask_date" placeholder="dd/MM/yyyy" autocomplete="off" maxlength="10" />
+                            <input type="text" id="from" name="txtFechaEnvio" class="form-control mask_date" placeholder="dd/mm/yyyy" autocomplete="off" maxlength="10" />
                         </div>
                         <div class="col-md-1">
                             <label class="control-label" for="to">Hasta</label>
                         </div>
                         <div class="col-md-2">
-                            <input type="text" id="to" name="txtFechaFinal" class="form-control mask_date" placeholder="dd/MM/yyyy" autocomplete="off" maxlength="10" />
+                            <input type="text" id="to" name="txtFechaFinal" class="form-control mask_date" placeholder="dd/mm/yyyy" autocomplete="off" maxlength="10" />
                         </div>
                         <div class="col-md-2">
                             <input type="button" id="btnGraficoBarraLineaGananciaVehiculoPorFecha" class="btn btn-primary" value="Ver Por Fecha" >                                

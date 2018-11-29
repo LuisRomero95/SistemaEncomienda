@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import modelado.Precio;
+import modelado.Reporte;
 
 public class PrecioDAO extends Conexion implements DAO{    
 
@@ -142,8 +143,8 @@ public class PrecioDAO extends Conexion implements DAO{
     }
 
     
-    public List<Precio> consultarIngresoPorAño() throws Exception  {
-        List<Precio> datos = new ArrayList<>();
+    public List<Reporte> consultarIngresoPorAño() throws Exception  {
+        List<Reporte> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
@@ -157,7 +158,7 @@ public class PrecioDAO extends Conexion implements DAO{
             rs1 = pst1.executeQuery();             
             rs = pst.executeQuery();         
             while(rs.next()){
-                datos.add(new Precio(
+                datos.add(new Reporte(
                         rs.getString("mes"),
                         rs.getDouble("total")
                     )                    
@@ -172,8 +173,8 @@ public class PrecioDAO extends Conexion implements DAO{
         return datos;
     }     
     
-    public List<Precio> consultarIngresoPorMes(String año) throws Exception  {
-        List<Precio> datos = new ArrayList<>();
+    public List<Reporte> consultarIngresoPorMes(String año) throws Exception  {
+        List<Reporte> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
@@ -187,7 +188,7 @@ public class PrecioDAO extends Conexion implements DAO{
             rs1 = pst1.executeQuery();             
             rs = pst.executeQuery();       
             while(rs.next()){
-                datos.add(new Precio(
+                datos.add(new Reporte(
                         rs.getString("mes"),
                         rs.getDouble("total")
                     )                    
@@ -202,8 +203,8 @@ public class PrecioDAO extends Conexion implements DAO{
         return datos;
     }        
         
-    public List<Precio> consultarIngresoPorFecha(Date inicio, Date fin) throws Exception  {
-        List<Precio> datos = new ArrayList<>();
+    public List<Reporte> consultarIngresoPorFecha(Date inicio, Date fin) throws Exception  {
+        List<Reporte> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
@@ -217,7 +218,7 @@ public class PrecioDAO extends Conexion implements DAO{
             rs1 = pst1.executeQuery();             
             rs = pst.executeQuery();       
             while(rs.next()){
-                datos.add(new Precio(
+                datos.add(new Reporte(
                         rs.getString("mes"),
                         rs.getDouble("total")
                     )                    
@@ -232,8 +233,8 @@ public class PrecioDAO extends Conexion implements DAO{
         return datos;
     }       
     
-    public List<Precio> consultarTipoIngresoPorAño() throws Exception  {
-        List<Precio> datos = new ArrayList<>();
+    public List<Reporte> consultarTipoIngresoPorAño() throws Exception  {
+        List<Reporte> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
@@ -247,7 +248,7 @@ public class PrecioDAO extends Conexion implements DAO{
             rs1 = pst1.executeQuery();             
             rs = pst.executeQuery();      
             while(rs.next()){
-                datos.add(new Precio(
+                datos.add(new Reporte(
                         rs.getString("mes"),
                         rs.getDouble("sobre"),
                         rs.getDouble("paquete")
@@ -263,8 +264,8 @@ public class PrecioDAO extends Conexion implements DAO{
         return datos;
     }
     
-    public List<Precio> consultarTipoIngresoPorAño(String tipo) throws Exception  {
-        List<Precio> datos = new ArrayList<>();
+    public List<Reporte> consultarTipoIngresoPorAño(String tipo) throws Exception  {
+        List<Reporte> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
@@ -278,7 +279,7 @@ public class PrecioDAO extends Conexion implements DAO{
             rs1 = pst1.executeQuery();             
             rs = pst.executeQuery();      
             while(rs.next()){
-                datos.add(new Precio(
+                datos.add(new Reporte(
                         rs.getString("mes"),
                         rs.getDouble("tipo")
                     )                    
@@ -293,8 +294,8 @@ public class PrecioDAO extends Conexion implements DAO{
         return datos;
     }    
     
-    public List<Precio> consultarTipoIngresoPorMes(String año) throws Exception  {
-        List<Precio> datos = new ArrayList<>();
+    public List<Reporte> consultarTipoIngresoPorMes(String año) throws Exception  {
+        List<Reporte> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
@@ -308,7 +309,7 @@ public class PrecioDAO extends Conexion implements DAO{
             rs1 = pst1.executeQuery();             
             rs = pst.executeQuery();         
             while(rs.next()){
-                datos.add(new Precio(
+                datos.add(new Reporte(
                         rs.getString("mes"),
                         rs.getDouble("sobre"),
                         rs.getDouble("paquete")
@@ -324,8 +325,8 @@ public class PrecioDAO extends Conexion implements DAO{
         return datos;
     }  
         
-    public List<Precio> consultarTipoIngresoPorFecha(Date inicio, Date fin) throws Exception  {
-        List<Precio> datos = new ArrayList<>();
+    public List<Reporte> consultarTipoIngresoPorFecha(Date inicio, Date fin) throws Exception  {
+        List<Reporte> datos = new ArrayList<>();
         PreparedStatement pst;
         PreparedStatement pst1;
         ResultSet rs;
@@ -339,7 +340,7 @@ public class PrecioDAO extends Conexion implements DAO{
             rs1 = pst1.executeQuery();             
             rs = pst.executeQuery();       
             while(rs.next()){
-                datos.add(new Precio(
+                datos.add(new Reporte(
                         rs.getString("mes"),
                         rs.getDouble("sobre"),
                         rs.getDouble("paquete")

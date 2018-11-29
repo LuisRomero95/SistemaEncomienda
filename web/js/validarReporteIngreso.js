@@ -14,18 +14,18 @@
             dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié;', 'Juv', 'Vie', 'Sáb'],
             dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
             weekHeader: 'Sm',
-            dateFormat: 'yy-mm-dd',
+            dateFormat: 'dd/mm/yy',
             firstDay: 1,
             isRTL: false,
             showMonthAfterYear: false,
             yearSuffix: ''
             };
-        $.datepicker.setDefaults($.datepicker.regional["es"]);
+        $.datepicker.setDefaults($.datepicker.regional["es"]);      
         $("#from, #to").datepicker({ 
             numberOfMonths: 3, 
             showButtonPanel: true
 
-        }); 
+        });          
     });      
     
     $(document).ready(function(){
@@ -56,7 +56,7 @@
               return false;              
             }
             else if( from > to ) {
-              alert('[ERROR] '+from+' no puede ser mayor a '+to);
+              alert('[ERROR] La fecha de inicio no puede ser mayor a la fecha final');
               return false;              
             }            
             getGraficoBarrasFecha1();
@@ -238,8 +238,30 @@
     var _private = {};
 
     _private.setBarras1 = function (data) {
-        var objeto = JSON.parse(data.mensaje);  
-//        alert(objeto.length);
+        
+        var objetoantes = data.mensaje;
+        
+        var objeto = JSON.parse(objetoantes);  
+        
+//         objeto.splice(1, 2); //Elimina dos filas despues de la primera
+
+        for(var i=0; i< objeto.length; i++){
+               delete objeto[i].sobre;
+               delete objeto[i].paquete;
+        }
+     
+     // el 0 es la primera fila de mi objeto
+//     delete objeto[0].sobre;
+//     delete objeto[0].paquete;
+//     delete objeto[1].sobre;
+//     delete objeto[1].paquete;
+
+        var arreglado = objeto.map( item => { 
+            return { año: item.tiempo , total : item.total }; 
+        });
+
+        console.log(arreglado);
+     
 
         var chart = AmCharts.makeChart("chartdiv1", {
             "theme": "light",
@@ -249,7 +271,80 @@
                     "size": 16
                 }],            
             "startDuration": 2,
-            "dataProvider": objeto,
+            "dataProvider": arreglado,
+            "valueAxes": [{
+                    "position": "left",
+                    "title": "Ingresos (S/.)"
+                }],
+            "graphs": [{
+                    "balloonText": "[[category]]: <b>[[value]]</b>",
+                    "fillColorsField": "color",
+                    "fillAlphas": 1,
+                    "lineAlpha": 0.1,
+                    "type": "column",
+                    "valueField": "total",
+                    "labelText": "[[value]]"
+                }],
+            "depth3D": 20,
+            "angle": 30,
+            "chartCursor": {
+                "categoryBalloonEnabled": false,
+                "cursorAlpha": 0,
+                "zoomable": false
+            },
+            "categoryField": "año",
+            "categoryAxis": {
+                "gridPosition": "start",
+                "labelRotation": 90,
+                "title": "Años", 
+                "listeners": [{
+                  "event": "clickGraphItem",
+                  "method": exportXLSX
+                }]
+            },
+            "listeners": [{
+              "event": "clickGraphItem",
+              "method": exportXLSX
+            }],
+            "export": {
+                "enabled": true,
+                "menu": []                
+            }           
+        });
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteIngresoPorAño.xlsx");
+            });
+        }
+    };
+
+    _private.setBarras2 = function (data) {
+        var objeto = JSON.parse(data.mensaje);  
+
+        for(var i=0; i< objeto.length; i++){
+               delete objeto[i].sobre;
+               delete objeto[i].paquete;
+        }
+     
+        var arreglado = objeto.map( item => { 
+            return { mes: item.tiempo , total : item.total }; 
+        });
+
+        console.log(arreglado);
+
+        var año = $("#listarAño").val();
+        
+        var chart = AmCharts.makeChart("chartdiv1", {
+            "theme": "light",
+            "type": "serial",
+            "titles": [{
+                    "text": "Reporte de ingresos del "+año +" según el mes",
+                    "size": 16
+                }],            
+            "startDuration": 2,
+            "dataProvider": arreglado,
             "valueAxes": [{
                     "position": "left",
                     "title": "Ingresos (S/.)"
@@ -274,85 +369,62 @@
             "categoryAxis": {
                 "gridPosition": "start",
                 "labelRotation": 90,
-                "title": "Años" 
-//                "listeners": [{
-//                  "event": "clickGraphItem",
-//                  "method": exportXLSX
-//                }]
+                "title": "Meses", 
+                "listeners": [{
+                  "event": "clickGraphItem",
+                  "method": exportXLSX
+                }]
             },
-//            "listeners": [{
-//              "event": "clickGraphItem",
-//              "method": exportXLSX
-//            }],
-            "export": {
-                "enabled": true,
-                "menu": []                
-            }
-
-        });
-    };
-
-    _private.setBarras2 = function (data) {
-        var objeto = JSON.parse(data.mensaje);  
-//        alert(objeto.length);
-        var año = $("#listarAño").val();
-        
-        var chart = AmCharts.makeChart("chartdiv1", {
-            "theme": "light",
-            "type": "serial",
-            "titles": [{
-                    "text": "Reporte de ingresos del "+año +" según el mes",
-                    "size": 16
-                }],            
-            "startDuration": 2,
-            "dataProvider": objeto,
-            "valueAxes": [{
-                    "position": "left",
-                    "title": "Ingresos (S/.)"
-                }],
-            "graphs": [{
-                    "balloonText": "[[category]]: <b>[[value]]</b>",
-                    "fillColorsField": "color",
-                    "fillAlphas": 1,
-                    "lineAlpha": 0.1,
-                    "type": "column",
-                    "valueField": "total"
-                }],
-            "depth3D": 20,
-            "angle": 30,
-            "chartCursor": {
-                "categoryBalloonEnabled": false,
-                "cursorAlpha": 0,
-                "zoomable": false
-            },
-            "categoryField": "mes",
-            "categoryAxis": {
-                "gridPosition": "start",
-                "labelRotation": 90,
-                "title": "Meses"
-            },
+            "listeners": [{
+              "event": "clickGraphItem",
+              "method": exportXLSX
+            }],
             "export": {
                 "enabled": true,
                 "menu": []
             }
-
         });
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteIngreso"+año+".xlsx");
+            });
+        }        
     };
         
     _private.setBarras3 = function (data) {
         var objeto = JSON.parse(data.mensaje);  
-//        alert(objeto.length);        
+        for(var i=0; i< objeto.length; i++){
+               delete objeto[i].total;
+        }
+     
+        var arreglado = objeto.map( item => { 
+            return { año: item.tiempo , sobre: item.sobre, paquete: item.paquete }; 
+        });
+
+        console.log(arreglado);
+        
         var chart = AmCharts.makeChart("chartdiv3", {
             "type": "serial",            
             "theme": "light",          
-            "categoryField": "mes",
+            "categoryField": "año",
             "rotate": true,
             "startDuration": 1,
-            "categoryAxis": {
+            "categoryAxis": 
+                {
                     "gridPosition": "start",
                     "position": "left",
-                    "title": "Años"
-            },
+                    "title": "Años", 
+                    "listeners": [{
+                        "event": "clickGraphItem",
+                        "method": exportXLSX
+                    }]
+                },
+            "listeners": [{ 
+                "event": "clickGraphItem",
+                "method": exportXLSX
+            }],            
             "trendLines": [],
             "graphs": [
                     {
@@ -392,18 +464,34 @@
                     "text": "Reporte de ingresos de sobres vs ingresos de paquetes según el año"
                 }
             ],
-            "dataProvider": objeto,
+            "dataProvider": arreglado,
             "export": {
                 "enabled": true,
                 "menu": []
             }
-
-        });            
+        });  
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteTipoIngresoPorAño.xlsx");
+            });
+        }                   
     };    
         
     _private.setBarras4 = function (data) {
         var objeto = JSON.parse(data.mensaje);  
-//        alert(objeto.length);        
+
+        for(var i=0; i< objeto.length; i++){
+               delete objeto[i].total;
+        }
+     
+        var arreglado = objeto.map( item => { 
+            return { mes: item.tiempo , sobre: item.sobre, paquete: item.paquete }; 
+        });
+
+        console.log(arreglado);
+
         var año = $("#listarAño").val();        
         
         var chart = AmCharts.makeChart("chartdiv3", {
@@ -415,8 +503,16 @@
             "categoryAxis": {
                     "gridPosition": "start",
                     "position": "left",
-                    "title": "Meses"
-            },
+                    "title": "Meses", 
+                    "listeners": [{
+                        "event": "clickGraphItem",
+                        "method": exportXLSX
+                    }]
+                },
+            "listeners": [{ 
+                "event": "clickGraphItem",
+                "method": exportXLSX
+            }],
             "trendLines": [],
             "graphs": [
                     {
@@ -426,7 +522,8 @@
                         "lineAlpha": 0.2,
                         "title": "Sobre",
                         "type": "column",
-                        "valueField": "sobre"
+                        "valueField": "sobre",
+                        labelText: "sobre:[[value]]"
                     },
                     {
                         "balloonText": "paquete:[[value]]",
@@ -435,7 +532,8 @@
                         "lineAlpha": 0.2,
                         "title": "Paquete",
                         "type": "column",
-                        "valueField": "paquete"
+                        "valueField": "paquete",
+                        labelText: "paquete:[[value]]"
                     }
             ],
             "guides": [],
@@ -454,18 +552,34 @@
                     "text": "Reporte de ingresos de sobres vs paquetes del "+año+" según el mes"
                 }
             ],
-            "dataProvider": objeto,
+            "dataProvider": arreglado,
             "export": {
                 "enabled": true,
                 "menu": []
             }
-
         });            
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteTipoIngreso"+año+".xlsx");
+            });
+        }         
     };    
 
     _private.setBarrasFecha1 = function (data) {
         var objeto = JSON.parse(data.mensaje);  
-//        alert(objeto.length);
+
+        for(var i=0; i< objeto.length; i++){
+               delete objeto[i].total;
+        }
+     
+        var arreglado = objeto.map( item => { 
+            return { mes: item.tiempo , sobre: item.sobre, paquete: item.paquete }; 
+        });
+
+        console.log(arreglado);
+
         var from = $('#from').val();
         var to = $('#to').val();                                
         
@@ -474,7 +588,7 @@
             "type": "serial",
             "theme": "none",
             "titles": [{
-                    "text": "Reporte de ingresos desde el "+from+" hasta el "+to,
+                    "text": "Cantidad de ingreso según el tipo de encomienda y el mes",
                     "size": 16
                 }],              
             "legend": {
@@ -484,7 +598,7 @@
                 "useGraphSettings": true,
                 "markerSize": 10
             },
-            "dataProvider": objeto,
+            "dataProvider": arreglado,
             "graphs": [{
                 "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
                 "fillAlphas": 0.8,
@@ -510,8 +624,16 @@
                 "axisAlpha": 0,
                 "gridAlpha": 0,
                 "position": "left",
-                "title": "Fecha"
+                "title": "Fecha", 
+                "listeners": [{
+                  "event": "clickGraphItem",
+                  "method": exportXLSX
+                }]
             },
+            "listeners": [{
+              "event": "clickGraphItem",
+              "method": exportXLSX
+            }],
             "valueAxes": [
                     {
                         "id": "ValueAxis-1",
@@ -525,6 +647,13 @@
                 "menu": []
              }
         });   
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteTipoIngresoDesde"+from+"Hasta"+to+".xlsx");
+            });
+        }          
     };
 
 
@@ -541,7 +670,7 @@
                 }],
             "dataProvider": objeto,
             "valueField": "total",
-            "titleField": "mes",
+            "titleField": "tiempo",
             "startEffect": "elastic",
             "startDuration": 2,
             "labelRadius": 15,
@@ -553,7 +682,14 @@
                 "enabled": true,
                 "menu": []
             }
-        });
+        });                
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "amCharts.xlsx");
+            });
+        }            
     };
 
     _private.setPie2 = function (data) {
@@ -616,7 +752,17 @@
     
     _private.setLineasFecha1 = function (data) {
         var objeto = JSON.parse(data.mensaje);  
-//        alert(objeto.length);       
+
+        for(var i=0; i< objeto.length; i++){
+               delete objeto[i].sobre;
+               delete objeto[i].paquete;
+        }
+     
+        var arreglado = objeto.map( item => { 
+            return { fecha: item.tiempo , total: item.total }; 
+        });
+
+        console.log(arreglado);
 
         var from = $('#from').val();
         var to = $('#to').val();
@@ -624,7 +770,7 @@
         var chart = AmCharts.makeChart("chartdiv2", {
         "type": "serial",
         "titles": [{
-                "text": "Reporte de ingresos desde el "+from+" hasta el "+to,
+                "text": "Cantidad de ingresos según la fecha",
                 "size": 16
             }],           
         "theme": "light",
@@ -660,6 +806,7 @@
             "title": "red line",
             "useLineColorForBulletBorder": true,
             "valueField": "total",
+            "labelText": "[[value]]",
             "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
         }],
         "chartScrollbar": {
@@ -692,18 +839,26 @@
           "offset":50,
           "scrollbarHeight":10
         },
-        "categoryField": "mes",
+        "categoryField": "fecha",
         "categoryAxis": {
             "parseDates": true,
             "dashLength": 1,
             "minorGridEnabled": true,
-            "title": "Fechas"
-        },
+            "title": "Fecha", 
+            "listeners": [{
+                  "event": "clickGraphItem",
+                  "method": exportXLSX
+                }]
+            },
+        "listeners": [{
+          "event": "clickGraphItem",
+          "method": exportXLSX
+        }],
         "export": {
             "enabled": true,
                 "menu": []
         },
-        "dataProvider": objeto
+        "dataProvider": arreglado
     });
 
         chart.addListener("rendered", zoomChart);
@@ -713,19 +868,28 @@
         function zoomChart() {
             chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
         }
+        
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteIngresoDesde"+from+"Hasta"+to+".xlsx");
+            });
+        }         
     };   
     
     _private.setBarrasFecha2 = function (data) {
         var objeto = JSON.parse(data.mensaje);  
 //        alert(objeto.length);       
 
+
         var from = $('#from').val();
         var to = $('#to').val();        
-        
+       
         var chart = AmCharts.makeChart("chartdiv3", {
             "type": "serial",
             "titles": [{
-                "text": "Reporte de tipos de ingresos desde el "+from+" hasta el "+to,
+                "text": "Reporte de ingresos por tipo según el mes ",
                 "size": 16
             }],               
              "theme": "light",
@@ -772,12 +936,16 @@
              "chartCursor": {
                  "cursorAlpha": 0
              },
-             "categoryField": "mes",
+             "categoryField": "tiempo",
              "categoryAxis": {
                  "startOnAxis": true,
                  "axisColor": "#DADADA",
                  "gridAlpha": 0.07,
-                 "title": "Fecha",
+                 "title": "Mes", 
+                 "listeners": [{
+                  "event": "clickGraphItem",
+                  "method": exportXLSX
+                }],            
                  "guides": [{
                      category: "2001",
                      toCategory: "2003",
@@ -799,117 +967,119 @@
                      label: "motorcycle fee introduced"
                  }]
              },
-             "export": {
-                 "enabled": true,
-                "menu": []
-              }
-         });            
+            "listeners": [{
+              "event": "clickGraphItem",
+              "method": exportXLSX
+            }],             
+            "export": {
+                "enabled": true,
+               "menu": []
+             }
+         });
+         
+        function exportXLSX() {
+            chart["export"].toXLSX({
+                data: chart.dataProvider
+            }, function(data) {
+                this.download(data, this.defaults.formats.XLSX.mimeType, "ReporteTipoIngresoDesde"+from+"Hasta"+to+".xlsx");
+            });
+        }          
     };
     
 var myObj = { firstname : "John", lastname : "Doe" };
 console.log(myObj);
 
     var charts = {};
-    
-    function fc_export_pdf()
+             
+ function fc_export_pdf()
     {
         try
         {
-            var images = [];
+            // So that we know export was started
+            console.log("Starting export...");
+
+            // Define IDs of the charts we want to include in the report
             var ids = ["chartdiv1", "chartdiv2", "chartdiv3"];
+
+            // Collect actual chart objects out of the AmCharts.charts array
+            var charts = {}
             var charts_remaining = ids.length;
-            
-            var pending = AmCharts.charts.length;
-            
             for (var i = 0; i < ids.length; i++) {
-                for (var x = 0; x < AmCharts.charts.length; x++) {
-                    if (AmCharts.charts[x].div.id === ids[i])
-                        charts[ids[i]] = AmCharts.charts[x];
-                }
+              for (var x = 0; x < AmCharts.charts.length; x++) {
+                if (AmCharts.charts[x].div.id === ids[i])
+                  charts[ids[i]] = AmCharts.charts[x];
+              }
             }
-            
+
+            // Trigger export of each chart
             for (var x in charts) {
-                if (charts.hasOwnProperty(x)) {
-                    var chart = charts[x];
-                    chart.export.capture( {}, function() {
-                      this.toJPG( {
-                        multiplier: 2
-                      }, function( data ) {
-                        images.push( {
-                          "image": data,
-                          "fit": [ 523.28, 769.89 ]
-                        } );
+              if (charts.hasOwnProperty(x)) {
+                var chart = charts[x];
+                chart["export"].capture({}, function() {
+                  this.toPNG({}, function(data) {
 
-                        charts_remaining--;
+                    // Save chart data into chart object itself
+                    this.setup.chart.exportedImage = data;
 
-                            if ( charts_remaining === 0 ) {
-                                // all done - construct PDF
-                                chart.export.toPDF( {
-                                  content: images
-                                }, function( data ) {
-                                  this.download( data, "application/pdf", "ReporteIngreso.pdf" );
-                                } );
-                            }
-                        } );
-                    } );
-                }
+                    // Reduce the remaining counter
+                    charts_remaining--;
+
+                    // Check if we got all of the charts
+                    if (charts_remaining === 0) {
+                      // Yup, we got all of them
+                      // Let's proceed to putting PDF together
+                      fc_generate_pdf();
+                      
+                    }
+                  });
+                });
+              }
             }
+
         }
         catch(err)
         {
             alert('Ocurrió un error al exportar.\nConsulte con el administrador.');
             console.log(err.message);
         }
-    }
+        
+    function fc_generate_pdf() {
+        
+        var from = $('#from').val();
+        var to = $('#to').val();      
+        var addtext = "";
+        
+        var layout = {
+            "content": []
+        };
+        
+        addtext = "Desde: " + from + "      ";
+        addtext += "Hasta: " + to;   
 
-//    function fc_export_excel()
-//    {
-//        try
-//        {
-//            
-//            var ids = ["chartdiv1", "chartdiv2", "chartdiv3"];
-//            var charts_remaining = ids.length;
-//            
-//            var pending = AmCharts.charts.length;
-//            
-//            for (var i = 0; i < ids.length; i++) {
-//                for (var x = 0; x < AmCharts.charts.length; x++) {
-//                    if (AmCharts.charts[x].div.id === ids[i])
-//                        charts[ids[i]] = AmCharts.charts[x];
-//                }
-//            }
-//            
-//            for (var x in charts) {
-//                if (charts.hasOwnProperty(x)) {
-//                    var chart = charts[x];
-//                    
-//                        charts_remaining--;
-//
-//                        if ( charts_remaining === 0 ) {
-//                          // all done - construct PDF
-//                          chart["export"].toXLSX( {
-//                            data: chart.dataProvider
-//                          }, function( data ) {
-//                             this.download(data, this.defaults.formats.XLSX.mimeType, "amCharts.xlsx");
-//                          } );
-//                        }
-//                    
-//   
-//                }
-//            }
-//        }
-//        catch(err)
-//        {
-//            alert('Ocurrió un error al exportar.\nConsulte con el administrador.');
-//            console.log(err.message);
-//        }
-//    }
-//    
-//    function exportXLSX() {
-//    var chart = {};
-//    chart["export"].toXLSX({
-//      data: chart.dataProvider
-//    }, function(data) {
-//      this.download(data, this.defaults.formats.XLSX.mimeType, "amCharts.xlsx");
-//    });
-//}
+
+        layout.content.push({
+            text: addtext,
+            fontSize: 11
+        });
+        
+        layout.content.push({
+            "image": charts["chartdiv1"].exportedImage,
+            "fit": [ 523, 300 ]
+        });
+        
+        layout.content.push({
+            "image": charts["chartdiv2"].exportedImage,
+            "fit": [ 523, 300 ]
+        });
+        
+        layout.content.push({
+            image: charts["chartdiv3"].exportedImage,
+            fit: [523, 300]
+        });        
+
+        chart["export"].toPDF(layout, function(data) {
+            this.download(data, "application/pdf", "ReporteIngreso.pdf");
+          });
+        }         
+        
+    }
