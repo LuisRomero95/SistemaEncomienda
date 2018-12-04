@@ -10,6 +10,7 @@ HttpSession sesion = request.getSession();
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">    
+        <title>Barra de Navegación</title>
         <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <!-- Versión compilada y comprimida del CSS de Bootstrap -->
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -23,9 +24,7 @@ HttpSession sesion = request.getSession();
         <link href="css/responsive.dataTables.min.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>   
         <script src="js/dataTables.responsive.min.js" type="text/javascript"></script>
-        <script src="js/dataTable.js" type="text/javascript"></script>    
-        
-        <title>JSP Page</title>    
+        <script src="js/dataTable.js" type="text/javascript"></script>            
     </head>
     <body>
         <nav class="navbar navbar-default" role="navigation">
@@ -72,7 +71,6 @@ HttpSession sesion = request.getSession();
                 </ul>
               </li>              
             </ul>
-
 
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Bienvenido : <%= sesion.getAttribute("nombre") %></a></li>                

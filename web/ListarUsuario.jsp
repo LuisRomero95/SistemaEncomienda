@@ -18,8 +18,8 @@ HttpSession sesion = request.getSession();
 <html>
     <head>        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">    
-        <jsp:include page="navbar.jsp"/>
-        <title>JSP Page</title>        
+        <title>Lista de Usuario</title>          
+        <jsp:include page="navbar.jsp"/>  
     </head>    
     <body>
         <div class="container">

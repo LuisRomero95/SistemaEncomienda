@@ -17,21 +17,15 @@ HttpSession sesion = request.getSession();
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
-        <script src="js/validarCliente.js" type="text/javascript"></script>
+        <title>Insertar Cliente</title>                
         <script src="http://code.jquery.com/jquery-1.7.js" type="text/javascript"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+        <jsp:include page="navbar.jsp"/>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>        
         <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />        
-        <title>JSP Page</title>        
+        <script src="js/validarCliente.js" type="text/javascript"></script>     
     </head>
     <body>       
         <div class="container" >
-            <div align="right">
-                <br>                
-                Bienvenido : <%= sesion.getAttribute("nombre") %>
-                <a href="index.jsp?cerrar=true">Cerrar Sesion</a>
-            </div>
             <h1>Insertar Clientes</h1>
             <hr>            
             <form name="frmInsertarCliente" method="POST" action="SERVCliente" autocomplete="off">

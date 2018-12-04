@@ -3,20 +3,20 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Inicio</title>
         <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>        
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>        
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"> 
         <script src="js/bootstrap.min.js" type="text/javascript"></script>	               
-        <script src="js/validarLogin.js" type="text/javascript"></script>
-        <title>JSP Page</title>
+        <script src="js/validarLogin.js" type="text/javascript"></script>        
     </head>
     <body>
 	<div class="container">
             <div class="row main">
                 <div class="panel-heading col-md-12">
                     <div class="panel-title text-center">
-                         <h1 class="title">Sistema Mudanza</h1>
+                         <h1 class="title">Sistema de Encomiendas</h1>
                          <hr/>
                     </div>
                 </div> 

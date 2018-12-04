@@ -12,8 +12,8 @@ HttpSession sesion = request.getSession();
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Lista de Precio</title>        
         <jsp:include page="navbar.jsp"/>
-        <title>JSP Page</title>
     </head>
     <body>
         <div class="container">

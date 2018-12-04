@@ -17,23 +17,16 @@ HttpSession sesion = request.getSession();
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
-        <script src="js/ConsumirWebServiceAuto.js" type="text/javascript"></script>      
-        <script src="js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="js/validarEditarVehiculo.js" type="text/javascript"></script>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">       
+        <title>Editar Vehiculo</title>                
         <script type="text/javascript" src="http://www.carqueryapi.com/js/jquery.min.js"></script>
-        <script type="text/javascript" src="http://www.carqueryapi.com/js/carquery.0.3.4.js"></script>               
-        <title>JSP Page</title>
+        <script type="text/javascript" src="http://www.carqueryapi.com/js/carquery.0.3.4.js"></script>    
+        <jsp:include page="navbar.jsp"/>
+        <script src="js/ConsumirWebServiceAuto.js" type="text/javascript"></script>  
+        <script src="js/validarEditarVehiculo.js" type="text/javascript"></script>
     </head>
     <body>
         <div class="container">
-            <div align="right">
-                <br>                
-                Bienvenido : <%= sesion.getAttribute("nombre") %>
-                <a href="index.jsp?cerrar=true">Cerrar Sesion</a>
-            </div>
             <h1>Editar Vehiculo</h1>
             <hr>                 
             <form name="frmInsertarVehiculo" method="POST" action="SERVVehiculo"  autocomplete="off">

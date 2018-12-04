@@ -12,10 +12,8 @@ HttpSession sesion = request.getSession();
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
+        <title>Lista de Vehiculo</title>          
         <jsp:include page="navbar.jsp"/>
-        <title>JSP Page</title>
-
     </head>    
     <body>  
         <div class="container">

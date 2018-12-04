@@ -18,19 +18,12 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
-        <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
-        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <script src="js/validarUsuario.js" type="text/javascript"></script>
-        <title>JSP Page</title>       
+        <title>Insertar Usuario</title>          
+        <jsp:include page="navbar.jsp"/>
+        <script src="js/validarUsuario.js" type="text/javascript"></script>       
     </head>        
     <body>
-        <div class="container">
-            <div align="right">
-                <br>
-                Bienvenido : <%= sesion.getAttribute("nombre") %>
-                <a href="index.jsp?cerrar=true">Cerrar Sesion</a>
-            </div>                
+        <div class="container">               
             <h1>Ingresar Usuarios</h1>
             <hr>
             <form name="frmInsertarUsuario" method="POST" action="SERVUsuario" autocomplete="off" >

@@ -18,18 +18,12 @@ HttpSession sesion = request.getSession();
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
+        <title>Insertar Tipo de Usuario</title>          
+        <jsp:include page="navbar.jsp"/>
         <script src="js/validarTipoUsuario.js" type="text/javascript"></script>
-        <title>JSP Page</title>
     </head>
     <body>
-        <div class="container">
-            <div align="right">
-                <br>
-                Bienvenido : <%= sesion.getAttribute("nombre") %>
-                <a href="index.jsp?cerrar=true">Cerrar Sesion</a>
-            </div>                
+        <div class="container">              
                 <h1>Ingresar Tipo de Usuario</h1>
                 <hr>     
             <form name="frmInsertarTipoUsuario" method="POST" action="SERVTipoUsuario" autocomplete="off" >

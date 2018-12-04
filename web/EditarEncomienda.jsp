@@ -18,14 +18,16 @@ HttpSession sesion = request.getSession();
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
-        <!--DATAPICKER -->
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <title>Insertar Encomienda</title>            
+        <!--DATAPICKER -->        
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">        
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>        
+        <!--BARRA DE NAVEGACIÓN -->
+        <jsp:include page="navbar.jsp"/> 
+        <!--DATAPICKER -->
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>                           
+        <!--VALIDACIÓN -->     
         <script src="js/validarEditarEncomienda.js" type="text/javascript"></script>
-        <title>JSP Page</title>
     </head>
     <body>
         <div class="container">

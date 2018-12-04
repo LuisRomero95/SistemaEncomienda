@@ -1,10 +1,12 @@
 
 package controlador;
 
+import com.google.gson.Gson;
 import dao.ConductorDAO;
 import dao.TipoConductorDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.out;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -16,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import modelado.Conductor;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class SERVConductor extends HttpServlet {
 
@@ -47,15 +51,50 @@ public class SERVConductor extends HttpServlet {
                 request.setAttribute("conductor", conductordao.consultar());
             } catch (Exception ex) {
             }
+//                    RequestDispatcher view = request.getRequestDispatcher(forward);
+//        view.forward(request, response);          
         }
         //EDITAR AYUDANTE
+//        else if (action.equalsIgnoreCase("edit")) {
+//            List vehiculo;
+//            String mensaje = "";
+//            String mensajetipo = "";
+//            try {
+//                forward = edit;
+//                int id = Integer.parseInt(request.getParameter("id"));
+//                Conductor conductor = conductordao.BuscarPorId(id);                
+//                request.setAttribute("conductor", conductor);
+//                request.setAttribute("tipoconductor", tpdao.consultar());          
+//                mensaje = new Gson().toJson(conductor); 
+//                mensajetipo = new Gson().toJson(tpdao.consultar()); 
+//                
+//            } catch (Exception ex) {
+//            }
+//            finally{
+//                try {
+//                    JSONObject jsonObject=new  JSONObject();
+//                    jsonObject.put("mensaje", mensaje);
+//                    jsonObject.put("mensajetipo", mensajetipo);
+//                    response.setCharacterEncoding("utf8");
+//                    response.setContentType("application/json");
+//                    out.print(jsonObject);
+//                    
+//                    RequestDispatcher view = request.getRequestDispatcher(forward);
+//                            view.forward(request, response)             ;       
+//                } catch (JSONException ex) {
+//                    Logger.getLogger(SERVConductor.class.getName()).log(Level.SEVERE, null, ex);
+//                }                
+//            }
+//                    
+//        }           
         else if (action.equalsIgnoreCase("edit")) {
             try {
                 forward = edit;
                 int id = Integer.parseInt(request.getParameter("id"));
-                Conductor conductor = conductordao.BuscarPorId(id);                
+                Conductor conductor = conductordao.BuscarPorId(id);
+                List tipoconductor = tpdao.consultar();
                 request.setAttribute("conductor", conductor);
-                request.setAttribute("tipoconductor", tpdao.consultar());
+                request.setAttribute("tipoconductor",tipoconductor );
             } catch (Exception ex) {
             }
         }            
@@ -68,6 +107,8 @@ public class SERVConductor extends HttpServlet {
             } catch (Exception ex) {
                 Logger.getLogger(SERVConductor.class.getName()).log(Level.SEVERE, null, ex);
             }
+//                    RequestDispatcher view = request.getRequestDispatcher(forward);
+//        view.forward(request, response);          
         }
         //LISTAR O ACTUALIZAR AYUDANTE
         else if(action.equalsIgnoreCase("refresh")){
@@ -76,6 +117,8 @@ public class SERVConductor extends HttpServlet {
                 request.setAttribute("conductor", conductordao.consultar());
             } catch (Exception ex) {
             }
+//                    RequestDispatcher view = request.getRequestDispatcher(forward);
+//        view.forward(request, response);          
         }
         RequestDispatcher view = request.getRequestDispatcher(forward);
         view.forward(request, response);                                                      

@@ -1,6 +1,5 @@
 
 $(document).ready(function (){
-            
     $('#nom_id, #ape_id').keypress(function (e) {
        key = e.keyCode || e.which;
        tecla = String.fromCharCode(key).toLowerCase();

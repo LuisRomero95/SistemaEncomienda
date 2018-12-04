@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.Acceso;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.http.HttpSession;
 
 public class SERVLogin extends HttpServlet {
 

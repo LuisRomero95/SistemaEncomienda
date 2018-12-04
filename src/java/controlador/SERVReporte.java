@@ -56,7 +56,6 @@ public class SERVReporte extends HttpServlet {
         PrintWriter out = response.getWriter();
         String action = request.getParameter("action");                   
         String mensaje = "";
-        String mensajeaño = "";
         String mvehiculo = ""; 
         String mcliente = "";
         String mencomienda = "";

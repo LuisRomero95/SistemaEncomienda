@@ -2,10 +2,10 @@
 $(document).ready(function (){
 
     $('#listarNivel').change(function (){
-        var nivel = $('#listarNivel option:selected').text().trim();
-        $('#nivel_id').val(nivel);
+        var nivel = $('#listarNivel option:selected').text().trim();               
+        $('#nivel_id').val(nivel);       
     });    
-
+    
     //Solo letras
     $('#nom_id, #ape_id').keypress(function (e) {
        key = e.keyCode || e.which;

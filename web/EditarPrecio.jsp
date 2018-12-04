@@ -13,16 +13,14 @@ HttpSession sesion = request.getSession();
             response.sendRedirect("navbar.jsp");
         }
     }    
-
 %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
-        <script src="js/validarEditarPrecio.js" type="text/javascript"></script>
-        <script src="js/jquery.numeric.js" type="text/javascript"></script>
-        <jsp:include page="navbar.jsp"/>         
+        <title>Editar Precio</title>    
+        <jsp:include page="navbar.jsp"/>
+        <script src="js/validarEditarPrecio.js" type="text/javascript"></script>     
     </head>
     <body>
         <div class="container">
@@ -140,9 +138,5 @@ HttpSession sesion = request.getSession();
                  
         </form>               
         </div>            
-
-        
-        
-</body>
-
+    </body>
 </html>
