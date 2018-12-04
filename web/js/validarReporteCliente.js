@@ -777,6 +777,9 @@
 
         console.log(arreglado);
         
+        var from = $('#from').val();
+        var to = $('#to').val();             
+        
         var chart = AmCharts.makeChart("chartdiv2", {
         "type": "serial",
         "titles": [{
@@ -923,7 +926,7 @@
                  "stackType": "regular",
                  "gridAlpha": 0.07,
                  "position": "left",
-                 "title": "Ingresos"
+                 "title": "Cantidad de clientes"
              }],
              "graphs": [{
                  "balloonText": "<img src='https://www.amcharts.com/lib/3/images/car.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>[[value]]</b></span>",
@@ -1069,8 +1072,7 @@ function fc_export_pdf()
             "content": []
         };
         
-        addtext = "Desde: " + from + "      ";
-        addtext += "Hasta: " + to;   
+ addtext = "REPORTE  DE CANTIDAD DE CLIENTES REGISTRADOS DESDE:  " + from + "   HASTA:  " + to;
 
 
         layout.content.push({

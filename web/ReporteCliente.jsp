@@ -59,7 +59,7 @@ HttpSession sesion = request.getSession();
     <body>
         <div class="container">
             <form  id="formulario">
-                <h3>Reporte de Clientes</h3>                
+                <h3>Reporte de Clientes Registrados</h3>                
                 <br>
                 
             <div class="row">

@@ -3,9 +3,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>        
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">        
-        <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
+        <link href="css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"> 
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>	               
         <script src="js/validarLogin.js" type="text/javascript"></script>
         <title>JSP Page</title>
     </head>
@@ -47,7 +49,7 @@
                 </div>
             </div>
 	</div>
-	<script type="text/javascript" src="assets/js/bootstrap.js"></script>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
     <%
         HttpSession sesion = request.getSession();
         int nivel = 0;

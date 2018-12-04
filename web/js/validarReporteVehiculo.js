@@ -883,6 +883,7 @@
             "title": "red line",
             "useLineColorForBulletBorder": true,
             "valueField": "total",
+            "labelText": "[[value]]",            
             "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
         }],
         "chartScrollbar": {
@@ -1155,8 +1156,7 @@ function fc_export_pdf()
             "content": []
         };
         
-        addtext = "Desde: " + from + "      ";
-        addtext += "Hasta: " + to;   
+        addtext = "REPORTE  DE  VEHICULOS  ADQUIRIDOS  DESDE:  " + from + "   HASTA:  " + to;
 
 
         layout.content.push({

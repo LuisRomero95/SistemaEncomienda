@@ -1061,10 +1061,8 @@ function fc_export_pdf()
             "content": []
         };
         
-        addtext = "Desde: " + from + "      ";
-        addtext += "Hasta: " + to;   
-
-
+        addtext = "REPORTE  DE  INGRESOS  DESDE:  " + from + "   HASTA:  " + to;
+        
         layout.content.push({
             text: addtext,
             fontSize: 11

@@ -765,7 +765,7 @@
             "axisAlpha": 0,
             "position": "left",
             "ignoreAxisWidth":true,
-            "title": "Ingresos (S/.)"
+            "title": "Cantidad de Encomienda"
         }],
         "balloon": {
             "borderThickness": 1,
@@ -787,6 +787,7 @@
             "title": "red line",
             "useLineColorForBulletBorder": true,
             "valueField": "total",
+            "labelText": "[[value]]",
             "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
         }],
         "chartScrollbar": {
@@ -894,7 +895,7 @@
                  "stackType": "regular",
                  "gridAlpha": 0.07,
                  "position": "left",
-                 "title": "Ingresos (S/.)"
+                 "title": "Cantidad de encomienda"
              }],
              "graphs": [{
                  "balloonText": "<img src='https://www.amcharts.com/lib/3/images/car.png' style='vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style='font-size:14px; color:#000000;'><b>[[value]]</b></span>",
@@ -1040,9 +1041,7 @@ function fc_export_pdf()
             "content": []
         };
         
-        addtext = "Desde: " + from + "      ";
-        addtext += "Hasta: " + to;   
-
+        addtext = "REPORTE  DE  ENCOMIENDAS  REALIZADAS  DESDE:  " + from + "   HASTA:  " + to;
 
         layout.content.push({
             text: addtext,

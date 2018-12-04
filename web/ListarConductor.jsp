@@ -20,12 +20,12 @@ HttpSession sesion = request.getSession();
                 <h1>Lista de Conductores</h1>
                 <hr>
                     <a class="btn btn-success btn-lg" href="SERVConductor?action=insert">Nuevo Registro</a>
-                    <a class="btn btn-info btn-lg" href="SERVConductor?action=refresh">Actualizar Lista</a>
-                    <a class="btn btn-primary btn-lg" href="SERVTipoConductor?action=refresh">Tipo de Conductores</a>                    
+                    <a class="btn btn-primary btn-lg" href="SERVConductor?action=refresh">Actualizar Lista</a>
+                    <a class="btn btn-info btn-lg" href="SERVTipoConductor?action=refresh">Tipo de Conductores</a>                    
                 <br>
                 <br>
             <form method="POST">
-                <table class="table table-bordered" id="tableUser" class="display" >
+                <table id="tableUser" class="display responsive nowrap" style="width:100%">
                     <thead>
                         <tr>
                             <th class="text-center">ID</th>

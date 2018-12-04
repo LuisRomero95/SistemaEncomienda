@@ -1,7 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page session="true"%>
-
 <%
 HttpSession sesion = request.getSession();
     if(sesion.getAttribute("nivel")==null){
@@ -27,7 +26,7 @@ HttpSession sesion = request.getSession();
             <br>
             <br>
             <form method="POST">
-                <table class="table table-bordered" id="tableUser" class="display">
+                 <table id="tableUser" class="display responsive nowrap" style="width:100%">
                     <thead>
                         <tr>
                             <th class="text-center">ID</th>                

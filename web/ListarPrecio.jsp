@@ -20,12 +20,11 @@ HttpSession sesion = request.getSession();
                 <h1>Lista de Precios</h1>
                 <hr>
                 <a class="btn btn-success btn-lg" href="SERVPrecio?action=insert">Nuevo Precio</a>
-                <a class="btn btn-info btn-lg" href="SERVPrecio?action=refresh">Actualizar Precio</a>
-                <a class="btn btn-primary btn-lg" href="SERVEncomienda?action=refresh">Regresar a Encomiendas</a>
+                <a class="btn btn-primary btn-lg" href="SERVPrecio?action=refresh">Actualizar Precio</a>
                 <br>
                 <br>
             <form method="POST">
-                <table class="table table-bordered" id="tableUser" class="display">
+                <table id="tableUser" class="display responsive nowrap" style="width:100%">
                     <thead>
                         <tr>
                             <th class="text-center">ID</th> 

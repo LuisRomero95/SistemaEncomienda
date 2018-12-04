@@ -27,4 +27,8 @@ $(document).ready(function (){
                 document.getElementById("username").value = '';
         }
     });    
+    
+    $("#username").keyup(function() {
+       $(this).val($(this).val().toLowerCase());
+    });    
 });

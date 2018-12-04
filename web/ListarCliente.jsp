@@ -22,11 +22,10 @@ HttpSession sesion = request.getSession();
                 <hr>
                     <a class="btn btn-success btn-lg" href="SERVCliente?action=insert">Nuevo Registro</a>
                     <a class="btn btn-primary btn-lg" href="SERVCliente?action=refresh">Actualizar Lista</a>
-                    <a class="btn btn-primary btn-lg" href="ListarReportesClientes.jsp">Reportes</a>
                 <br>
                 <br>
             <form method="POST">
-                <table class="table table-bordered" id="tableUser" class="display" >
+                <table id="tableUser" class="display responsive nowrap" style="width:100%">
                     <thead>
                         <tr>
                            <th class="text-center">ID</th>                
