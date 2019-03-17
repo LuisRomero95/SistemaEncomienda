@@ -57,6 +57,7 @@ HttpSession sesion = request.getSession();
                     <li><a href="SERVPrecio?action=refresh">Gestionar Precio</a></li>                    
                     <li><a href="SERVVehiculo?action=refresh">Gestionar Vehiculo</a></li>
                     <li><a href="SERVUsuario?action=refresh">Gestionar Usuario</a></li>
+                    <li><a href="Ubicacion.jsp">Gestionar Ubicación</a></li>
                 </ul>
               </li>
               <li class="dropdown">

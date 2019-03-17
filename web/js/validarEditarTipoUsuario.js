@@ -1,46 +1,27 @@
 
 $(document).ready(function (){
     
-    $('#nom_id').keypress(function (e) {
-       key = e.keyCode || e.which;
-       tecla = String.fromCharCode(key).toLowerCase();
-       letras = "áéíóúabcdefghijklmnñopqrstuvwxyz";
-       especiales = "8-37-39-46";
+    //Permite ingresar solo letras.
+    //Los demás son eliminados segundos de ser escritos
+    $('#nom_id').keyup( function () {
+        $(this).val($(this).val().toLowerCase());
+        if (!/^[a-záéíóúüñ]*$/i.test(this.value)) {
+            this.value = this.value.replace(/[^a-záéíóúüñ]+/ig,"");
+        }
+    }); 
 
-       tecla_especial = false;
-       for(var i in especiales){
-            if(key === especiales[i]){
-                tecla_especial = true;
-                break;
-            }
-        }
-
-        if(letras.indexOf(tecla)===-1 && !tecla_especial){
-            return false;
-        }
-    });
-    
-        //Limpia el input si ingresa digitos
-    $( "#nom_id" ).blur(function() {
-        var val = $('#nom_id').val();
-        var tam = val.length;
-        for(i = 0; i < tam; i++) {
-            if(!isNaN(val[i]))
-                document.getElementById("nom_id").value = '';
-        }
-    });
-    
+    //Convierte a minuscula lo que digitas digito por digito
     $("#nom_id").keyup(function() {
        $(this).val($(this).val().toLowerCase());
     });
     
      $("#nom_id").keyup(function(){
-            $nombre = $('#nom_id').val(); 
-            $.post("SERVTipoUsuario", {
-                nnombre: $nombre
-            }, function(data) {               
-                    $("#ReportarNombre").html(data);
-            });
+        $nombre = $('#nom_id').val(); 
+        $.post("SERVTipoUsuario", {
+            nnombre: $nombre
+        }, function(data) {               
+                $("#ReportarNombre").html(data);
+        });
     });        
     
     $('#editar').click(function (){
@@ -66,8 +47,6 @@ $(document).ready(function (){
           // Si el script ha llegado a este punto, todas las condiciones
           // se han cumplido, por lo que se devuelve el valor true
           return true;
-         
-        
-    });
-    
+                 
+    });    
 });

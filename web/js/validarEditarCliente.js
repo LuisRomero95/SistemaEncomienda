@@ -1,78 +1,38 @@
 
 $(document).ready(function (){
             
-    $('#nom_id').keypress(function (e) {
-       key = e.keyCode || e.which;
-       tecla = String.fromCharCode(key).toLowerCase();
-       letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
-       especiales = "8-37-39-46";
-
-       tecla_especial = false;
-       for(var i in especiales){
-            if(key === especiales[i]){
-                tecla_especial = true;
-                break;
-            }
-        }
-
-        if(letras.indexOf(tecla)===-1 && !tecla_especial){
-            return false;
+    //Permite ingresar solo letras y espacio vacios
+    //Transforma las letras en minuscula
+    // Los demás son eliminados segundos de ser escritos
+    $('#nom_id').keyup( function () {
+        $(this).val($(this).val().toLowerCase());
+        if (!/^[ a-záéíóúüñ]*$/i.test(this.value)) {
+            this.value = this.value.replace(/[^ a-záéíóúüñ]+/ig,"");
         }
     });
 
-    //Solo numeros
-    $('#tel_fij_id, #tel_cel_id, #ruc_dni_id').keypress(function (a) {
-        key = a.keyCode || a.which;
-        tecla = String.fromCharCode(key).toLowerCase();
-        letras = "0123456789";
-        especiales = "8-37-39-46";
+    //Permite ingresar solo numeros
+    //Los demás son eliminados segundos de ser escritos, incluyendo espacios vacios
+    $('#tel_fij_id, #tel_cel_id, #ruc_dni_id').keyup(function () {
+        this.value = this.value.replace(/[^0-9]/g,''); 
+    });    
 
-        tecla_especial = false;
-        for(var i in especiales){
-             if(key === especiales[i]){
-                 tecla_especial = true;
-                 break;
-             }
-         }
-    });        
-
-    //limpiar n
-    $( "#tel_fij_id, #tel_cel_id, #ruc_dni_id" ).blur(function() {
-        var val = $('#tel_fij_id').val();        
-        var val2 = $('#tel_cel_id').val();
-        var val3 = $('#ruc_dni_id').val();
-        var tam = val.length;
-        var tam2 = val2.length;
-        var tam3 = val3.length;
-        for(i = 0; i < tam; i++) {
-            if(isNaN(val[i]))
-                document.getElementById("tel_fij_id").value = '';                
-        }
-        for(i = 0; i < tam2; i++) {
-            if(isNaN(val2[i]))
-                document.getElementById("tel_cel_id").value = '';                
-        }
-        for(i = 0; i < tam3; i++) {
-            if(isNaN(val3[i]))
-                document.getElementById("ruc_dni_id").value = '';                
-        }        
-    });
-
-
-    $("#email_id, #nom_id, #direc_id").keyup(function() {
+    //Transforma las letras en minuscula
+    $("#email_id, #direc_id").keyup(function() {
        $(this).val($(this).val().toLowerCase());
     });
 
-
+    //Busca el dni de manera asincrona
     $("#ruc_dni_id").keyup(function(){
-            $dni = document.getElementById("ruc_dni_id").value;
+            $dni = $('#ruc_dni_id').val();
             $.post("SERVCliente", {ddni:$dni}, function(data) {               
                     $("#ReportarRucDni").html(data);
             });
     }); 
     
+    //Busca el correo de manera asincrona    
     $("#email_id").keyup(function(){
-            $email = document.getElementById("email_id").value;
+            $email = $('#email_id').val();
             $.post("SERVCliente", {eemail:$email}, function(data) {               
                     $("#ReportarEmail").html(data);
             });

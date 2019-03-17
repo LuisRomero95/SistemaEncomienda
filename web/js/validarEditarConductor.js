@@ -6,82 +6,48 @@ $(document).ready(function (){
         $('#nivel_id').val(nivel);       
     });    
     
-    //Solo letras
-    $('#nom_id, #ape_id').keypress(function (e) {
-       key = e.keyCode || e.which;
-       tecla = String.fromCharCode(key).toLowerCase();
-       letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
-       especiales = "8-37-39-46";
-
-       tecla_especial = false;
-       for(var i in especiales){
-            if(key === especiales[i]){
-                tecla_especial = true;
-                break;
-            }
-        }
-
-        if(letras.indexOf(tecla)===-1 && !tecla_especial){
-            return false;
+    //Permite ingresar solo letras y espacio vacios
+    //Transforma las letras en minuscula
+    // Los demás son eliminados segundos de ser escritos
+    $('#nom_id, #ape_id').keyup( function () {
+        $(this).val($(this).val().toLowerCase());
+        if (!/^[ a-záéíóúüñ]*$/i.test(this.value)) {
+            this.value = this.value.replace(/[^ a-záéíóúüñ]+/ig,"");
         }
     });
 
-    //Solo numeros
-    $('#tel_id, #dni_id').keypress(function (a) {
-        key = a.keyCode || a.which;
-        tecla = String.fromCharCode(key).toLowerCase();
-        letras = "0123456789";
-        especiales = "8-37-39-46";
-
-        tecla_especial = false;
-        for(var i in especiales){
-             if(key === especiales[i]){
-                 tecla_especial = true;
-                 break;
-             }
-         }
-    });        
-
-    //limpiar n
-    $( "#tel_id, #dni_id" ).blur(function() {
-        var val = $('#tel_id').val();
-        var tam = val.length;
-        var val2 = $('#dni_id').val();
-        var tam2 = val2.length;
-        for(i = 0; i < tam; i++) {
-            if(isNaN(val[i]))
-                document.getElementById("tel_id").value = '';                
-        }
-        for(i = 0; i < tam2; i++) {
-            if(isNaN(val2[i]))
-                document.getElementById("dni_id").value = '';                
-        }
+    //Permite ingresar solo numeros
+    //Los demás son eliminados segundos de ser escritos, incluyendo espacios vacios
+    $('#tel_id, #dni_id').keyup(function () {
+        this.value = this.value.replace(/[^0-9]/g,''); 
     });
-
-
+    
+    //Transforma las letras en minuscula
     $("#email_id").keyup(function() {
        $(this).val($(this).val().toLowerCase());
-    });
+    });       
 
-
+    //Busca el dni de manera asincrona
     $("#dni_id").keyup(function(){
-            $dni = document.getElementById("dni_id").value;
+            $dni = $('#dni_id').val();
             $.post("SERVConductor", {ddni:$dni}, function(data) {               
                     $("#ReportarDni").html(data);
             });
-    }); 
+    });              
     
-    $("#lic_id").keyup(function(){
-            $lic = document.getElementById("lic_id").value;
-            $.post("SERVConductor", {llic:$lic}, function(data) {               
-                    $("#ReportarLicencia").html(data);
-            });
-    });            
-    
+    //Busca la licencia de manera asincrona
     $("#email_id").keyup(function(){
-            $email = document.getElementById("email_id").value;
+            $email = $('#email_id').val();
             $.post("SERVConductor", {eemail:$email}, function(data) {               
                     $("#ReportarEmail").html(data);
+            });
+    }); 
+    
+    //Busca el correo de manera asincrona
+    $("#lic_id").keyup(function(){
+            $lic = $('#lic_id').val();
+            $.post("SERVConductor", {llic:$lic}, function(data) {               
+                    $("#ReportarLicencia").html(data);
             });
     });      
     
@@ -131,7 +97,7 @@ $(document).ready(function (){
             return false;
         }
         else if(  !(dni.length === 8) || /^\s+$/.test(dni) ) {
-            alert('[ERROR] El dni debe tener un valor máximo de 8 dígitos.');
+            alert('[ERROR] El dni debe tener un valor de 8 dígitos.');
             return false;
         }   
         else if((dni !== contenedorDni) && (respuestaDni !== condicion)){            

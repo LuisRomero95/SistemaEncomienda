@@ -8,7 +8,9 @@ import dao.PrecioDAO;
 import dao.VehiculoDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -80,28 +82,9 @@ public class SERVReporte extends HttpServlet {
                 String fech_ini = request.getParameter("fechaI");
                 String fech_fin = request.getParameter("fechaF");
                 
-                SimpleDateFormat parseador = new SimpleDateFormat("dd/MM/yy");
-                
-                SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd");
-                
-                //parsear String (dd/mm/yy) a Date (dd/mm/yy)
-		Date date = parseador.parse(fech_ini);              
-		Date date2 = parseador.parse(fech_fin);
-                
-                //formatear el Date (dd/mm/yy) a un String (yyyy-MM-dd)
-		String d1 = formateador.format(date);
-		String d2 = formateador.format(date2);
-                
-                //Aca tengo en fomarto yyyy-MM-dd"
-                
-                //formatear el String (yyyy-MM-dd) a un Date (yyyy-MM-dd)
-                java.util.Date inicio = formateador.parse(d1);
-                java.util.Date fin = formateador.parse(d2);
-                                
-                java.sql.Date sqlStartDateInicio = new java.sql.Date(inicio.getTime()); 
-                java.sql.Date sqlStartDateFinal = new java.sql.Date(fin.getTime()); 
+                List<java.sql.Date> cambio = Fechas(fech_ini, fech_fin);  
             
-                precio = preciodao.consultarIngresoPorFecha(sqlStartDateInicio, sqlStartDateFinal);
+                precio = preciodao.consultarIngresoPorFecha(cambio.get(0), cambio.get(1));
                 mensaje = new Gson().toJson(precio); 
             }
             else if (action.equalsIgnoreCase("listarTipoIngresoPorAño")) {   
@@ -125,28 +108,9 @@ public class SERVReporte extends HttpServlet {
                 String fech_ini = request.getParameter("fechaI");
                 String fech_fin = request.getParameter("fechaF");
                 
-                SimpleDateFormat parseador = new SimpleDateFormat("dd/MM/yy");
-                
-                SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd");
-                
-                //parsear String (dd/mm/yy) a Date (dd/mm/yy)
-		Date date = parseador.parse(fech_ini);              
-		Date date2 = parseador.parse(fech_fin);
-                
-                //formatear el Date (dd/mm/yy) a un String (yyyy-MM-dd)
-		String d1 = formateador.format(date);
-		String d2 = formateador.format(date2);
-                
-                //Aca tengo en fomarto yyyy-MM-dd"
-                
-                //formatear el String (yyyy-MM-dd) a un Date (yyyy-MM-dd)
-                java.util.Date inicio = formateador.parse(d1);
-                java.util.Date fin = formateador.parse(d2);
-                                
-                java.sql.Date sqlStartDateInicio = new java.sql.Date(inicio.getTime()); 
-                java.sql.Date sqlStartDateFinal = new java.sql.Date(fin.getTime()); 
+                List<java.sql.Date> cambio = Fechas(fech_ini, fech_fin);  
             
-                precio = preciodao.consultarTipoIngresoPorFecha(sqlStartDateInicio, sqlStartDateFinal);
+                precio = preciodao.consultarTipoIngresoPorFecha(cambio.get(0), cambio.get(1));
                 mensaje = new Gson().toJson(precio); 
             }
             else if (action.equalsIgnoreCase("listarEncomiendaPorAño")) {                  
@@ -161,29 +125,10 @@ public class SERVReporte extends HttpServlet {
             else if (action.equalsIgnoreCase("listarEncomiendaPorFecha")) {
                 String fech_ini = request.getParameter("fechaI");
                 String fech_fin = request.getParameter("fechaF");
-                
-                SimpleDateFormat parseador = new SimpleDateFormat("dd/MM/yy");
-                
-                SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd");
-                
-                //parsear String (dd/mm/yy) a Date (dd/mm/yy)
-		Date date = parseador.parse(fech_ini);              
-		Date date2 = parseador.parse(fech_fin);
-                
-                //formatear el Date (dd/mm/yy) a un String (yyyy-MM-dd)
-		String d1 = formateador.format(date);
-		String d2 = formateador.format(date2);
-                
-                //Aca tengo en fomarto yyyy-MM-dd"
-                
-                //formatear el String (yyyy-MM-dd) a un Date (yyyy-MM-dd)
-                java.util.Date inicio = formateador.parse(d1);
-                java.util.Date fin = formateador.parse(d2);
-                
-                java.sql.Date sqlStartDateInicio = new java.sql.Date(inicio.getTime()); 
-                java.sql.Date sqlStartDateFinal = new java.sql.Date(fin.getTime()); 
+                               
+                List<java.sql.Date> cambio = Fechas(fech_ini, fech_fin);                
             
-                encomienda = encomiendadao.consultarEncomiendaPorFecha(sqlStartDateInicio, sqlStartDateFinal);
+                encomienda = encomiendadao.consultarEncomiendaPorFecha(cambio.get(0), cambio.get(1));
                 mencomienda = new Gson().toJson(encomienda); 
             }            
             else if (action.equalsIgnoreCase("listarTipoEncomiendaPorAño")) {   
@@ -207,28 +152,9 @@ public class SERVReporte extends HttpServlet {
                 String fech_ini = request.getParameter("fechaI");
                 String fech_fin = request.getParameter("fechaF");
                 
-                SimpleDateFormat parseador = new SimpleDateFormat("dd/MM/yy");
-                
-                SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd");
-                
-                //parsear String (dd/mm/yy) a Date (dd/mm/yy)
-		Date date = parseador.parse(fech_ini);              
-		Date date2 = parseador.parse(fech_fin);
-                
-                //formatear el Date (dd/mm/yy) a un String (yyyy-MM-dd)
-		String d1 = formateador.format(date);
-		String d2 = formateador.format(date2);
-                
-                //Aca tengo en fomarto yyyy-MM-dd"
-                
-                //formatear el String (yyyy-MM-dd) a un Date (yyyy-MM-dd)
-                java.util.Date inicio = formateador.parse(d1);
-                java.util.Date fin = formateador.parse(d2);
-                
-                java.sql.Date sqlStartDateInicio = new java.sql.Date(inicio.getTime()); 
-                java.sql.Date sqlStartDateFinal = new java.sql.Date(fin.getTime()); 
-            
-                encomienda = encomiendadao.consultarTipoEncomiendaPorFecha(sqlStartDateInicio, sqlStartDateFinal);
+                List<java.sql.Date> cambio = Fechas(fech_ini, fech_fin);
+                                            
+                encomienda = encomiendadao.consultarTipoEncomiendaPorFecha(cambio.get(0), cambio.get(1));
                 mencomienda = new Gson().toJson(encomienda); 
             }              
             else if (action.equalsIgnoreCase("listarVehiculoPorAño")) {                  
@@ -261,56 +187,18 @@ public class SERVReporte extends HttpServlet {
                 String fech_ini = request.getParameter("fechaI");
                 String fech_fin = request.getParameter("fechaF");
                 
-                SimpleDateFormat parseador = new SimpleDateFormat("dd/MM/yy");
-                
-                SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd");
-                
-                //parsear String (dd/mm/yy) a Date (dd/mm/yy)
-		Date date = parseador.parse(fech_ini);              
-		Date date2 = parseador.parse(fech_fin);
-                
-                //formatear el Date (dd/mm/yy) a un String (yyyy-MM-dd)
-		String d1 = formateador.format(date);
-		String d2 = formateador.format(date2);
-                
-                //Aca tengo en fomarto yyyy-MM-dd"
-                
-                //formatear el String (yyyy-MM-dd) a un Date (yyyy-MM-dd)
-                java.util.Date inicio = formateador.parse(d1);
-                java.util.Date fin = formateador.parse(d2);
-                
-                java.sql.Date sqlStartDateInicio = new java.sql.Date(inicio.getTime()); 
-                java.sql.Date sqlStartDateFinal = new java.sql.Date(fin.getTime()); 
-            
-                vehiculo = vehiculodao.consultarTipoVehiculoPorFecha(sqlStartDateInicio, sqlStartDateFinal);
+                List<java.sql.Date> cambio = Fechas(fech_ini, fech_fin);
+                                            
+                vehiculo = vehiculodao.consultarTipoVehiculoPorFecha(cambio.get(0), cambio.get(1));
                 mvehiculo = new Gson().toJson(vehiculo); 
             }                            
             else if (action.equalsIgnoreCase("listarVehiculoPorFecha")) {
                 String fech_ini = request.getParameter("fechaI");
                 String fech_fin = request.getParameter("fechaF");
                 
-                SimpleDateFormat parseador = new SimpleDateFormat("dd/MM/yy");
+                List<java.sql.Date> cambio = Fechas(fech_ini, fech_fin);                
                 
-                SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd");
-                
-                //parsear String (dd/mm/yy) a Date (dd/mm/yy)
-		Date date = parseador.parse(fech_ini);              
-		Date date2 = parseador.parse(fech_fin);
-                
-                //formatear el Date (dd/mm/yy) a un String (yyyy-MM-dd)
-		String d1 = formateador.format(date);
-		String d2 = formateador.format(date2);
-                
-                //Aca tengo en fomarto yyyy-MM-dd"
-                
-                //formatear el String (yyyy-MM-dd) a un Date (yyyy-MM-dd)
-                java.util.Date inicio = formateador.parse(d1);
-                java.util.Date fin = formateador.parse(d2);
-                
-                java.sql.Date sqlStartDateInicio = new java.sql.Date(inicio.getTime()); 
-                java.sql.Date sqlStartDateFinal = new java.sql.Date(fin.getTime()); 
-            
-                vehiculo = vehiculodao.consultarVehiculoPorFecha(sqlStartDateInicio, sqlStartDateFinal);
+                vehiculo = vehiculodao.consultarVehiculoPorFecha(cambio.get(0), cambio.get(1));                                
                 mvehiculo = new Gson().toJson(vehiculo); 
             }
             if (action.equalsIgnoreCase("listarClientePorAño")) {
@@ -326,28 +214,9 @@ public class SERVReporte extends HttpServlet {
                 String fech_ini = request.getParameter("fechaI");
                 String fech_fin = request.getParameter("fechaF");
                 
-                SimpleDateFormat parseador = new SimpleDateFormat("dd/MM/yy");
-                
-                SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd");
-                
-                //parsear String (dd/mm/yy) a Date (dd/mm/yy)
-		Date date = parseador.parse(fech_ini);              
-		Date date2 = parseador.parse(fech_fin);
-                
-                //formatear el Date (dd/mm/yy) a un String (yyyy-MM-dd)
-		String d1 = formateador.format(date);
-		String d2 = formateador.format(date2);
-                
-                //Aca tengo en fomarto yyyy-MM-dd"
-                
-                //formatear el String (yyyy-MM-dd) a un Date (yyyy-MM-dd)
-                java.util.Date inicio = formateador.parse(d1);
-                java.util.Date fin = formateador.parse(d2);
-                
-                java.sql.Date sqlStartDateInicio = new java.sql.Date(inicio.getTime()); 
-                java.sql.Date sqlStartDateFinal = new java.sql.Date(fin.getTime()); 
-            
-                cliente = clientedao.consultarClientePorFecha(sqlStartDateInicio, sqlStartDateFinal);
+                List<java.sql.Date> cambio = Fechas(fech_ini, fech_fin);
+
+                cliente = clientedao.consultarClientePorFecha(cambio.get(0), cambio.get(1));
                 mcliente = new Gson().toJson(cliente); 
             }            
             else if (action.equalsIgnoreCase("listarTipoClientePorAño")) {   
@@ -371,28 +240,9 @@ public class SERVReporte extends HttpServlet {
                 String fech_ini = request.getParameter("fechaI");
                 String fech_fin = request.getParameter("fechaF");
                 
-                SimpleDateFormat parseador = new SimpleDateFormat("dd/MM/yy");
-                
-                SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd");
-                
-                //parsear String (dd/mm/yy) a Date (dd/mm/yy)
-		Date date = parseador.parse(fech_ini);              
-		Date date2 = parseador.parse(fech_fin);
-                
-                //formatear el Date (dd/mm/yy) a un String (yyyy-MM-dd)
-		String d1 = formateador.format(date);
-		String d2 = formateador.format(date2);
-                
-                //Aca tengo en fomarto yyyy-MM-dd"
-                
-                //formatear el String (yyyy-MM-dd) a un Date (yyyy-MM-dd)
-                java.util.Date inicio = formateador.parse(d1);
-                java.util.Date fin = formateador.parse(d2);
-                
-                java.sql.Date sqlStartDateInicio = new java.sql.Date(inicio.getTime()); 
-                java.sql.Date sqlStartDateFinal = new java.sql.Date(fin.getTime()); 
-            
-                cliente = clientedao.consultarTipoClientePorFecha(sqlStartDateInicio, sqlStartDateFinal);
+                List<java.sql.Date> cambio = Fechas(fech_ini, fech_fin);
+              
+                cliente = clientedao.consultarTipoClientePorFecha(cambio.get(0), cambio.get(1));                
                 mcliente = new Gson().toJson(cliente); 
             }             
             
@@ -423,4 +273,36 @@ public class SERVReporte extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    
+    public List<java.sql.Date> Fechas(String fech_ini, String fech_fin) throws ParseException {
+                     
+        SimpleDateFormat parseador = new SimpleDateFormat("dd/MM/yy");
+
+        SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd");
+
+        //parsear String (dd/mm/yy) a Date (dd/mm/yy)
+        Date date = parseador.parse(fech_ini);              
+        Date date2 = parseador.parse(fech_fin);
+
+        //formatear el Date (dd/mm/yy) a un String (yyyy-MM-dd)
+        String d1 = formateador.format(date);
+        String d2 = formateador.format(date2);
+
+        //Aca tengo en fomarto yyyy-MM-dd"
+
+        //formatear el String (yyyy-MM-dd) a un Date (yyyy-MM-dd)
+        java.util.Date inicio = formateador.parse(d1);
+        java.util.Date fin = formateador.parse(d2);
+
+        java.sql.Date sqlStartDateInicio = new java.sql.Date(inicio.getTime());
+        java.sql.Date sqlStartDateFinal = new java.sql.Date(fin.getTime());
+
+        List<java.sql.Date> ejemploLista = new ArrayList<>();
+        ejemploLista.add(sqlStartDateInicio);
+        ejemploLista.add(sqlStartDateFinal);
+        
+        return ejemploLista;
+        
+    }
+    
 }

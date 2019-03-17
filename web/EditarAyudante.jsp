@@ -76,7 +76,7 @@ HttpSession sesion = request.getSession();
                         
                         <div class="form-group"> <!-- Teléfono corporativo-->
                             <label for="tel_id" class="control-label">TELÉFONO CELULAR</label>
-                            <input type="text" class="form-control" id="tel_id" name="txtTel" value="<c:out value="${ayudante.email}" />" >
+                            <input type="text" class="form-control" id="tel_id" name="txtTel" value="<c:out value="${ayudante.tel}" />" >
                         </div>   
                         
                        <div class="form-group"> <!-- Dirección-->

@@ -1,73 +1,54 @@
 
-$(document).ready(function (){        
-    //Pasa la texto de la opcion al input
+$(document).ready(function (){
+    
+    //Pasa el texto de la opcion al input
     //Si no añado trim, mi nivel sale despues de espacios en blanco
     $('#listarNivel').change(function (){
         var nivel = $('#listarNivel option:selected').text().trim();
         $('#nivel_id').val(nivel);
     });
     
-    //Solo letras cuando se digita
-    $('#nom_id').keypress(function (e) {
-       key = e.keyCode || e.which;
-       tecla = String.fromCharCode(key).toLowerCase();
-       letras = "áéíóúabcdefghijklmnñopqrstuvwxyz";
-       especiales = "8-37-39-46";
-
-       tecla_especial = false;
-       for(var i in especiales){
-            if(key === especiales[i]){
-                tecla_especial = true;
-                break;
-            }
+    //Permite ingresar solo letras.
+    //Los demás son eliminados segundos de ser escritos
+    $('#nom_id').keyup( function () {
+        $(this).val($(this).val().toLowerCase());
+        if (!/^[a-záéíóúüñ]*$/i.test(this.value)) {
+            this.value = this.value.replace(/[^a-záéíóúüñ]+/ig,"");
         }
-
-        if(letras.indexOf(tecla)===-1 && !tecla_especial){
-            return false;
-        }
-    });
-    
-    //Limpia el input si ingresa digitos
-    $( "#nom_id" ).blur(function() {
-        var val = $('#nom_id').val();
-        var tam = val.length;
-        for(i = 0; i < tam; i++) {
-            if(!isNaN(val[i]))
-                document.getElementById("nom_id").value = '';
-        }
-    });
-    
+    });   
+        
     //Convierte a minuscula lo que digitas digito por digito
-    $("#nom_id, #email_id").keyup(function() {
+    $("#email_id").keyup(function() {
        $(this).val($(this).val().toLowerCase());
     });
     
-     $("#nom_id").keyup(function(){
-            $nombre = $('#nom_id').val(); 
-            $.post("SERVUsuario", {
-                nnombre: $nombre
-            }, function(data) {               
-                    $("#ReportarNombre").html(data);
-            });
+    //Busca el nombre de manera asincrona
+    $("#nom_id").keyup(function(){
+        $nombre = $('#nom_id').val(); 
+        $.post("SERVUsuario", {
+            nnombre: $nombre
+        }, function(data) {               
+                $("#ReportarNombre").html(data);
+        });
     });  
     
+    //Busca el email de manera asincrona
     $("#email_id").keyup(function(){
-            $email = document.getElementById("email_id").value;
-            $.post("SERVUsuario", {
-                eemail:$email
-            }, function(data) {               
-                    $("#ReportarEmail").html(data);
-            });
+        $email = $('#email_id').val();
+        $.post("SERVUsuario", {
+            eemail:$email
+        }, function(data) {               
+                $("#ReportarEmail").html(data);
+        });
     });       
-           
-        
+                   
     $('#editar').click(function (){
-        var nombre = $('#nom_id').val();        
+        var nombre = $('#nom_id').val();
         var contra = $('#contra_id').val();
-        var email = $('#email_id').val(); 
-        var indice = $('#listarNivel').val();       
+        var email = $('#email_id').val();
+        var indice = $('#listarNivel').val();
         var respuestaNombre = $('#ReportarNombre').text().trim();
-        var respuestaEmail = $('#ReportarEmail').text().trim();               
+        var respuestaEmail = $('#ReportarEmail').text().trim();
         var contenedorNombre = $('#contenedorNombre').val();
         var contenedorEmail = $('#contenedorEmail').val();
         var condicion = 'Libre';
@@ -85,7 +66,6 @@ $(document).ready(function (){
             return false;
         }            
         else if (contra ===  null || contra.length ===  0 || /^\s+$/.test(contra) ) {
-          // Si no se cumple la condicion...
           alert('[ERROR] La contraseña no puede quedar vacío');
           return false;
         }
@@ -93,8 +73,7 @@ $(document).ready(function (){
           alert('[ERROR] La contraseña debe tener un valor máximo de 20 dígitos');
           return false;
         }
-        else if (email ===  null || email.length ===  0 || /^\s+$/.test(email) ) {
-          // Si no se cumple la condicion...
+        else if (email ===  null || email.length ===  0 || /^\s+$/.test(email) ) {      
           alert('[ERROR] El email no puede quedar vacío');
           return false;
         }        
@@ -106,6 +85,7 @@ $(document).ready(function (){
           alert('[ERROR] Ingrese un email con formato adecuado');
           return false;         
         }
+        //Si el email es diferente al contenedor y si esta ocupado
         else if((email !== contenedorEmail) && (respuestaEmail !== condicion)){            
             alert('[ERROR] El nuevo email a registrar ya lo tiene otro usuario');
             return false;

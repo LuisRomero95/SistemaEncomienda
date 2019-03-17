@@ -1,31 +1,23 @@
 
 $(document).ready(function (){
     
-    $('#nom_id').keypress(function (e) {
-       key = e.keyCode || e.which;
-       tecla = String.fromCharCode(key).toLowerCase();
-       letras = "abcdefghijklmnñopqrstuvwxyz123456789";
-       especiales = "8-37-39-46";
-
-       tecla_especial = false;
-       for(var i in especiales){
-            if(key === especiales[i]){
-                tecla_especial = true;
-                break;
-            }
+    //Permite ingresar letras y numeros.
+    //Los demás son eliminados segundos de ser escritos
+    $('#nom_id').keyup( function () {
+        $(this).val($(this).val().toLowerCase());
+        if (!/^[a-z0-9]*$/i.test(this.value)) {
+            this.value = this.value.replace(/[^a-z0-9]+/ig,"");
         }
-
-        if(letras.indexOf(tecla)===-1 && !tecla_especial){
-            return false;
-        }
-    });
+    });         
         
+    //Convierte a minuscula lo que digitas digito por digito        
     $("#nom_id").keyup(function() {
        $(this).val($(this).val().toLowerCase());
     });    
     
+    //Busca el nombre de manera asincrona
     $("#nom_id").keyup(function(){
-            $nombre = document.getElementById("nom_id").value;
+            $nombre = nombre = $('#nom_id').val();
             $.post("SERVTipoConductor", {nnombre:$nombre}, function(data) {               
                     $("#ReportarNombre").html(data);
             });

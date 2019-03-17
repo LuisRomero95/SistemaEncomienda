@@ -1,36 +1,28 @@
 
 $(document).ready(function (){
     
-    $('#nom_id').keypress(function (e) {
-       key = e.keyCode || e.which;
-       tecla = String.fromCharCode(key).toLowerCase();
-       letras = "áéíóúabcdefghijklmnñopqrstuvwxyz123456789";
-       especiales = "8-37-39-46";
-
-       tecla_especial = false;
-       for(var i in especiales){
-            if(key === especiales[i]){
-                tecla_especial = true;
-                break;
-            }
+    //Permite ingresar solo letras.
+    //Los demás son eliminados segundos de ser escritos
+    $('#nom_id').keyup( function () {
+        $(this).val($(this).val().toLowerCase());
+        if (!/^[a-z0-9]*$/i.test(this.value)) {
+            this.value = this.value.replace(/[^a-z0-9]+/ig,"");
         }
-
-        if(letras.indexOf(tecla)===-1 && !tecla_especial){
-            return false;
-        }
-    });
+    });  
        
+    //Convierte a minuscula lo que digitas digito por digito
     $("#nom_id").keyup(function() {
        $(this).val($(this).val().toLowerCase());
     });    
     
-     $("#nom_id").keyup(function(){
-            $nombre = $('#nom_id').val(); 
-            $.post("SERVTipoConductor", {
-                nnombre: $nombre
-            }, function(data) {               
-                    $("#ReportarNombre").html(data);
-            });
+    //Busca el nombre de manera asincrona
+    $("#nom_id").keyup(function(){
+        $nombre = $('#nom_id').val(); 
+        $.post("SERVTipoConductor", {
+            nnombre: $nombre
+        }, function(data) {               
+                $("#ReportarNombre").html(data);
+        });
     });    
     
     $('#editar').click(function (){
@@ -40,7 +32,6 @@ $(document).ready(function (){
         var condicion = 'Libre';
         cadena = "^[a-z][0-9]"; 
         re = new RegExp(cadena);
- 
         
         if( nombre === null || nombre.length === 0 || /^\s+$/.test(nombre) ) {
             alert('[ERROR] El tipo de conductor no puede quedar vacío');
@@ -57,10 +48,7 @@ $(document).ready(function (){
             alert('[ERROR] El nuevo nombre a registrar ya lo tiene otro tipo de conductor');
             return false;
         }        
-   
-        
-          // Si el script ha llegado a este punto, todas las condiciones
-          // se han cumplido, por lo que se devuelve el valor true
+
           return true;     
           
     });    

@@ -71,7 +71,7 @@ HttpSession sesion = request.getSession();
                         </select>
                         <br>
                         <div class="form-group">
-                            <label for="nivel_id" class="control-label">NIVEL SELECCIONADA</label>
+                            <label for="nivel_id" class="control-label">NIVEL SELECCIONADO</label>
                             <input type="text"  class="form-control" id="nivel_id" readonly="" value=<c:out value="${usuario.nivel}" /> >
                         </div>                           
                     </div>                        
